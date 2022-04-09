@@ -1,0 +1,23 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorMainBG</item>
+        <item name="colorPrimaryDark">@color/colorSecondary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+<!--        <item name="windowNoTitle">false</item>-->
+<!--        <item name="titleTextColor">@color/colorMainBG</item>-->
+        <item name="android:navigationBarColor">@color/colorSecondary</item>
+        <item name="android:statusBarColor">@color/colorSecondary</item>
+
+    </style>
+
+<!--    <style name="Nav_bar_button" parent="Widget.AppCompat.ActionButton">-->
+<!--        <item name="android:colorButtonNormal">@color/colorAccent</item>-->
+<!--        <item name="android:actionMenuTextColor">@color/colorAccent</item>-->
+
+<!--    </style>-->
+
+
+</resources>

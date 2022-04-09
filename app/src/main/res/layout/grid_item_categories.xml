@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/gridItemLayouut"
+    android:layout_width="wrap_content"
+    android:paddingRight="@dimen/gridBorderWidth"
+    android:paddingLeft="@dimen/gridBorderWidth"
+    android:layout_height="wrap_content"
+    android:background="@color/White"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="false">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/defaultMargin">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/subcategoryImage"
+            android:layout_width="@dimen/SubCategoryImageSize"
+            android:layout_height="@dimen/SubCategoryImageSize"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_launcher_background"
+            app:civ_border_color="@color/colorSecondary"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:id="@+id/subcategoryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subcategoryImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/defaultMargin"
+            android:layout_marginTop="@dimen/defaultMargin"
+            android:layout_marginRight="@dimen/defaultMargin"
+            android:layout_marginBottom="@dimen/defaultMargin"
+            android:fontFamily="@font/lexend"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/colorSecondary"
+            android:textSize="@dimen/SubCategorySize" />
+    </RelativeLayout>
+
+</RelativeLayout>

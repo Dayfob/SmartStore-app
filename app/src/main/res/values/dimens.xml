@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="defaultMargin">8dp</dimen>
+    <dimen name="sort_filter_height">48dp</dimen>
+    <dimen name="sortMain">14sp</dimen>
+    <dimen name="sortSub">10sp</dimen>
+    <dimen name="filter">10sp</dimen>
+    <dimen name="gridBorderWidth">8dp</dimen>
+    <dimen name="SubCategoryImageSize">64sp</dimen>
+    <dimen name="SubCategorySize">14sp</dimen>
+    <dimen name="ProductImageHeight">200dp</dimen>
+    <dimen name="ProductWishIconSize">48dp</dimen>
+    <dimen name="ProductTitle">16sp</dimen>
+    <dimen name="ProductPrice">14sp</dimen>
+    <dimen name="BottomNavigationViewHeight">50dp</dimen>
+</resources>

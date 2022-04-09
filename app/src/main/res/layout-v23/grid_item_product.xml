@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="false"
+    android:background="@drawable/bg_for_img_rounded_white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/defaultMargin">
+
+        <ImageView
+            android:id="@+id/productImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ProductImageHeight"
+            android:background="@drawable/bg_for_img_rounded_white"
+            android:scaleType="center"
+            android:src="@drawable/ic_empty_image"
+            android:contentDescription="@string/product_image" />
+
+        <ImageView
+            android:id="@+id/productHeart"
+            android:layout_width="@dimen/ProductWishIconSize"
+            android:layout_height="@dimen/ProductWishIconSize"
+            android:layout_alignParentEnd="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
+            android:scaleType="center"
+            android:src="@drawable/ic_nav_like"
+            android:tint="@color/colorSecondary"
+            android:contentDescription="@string/like_product" />
+
+        <TextView
+            android:id="@+id/productName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/productImage"
+            android:layout_marginLeft="@dimen/defaultMargin"
+            android:layout_marginTop="@dimen/defaultMargin"
+            android:layout_marginRight="@dimen/defaultMargin"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="Product Name"
+            android:textColor="@color/colorSecondary"
+            android:textSize="@dimen/ProductTitle"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/productPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/productName"
+            android:layout_marginLeft="@dimen/defaultMargin"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="@dimen/defaultMargin"
+            android:layout_marginBottom="@dimen/defaultMargin"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="10000$"
+            android:textColor="@color/Black"
+            android:textSize="@dimen/ProductPrice" />
+    </RelativeLayout>
+</RelativeLayout>
