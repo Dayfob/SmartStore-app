@@ -4,15 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.model.App;
-import com.diplom.smartstore.model.Category;
 import com.diplom.smartstore.model.News;
 import com.diplom.smartstore.model.Product;
 import com.diplom.smartstore.model.Subcategory;
@@ -46,19 +45,22 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         if (getItemViewType(position) == TYPE_NEWS) {
             NewsHomeViewHolder newsViewHolder = (NewsHomeViewHolder) holder;
+            newsViewHolder.moduleTitle.setText("News");
             setNewsRecycler(newsViewHolder.newsRecycler, app.getNews());
         } else if (getItemViewType(position) == TYPE_CATEGORIES) {
             SubcategoriesHomeViewHolder subcategoriesViewHolder = (SubcategoriesHomeViewHolder) holder;
+            subcategoriesViewHolder.moduleTitle.setText("Subcategories");
             setSubcategoriesRecycler(subcategoriesViewHolder.subcategoriesRecycler, app.getSubcategories());
         } else if (getItemViewType(position) == TYPE_PRODUCTS) {
             ProductsHomeViewHolder productsViewHolder = (ProductsHomeViewHolder) holder;
+            productsViewHolder.moduleTitle.setText("Products");
             setProductsRecycler(productsViewHolder.productRecycler, app.getProducts());
         }
     }
 
     @Override
     public int getItemCount() {
-        return newsList.size();
+        return 3;
     }
 
     // держатель вызывающий раздуватель
@@ -68,56 +70,61 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         View view;
 
         if (viewType == TYPE_NEWS) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_news, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_news_list, parent, false);
             return new NewsHomeViewHolder(view);
         } else if (viewType == TYPE_CATEGORIES) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_categories, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_catalog, parent, false);
             return new SubcategoriesHomeViewHolder(view);
         } else { //(viewType == TYPE_PRODUCTS)
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_product, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_product_list, parent, false);
             return new ProductsHomeViewHolder(view);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 1) {
+        if (position == 0) {
             return TYPE_NEWS;
-        } else if (position == 3) {
+        } else if (position == 1) {
             return TYPE_CATEGORIES;
-        } else if (position == 5) {
+        } else {
             return TYPE_PRODUCTS;
         }
-        return position;
     }
 
     // описываются элементы для работы
     public static final class NewsHomeViewHolder extends RecyclerView.ViewHolder {
+        TextView moduleTitle;
         RecyclerView newsRecycler;
 
         public NewsHomeViewHolder(@NonNull View itemView) {
             super(itemView);
+            moduleTitle = itemView.findViewById(R.id.newsModuleTitle);
             newsRecycler = itemView.findViewById(R.id.newsRecyclerView);
         }
     }
 
     // описываются элементы для работы
     public static final class SubcategoriesHomeViewHolder extends RecyclerView.ViewHolder {
+        TextView moduleTitle;
         RecyclerView subcategoriesRecycler;
 
         public SubcategoriesHomeViewHolder(@NonNull View itemView) {
             super(itemView);
-            subcategoriesRecycler = itemView.findViewById(R.id.fastProductCategoryRecyclerView);
+            moduleTitle = itemView.findViewById(R.id.parentCategory);
+            subcategoriesRecycler = itemView.findViewById(R.id.subcategoryRecyclerView);
         }
     }
 
     // описываются элементы для работы
     public static final class ProductsHomeViewHolder extends RecyclerView.ViewHolder {
+        TextView moduleTitle;
         RecyclerView productRecycler;
 
         public ProductsHomeViewHolder(@NonNull View itemView) {
             super(itemView);
-            productRecycler = itemView.findViewById(R.id.popularProductsGridView);
+            moduleTitle = itemView.findViewById(R.id.productModuleTitle);
+            productRecycler = itemView.findViewById(R.id.productsRecyclerView);
         }
     }
 
@@ -136,14 +143,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     // лист продуктов
-//    private void setProductsRecycler(RecyclerView recyclerView, List<Product> productsList) {
-//        ProductAdapter productAdapter = new ProductAdapter(context, productsList);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
-//        recyclerView.setAdapter(productAdapter);
-//    }
     private void setProductsRecycler(RecyclerView recyclerView, List<Product> productsList) {
         ProductAdapter productAdapter = new ProductAdapter(context, productsList);
-        recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(productAdapter);
     }
 }

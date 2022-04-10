@@ -6,25 +6,25 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/parentCategory"
-        android:layout_width="match_parent"
+        android:id="@+id/newsModuleTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_margin="8dp"
-        android:text="@string/test"
         android:fontFamily="@font/lexend"
-        android:textColor="@color/colorSecondary"
-        android:gravity="center"
-        />
+        android:text="@string/news"
+        android:textColor="@color/colorSecondary" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/subcategoryRecyclerView"
+        android:id="@+id/newsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="1dp"
-        android:paddingRight="1dp"
-        android:layout_margin="8dp"
-        tools:listitem="@layout/grid_item_categories"
-        android:background="@drawable/bg_for_img_rounded_white"
-        tools:itemCount="3"/>
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        tools:listitem="@layout/grid_item_news"
+        tools:itemCount="3">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
+

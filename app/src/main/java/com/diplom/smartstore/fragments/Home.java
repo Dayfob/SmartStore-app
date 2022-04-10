@@ -82,25 +82,25 @@ public class Home extends Fragment {
 
         List<Product> productList = new ArrayList<>();
         productList.add(new Product(1, "Кухня", "Kuhnya", "Dess",
-                null, null, null, null, 2,
+                null, null, null, null, 0, 2,
                 100,null));
         productList.add(new Product(2, "Кухня", "Kuhnya", "Dess",
-                null, null, null, null, 2,
+                null, null, null, null, 0, 2,
                 100,null));
         productList.add(new Product(3, "Кухня", "Kuhnya", "Dess",
-                null, null, null, null, 2,
+                null, null, null, null, 0, 2,
                 100,null));
         productList.add(new Product(4, "Кухня", "Kuhnya", "Dess",
-                null, null, null, null, 2,
+                null, null, null, null, 0, 2,
                 100,null));
         productList.add(new Product(5, "Кухня", "Kuhnya", "Dess",
-                null, null, null, null, 2,
+                null, null, null, null, 0, 2,
                 100,null));
 
         App app = new App(null, productList, null, subcategoryList, null, newsList);
 
 
-        homeRecycler = view.findViewById(R.id.homeListView);
+        homeRecycler = view.findViewById(R.id.homeModulesRecyclerView);
         homeRecycler.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
                 RecyclerView.VERTICAL, false);
