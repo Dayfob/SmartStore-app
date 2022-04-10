@@ -20,10 +20,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
 
     Context context; // страница на которой все будет выведено
     List<Product> products; // список всех категорий
+    OnProductListener onProductListener;
 
-    public ProductAdapter(Context context, List<Product> products) {
+    public ProductAdapter(Context context, List<Product> products, OnProductListener onProductListener) {
         this.context = context;
         this.products = products;
+        this.onProductListener = onProductListener;
     }
 
     @NonNull
@@ -31,23 +33,31 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
     public ProductsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View productsItems = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.grid_item_product_flat, parent, false); // указывается дизайн
-        return new ProductsViewHolder(productsItems); // указываются элементы для работы
+        return new ProductsViewHolder(productsItems, onProductListener); // указываются элементы для работы
     }
 
     @Override
     public int getItemCount() {return products.size();}
 
-    public static final class ProductsViewHolder extends RecyclerView.ViewHolder {
+    public static final class ProductsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView productImage;
         TextView productName;
         TextView productPrice;
+        OnProductListener onProductListener;
 
-        public ProductsViewHolder(@NonNull View itemView) {
+        public ProductsViewHolder(@NonNull View itemView, OnProductListener onProductListener) {
             super(itemView);
             productImage = itemView.findViewById(R.id.productImageFlat);
             productName = itemView.findViewById(R.id.productNameFlat);
             productPrice = itemView.findViewById(R.id.productPriceFlat);
+            this.onProductListener = onProductListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onProductListener.onProductClick(getAdapterPosition());
         }
     }
 
@@ -58,6 +68,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
 //        holder.productImage.setImageBitmap();
         holder.productName.setText(products.get(position).getName());
         holder.productPrice.setText(products.get(position).getPrice() + "$");
+    }
+
+    // интерфейс для прослушивания нажатия на продукт
+    public interface OnProductListener{
+        void onProductClick(int position);
     }
 
 //    public class FetchImage extends Thread {

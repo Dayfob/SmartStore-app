@@ -2,6 +2,7 @@ package com.diplom.smartstore.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,9 @@ import com.diplom.smartstore.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WishList extends Fragment {
+public class WishList extends Fragment implements WishlistAdapter.OnProductListener {
 
+    private static final String TAG = "onClick";
     CartAdapter wishlistAdapter;
     RecyclerView wishlistRecycler;
     Context context;
@@ -57,9 +59,13 @@ public class WishList extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
                 RecyclerView.VERTICAL, false);
         wishlistRecycler.setLayoutManager(layoutManager);
-        wishlistRecycler.setAdapter(new WishlistAdapter(context, productList));
+        wishlistRecycler.setAdapter(new WishlistAdapter(context, productList, this));
 
         return view;
     }
 
+    @Override
+    public void onProductClick(int position) {
+        Log.d(TAG, "onProductClick: clicked " + position);
+    }
 }

@@ -2,9 +2,11 @@ package com.diplom.smartstore.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,14 +22,16 @@ import com.diplom.smartstore.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cart extends Fragment {
+public class Cart extends Fragment implements CartAdapter.OnProductListener {
 
+    private static final String TAG = "onClick";
     CartAdapter cartAdapter;
     RecyclerView cartRecycler;
     Context context;
     TextView productsAmount;
     TextView productsPrice;
     TextView productsTotalPrice;
+    Button buttonBuy;
 
 
     @Nullable
@@ -71,7 +75,7 @@ public class Cart extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
                 RecyclerView.VERTICAL, false);
         cartRecycler.setLayoutManager(layoutManager);
-        cartRecycler.setAdapter(new CartAdapter(context, cart));
+        cartRecycler.setAdapter(new CartAdapter(context, cart, this));
 
         productsAmount = view.findViewById(R.id.cartProductAmountTextView);
         productsPrice = view.findViewById(R.id.cartProductPriceAmountTextView);
@@ -80,6 +84,22 @@ public class Cart extends Fragment {
         productsAmount.setText(productsAmountSum + " шт.");
         productsPrice.setText(productsPriceSum + " тенге");
         productsTotalPrice.setText(productsTotalPriceSum + " тенге");
+        
+        buttonBuy = view.findViewById(R.id.cartBuyButton);
+        buttonBuy.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                // действие при нажатии кнопки "оформить заказ"
+                Log.d(TAG, "оформить заказ: clicked " + v);
+            }
+        });
+        
         return view;
+    }
+
+    @Override
+    public void onProductClick(int position) {
+        Log.d(TAG, "onProductClick: clicked " + position);
     }
 }

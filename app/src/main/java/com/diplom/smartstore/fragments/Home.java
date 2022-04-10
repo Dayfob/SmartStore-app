@@ -2,6 +2,7 @@ package com.diplom.smartstore.fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,16 +13,20 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.adapters.CatalogAdapter;
 import com.diplom.smartstore.adapters.HomeAdapter;
+import com.diplom.smartstore.adapters.NewsAdapter;
 import com.diplom.smartstore.interfaces.ShowBackButton;
 import com.diplom.smartstore.interfaces.ToolbarTitle;
 import com.diplom.smartstore.model.App;
@@ -38,7 +43,12 @@ public class Home extends Fragment {
     RecyclerView homeRecycler;
     HomeAdapter homeAdapter;
     Context context;
+    TextView titleToolbar;
 
+    private List<Subcategory> subcategoryList = new ArrayList<>();
+    private List<News> newsList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
+    private App app;
 //    @Override
     //    public void onAttach(Context context) {
 //        super.onAttach(context);
@@ -52,9 +62,9 @@ public class Home extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        titleToolbar = view.findViewById(R.id.toolBarTitle);
 
         // load data
-        List<Subcategory> subcategoryList = new ArrayList<>();
         subcategoryList.add(new Subcategory(1, "Кухня", "Kuhnya", "Dess",
                 null, null, null));
         subcategoryList.add(new Subcategory(2, "Кухня2", "Kuhnya2", "Dess2",
@@ -68,7 +78,6 @@ public class Home extends Fragment {
         subcategoryList.add(new Subcategory(6, "Кухня2", "Kuhnya2", "Dess2",
                 null, null, null));
 
-        List<News> newsList = new ArrayList<>();
         newsList.add(new News(1, "Кухня", "Kuhnya", "Dess",
                 null, null));
         newsList.add(new News(2, "Кухня", "Kuhnya", "Dess",
@@ -80,7 +89,6 @@ public class Home extends Fragment {
         newsList.add(new News(5, "Кухня", "Kuhnya", "Dess",
                 null, null));
 
-        List<Product> productList = new ArrayList<>();
         productList.add(new Product(1, "Кухня", "Kuhnya", "Dess",
                 null, null, null, null, 0, 2,
                 100,null));
@@ -97,7 +105,7 @@ public class Home extends Fragment {
                 null, null, null, null, 0, 2,
                 100,null));
 
-        App app = new App(null, productList, null, subcategoryList, null, newsList);
+        app = new App(null, productList, null, subcategoryList, null, newsList);
 
 
         homeRecycler = view.findViewById(R.id.homeModulesRecyclerView);
@@ -116,4 +124,5 @@ public class Home extends Fragment {
 
 
     }
+
 }

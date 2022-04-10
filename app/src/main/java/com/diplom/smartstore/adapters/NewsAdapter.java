@@ -19,10 +19,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     Context context; // страница на которой все будет выведено
     List<News> newsList; // список всех категорий
+    OnNewsListener onNewsListener;
 
-    public NewsAdapter(Context context, List<News> newsList) {
+    public NewsAdapter(Context context, List<News> newsList, OnNewsListener onNewsListener) {
         this.context = context;
         this.newsList = newsList;
+        this.onNewsListener = onNewsListener;
     }
 
     @NonNull
@@ -30,7 +32,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View newsItems = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.grid_item_news, parent, false); // указывается дизайн
-        return new NewsAdapter.NewsViewHolder(newsItems); // указываются элементы для работы
+        return new NewsAdapter.NewsViewHolder(newsItems, onNewsListener); // указываются элементы для работы
     }
 
     @Override
@@ -43,14 +45,28 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public int getItemCount() {return newsList.size();}
 
-    public static final class NewsViewHolder extends RecyclerView.ViewHolder {
+    public static final class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView newsImage;
+        OnNewsListener onNewsListener;
 
-        public NewsViewHolder(@NonNull View itemView) {
+        public NewsViewHolder(@NonNull View itemView, OnNewsListener onNewsListener) {
             super(itemView);
             newsImage = itemView.findViewById(R.id.newsImageView);
+            this.onNewsListener = onNewsListener;
+            itemView.setOnClickListener(this);
         }
+
+        // описание действий при нажатии на новость
+        @Override
+        public void onClick(View v) {
+            onNewsListener.onNewsClick(getAdapterPosition());
+        }
+    }
+
+    // интерфейс для прослушивания нажатия на новость
+    public interface OnNewsListener{
+        void onNewsClick(int position);
     }
 
 //    public class FetchImage extends Thread {

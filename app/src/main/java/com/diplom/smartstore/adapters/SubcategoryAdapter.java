@@ -27,10 +27,12 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
 
     Context context; // страница на которой все будет выведено
     List<Subcategory> subcategories; // список всех категорий
+    OnSubcategoryListener onSubcategoryListener;
 
-    public SubcategoryAdapter(Context context, List<Subcategory> subcategories) {
+    public SubcategoryAdapter(Context context, List<Subcategory> subcategories, OnSubcategoryListener onSubcategoryListener) {
         this.context = context;
         this.subcategories = subcategories;
+        this.onSubcategoryListener = onSubcategoryListener;
     }
 
     @NonNull
@@ -38,7 +40,7 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
     public SubcategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View subcategoryItems = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.grid_item_categories, parent, false); // указывается дизайн
-        return new SubcategoryAdapter.SubcategoryViewHolder(subcategoryItems); // указываются элементы для работы
+        return new SubcategoryAdapter.SubcategoryViewHolder(subcategoryItems, onSubcategoryListener); // указываются элементы для работы
     }
 
     @Override
@@ -55,17 +57,29 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
     @Override
     public int getItemCount() {return subcategories.size();}
 
-    public static final class SubcategoryViewHolder extends RecyclerView.ViewHolder {
+    public static final class SubcategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView subcategoryImage;
         TextView subcategoryName;
+        OnSubcategoryListener onSubcategoryListener;
 
-        public SubcategoryViewHolder(@NonNull View itemView) {
+        public SubcategoryViewHolder(@NonNull View itemView, OnSubcategoryListener onSubcategoryListener) {
             super(itemView);
-
             subcategoryImage = itemView.findViewById(R.id.subcategoryImage);
             subcategoryName = itemView.findViewById(R.id.subcategoryName);
+            this.onSubcategoryListener = onSubcategoryListener;
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onSubcategoryListener.onSubcategoryClick(getAdapterPosition());
+        }
+    }
+
+    // интерфейс для прослушивания нажатия на новость
+    public interface OnSubcategoryListener{
+        void onSubcategoryClick(int position);
     }
 
 //    public class FetchImage extends Thread {
