@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,9 @@ public class Cart extends Fragment {
     CartAdapter cartAdapter;
     RecyclerView cartRecycler;
     Context context;
+    TextView productsAmount;
+    TextView productsPrice;
+    TextView productsTotalPrice;
 
 
     @Nullable
@@ -50,9 +54,16 @@ public class Cart extends Fragment {
                 null, null, null, null, 1, 2,
                 100,null));
 
-
-
         com.diplom.smartstore.model.Cart cart = new com.diplom.smartstore.model.Cart(productList);
+
+        int productsAmountSum = 0;
+        int productsPriceSum = 0;
+        int productsTotalPriceSum = 0;
+        for (Product product : cart.getProducts()){
+            productsAmountSum += product.getAmountCart();
+            productsPriceSum += product.getAmountCart() * product.getPrice();
+        }
+        productsTotalPriceSum = productsPriceSum;
 
         // Add the following lines to create RecyclerView
         cartRecycler = view.findViewById(R.id.cartRecyclerView);
@@ -62,6 +73,13 @@ public class Cart extends Fragment {
         cartRecycler.setLayoutManager(layoutManager);
         cartRecycler.setAdapter(new CartAdapter(context, cart));
 
+        productsAmount = view.findViewById(R.id.cartProductAmountTextView);
+        productsPrice = view.findViewById(R.id.cartProductPriceAmountTextView);
+        productsTotalPrice = view.findViewById(R.id.cartProductTotalPriceAmountTextView);
+
+        productsAmount.setText(productsAmountSum + " шт.");
+        productsPrice.setText(productsPriceSum + " тенге");
+        productsTotalPrice.setText(productsTotalPriceSum + " тенге");
         return view;
     }
 }

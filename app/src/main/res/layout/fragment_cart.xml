@@ -6,6 +6,12 @@
     android:paddingTop="?attr/actionBarSize"
     android:paddingBottom="@dimen/BottomNavigationViewHeight">
 
+    <LinearLayout
+        android:id="@+id/cartProductsLL"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="490dp">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cartRecyclerView"
             android:layout_width="match_parent"
@@ -13,12 +19,21 @@
             android:paddingHorizontal="6dp"
             tools:itemCount="2"
             tools:listitem="@layout/grid_item_product_flat" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cartTotalLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cartProductsLL"
+        android:background="@drawable/bg_for_buy_cart_window_rounded_white"
+        android:layout_margin="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cartRecyclerView"
-            android:layout_margin="8dp">
+            android:layout_marginHorizontal="8dp">
 
             <RelativeLayout
                 android:id="@+id/cartProductAmountTextViews"
@@ -60,7 +75,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/cartProductPriceAmountTextView"
-                    android:layout_marginVertical="8dp"
                     android:background="@color/colorSecondary" />
             </RelativeLayout>
 
@@ -73,12 +87,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Общая сумма:"
+                    android:text="Итого:"
                     android:textColor="@color/colorSecondary"
                     android:textSize="20sp" />
 
-
                 <TextView
+                    android:id="@+id/cartProductTotalPriceAmountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -91,7 +105,7 @@
                 android:id="@+id/cartBuyButtonRL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_below="@+id/cartTotalTextViews"
                 android:background="@drawable/bg_for_buy_btn_rounded"
                 android:text="Оформить заказ"
@@ -99,5 +113,9 @@
                 android:fontFamily="@font/lexend"/>
 
         </RelativeLayout>
+    </LinearLayout>
+
+
+
 
 </RelativeLayout>

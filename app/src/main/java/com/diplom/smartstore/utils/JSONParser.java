@@ -1,4 +1,4 @@
-package com.diplom.smartstore;
+package com.diplom.smartstore.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

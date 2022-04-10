@@ -10,7 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
+        android:textSize="19dp"
         android:fontFamily="@font/lexend"
         android:text="@string/news"
         android:textColor="@color/colorSecondary" />

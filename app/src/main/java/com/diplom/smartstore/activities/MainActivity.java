@@ -1,4 +1,4 @@
-package com.diplom.smartstore;
+package com.diplom.smartstore.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 //import android.widget.Toolbar;
 import androidx.appcompat.widget.Toolbar;
 
+import com.diplom.smartstore.R;
 import com.diplom.smartstore.fragments.Account;
 import com.diplom.smartstore.fragments.Cart;
 import com.diplom.smartstore.fragments.Catalog;
