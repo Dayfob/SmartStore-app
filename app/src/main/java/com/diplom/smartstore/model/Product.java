@@ -32,6 +32,9 @@ public class Product implements Serializable {
     @SerializedName("subcategory")
     @Expose
     private Subcategory subcategory;
+    @SerializedName("amountCart")
+    @Expose
+    private int amountCart;
 
     @SerializedName("amountLeft")
     @Expose
@@ -44,8 +47,8 @@ public class Product implements Serializable {
     private List<Attribute> attributes;
 
     public Product(Integer id, String name, String slug, String imgUrl, String description,
-                   Brand brand, Category category, Subcategory subcategory, int amountLeft,
-                   int price, List<Attribute> attributes) {
+                   Brand brand, Category category, Subcategory subcategory,
+                   int amountCart, int amountLeft, int price, List<Attribute> attributes) {
         this.id = id;
         this.name = name;
         this.slug = slug;
@@ -54,6 +57,7 @@ public class Product implements Serializable {
         this.brand = brand;
         this.category = category;
         this.subcategory = subcategory;
+        this.amountCart = amountCart;
         this.amountLeft = amountLeft;
         this.price = price;
         this.attributes = attributes;
@@ -121,6 +125,14 @@ public class Product implements Serializable {
 
     public void setSubcategory(Subcategory subcategory) {
         this.subcategory = subcategory;
+    }
+
+    public int getAmountCart() {
+        return amountCart;
+    }
+
+    public void setAmountCart(int amountCart) {
+        this.amountCart = amountCart;
     }
 
     public int getAmountLeft() {

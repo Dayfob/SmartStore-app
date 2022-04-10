@@ -39,6 +39,18 @@ public class Catalog extends Fragment {
                 null, null, null));
         subcategoryList.add(new Subcategory(2, "Кухня2", "Kuhnya2", "Dess2",
                 null, null, null));
+        subcategoryList.add(new Subcategory(3, "Кухня2", "Kuhnya2", "Dess2",
+                null, null, null));
+        subcategoryList.add(new Subcategory(4, "Кухня2", "Kuhnya2", "Dess2",
+                null, null, null));
+        subcategoryList.add(new Subcategory(5, "Кухня2", "Kuhnya2", "Dess2",
+                null, null, null));
+        subcategoryList.add(new Subcategory(6, "Кухня2", "Kuhnya2", "Dess2",
+                null, null, null));
+        subcategoryList.add(new Subcategory(7, "Кухня2", "Kuhnya2", "Dess2",
+                null, null, null));
+        subcategoryList.add(new Subcategory(8, "Кухня2", "Kuhnya2", "Dess2",
+                null, null, null));
 
 
         List<Category> categoryList = new ArrayList<>();

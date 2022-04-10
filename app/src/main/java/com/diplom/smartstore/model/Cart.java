@@ -15,6 +15,10 @@ public class Cart implements Serializable {
     @Expose
     private int sumPrice;
 
+    public Cart(List<Product> products) {
+        this.products = products;
+    }
+
     public List<Product> getProducts() {
         return products;
     }
@@ -24,6 +28,11 @@ public class Cart implements Serializable {
     }
 
     public int getSumPrice() {
+        int sumPrice = 0;
+
+        for (Product product : products) {
+            sumPrice += product.getPrice() * product.getAmountCart();
+        }
         return sumPrice;
     }
 

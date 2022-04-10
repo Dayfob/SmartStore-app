@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeListViewRecycler"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="?attr/actionBarSize"
-    android:paddingBottom="@dimen/BottomNavigationViewHeight">
-<!--    android:background="@color/White">-->
+    android:background="@color/White"
+
+    android:backgroundTint="@color/colorMainBG"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/homeModulesLinearLayout"
+        android:id="@+id/homeLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/homeModulesRecyclerView"
+            android:id="@+id/homeContentRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:itemCount="4"
-            tools:listitem="@layout/grid_item_catalog" />
-
+            android:layout_margin="8dp"
+            tools:itemCount="1"
+            tools:listitem="@layout/grid_item_news_list" />
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 </androidx.core.widget.NestedScrollView>

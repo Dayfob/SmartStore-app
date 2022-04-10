@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorMainBG">
 
     <TableLayout
@@ -119,12 +119,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/sortFilter"
+        android:layout_margin="8dp"
         android:horizontalSpacing="@dimen/gridBorderWidth"
         android:numColumns="2"
+        android:scrollbars="none"
         android:verticalSpacing="@dimen/gridBorderWidth"
-        tools:listitem="@layout/grid_item_product"
-        android:layout_margin="8dp"
-        android:scrollbars="none"/>
+        tools:listitem="@layout/grid_item_product" />
 
     <FrameLayout
         android:id="@+id/filterFrame"
