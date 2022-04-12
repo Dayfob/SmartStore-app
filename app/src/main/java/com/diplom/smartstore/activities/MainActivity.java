@@ -18,6 +18,7 @@ import com.diplom.smartstore.fragments.Account;
 import com.diplom.smartstore.fragments.Cart;
 import com.diplom.smartstore.fragments.Catalog;
 import com.diplom.smartstore.fragments.Home;
+import com.diplom.smartstore.fragments.Register;
 import com.diplom.smartstore.fragments.WishList;
 import com.diplom.smartstore.model.Category;
 import com.diplom.smartstore.utils.Constants;
@@ -115,9 +116,12 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.nav_account: // User Account
-                    ft.replace(R.id.content, new Account());
+//                    ft.replace(R.id.content, new Account());
+//                    ft.commit();
+//                    titleToolbar.setText(R.string.TitelAccount);
+                    ft.replace(R.id.content, new Register());
                     ft.commit();
-                    titleToolbar.setText(R.string.TitelAccount);
+                    titleToolbar.setText(R.string.register);
                     return true;
             }
             return false;

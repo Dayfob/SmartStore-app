@@ -8,17 +8,24 @@
     <string name="search">search</string>
     <string name="inputTextViewSearch">inputTextViewSearch</string>
     <string name="TitelHome">Smart Store</string>
-    <string name="TitelCatalog">Catalog</string>
-    <string name="TitelCart">Cart</string>
-    <string name="TitelWishList">Wish List</string>
-    <string name="TitelAccount">Account</string>
+    <string name="TitelCatalog">Каталог</string>
+    <string name="TitelCart">Корзина</string>
+    <string name="TitelWishList">Список желаний</string>
+    <string name="TitelAccount">Профиль</string>
     <string name="sort">SORT</string>
     <string name="filter">FILTER</string>
     <string name="news_image">news image</string>
-    <string name="news">News</string>
-    <string name="categories">Categories</string>
-    <string name="popular_products">Popular Products</string>
+    <string name="news">Новости</string>
+    <string name="categories">Категории</string>
+    <string name="popular_products">Популярные продукты</string>
     <string name="product_image">Product Image</string>
     <string name="like_product">Like Product</string>
     <string name="test">Test</string>
+
+<!--    <string name="api_server">http://127.0.0.1:8000/api/</string>-->
+    <string name="api_server">http://10.0.2.2:8000/api/</string>
+    <string name="login">user/login</string>
+    <string name="register">user/register</string>
+    <string name="userData">user/me</string>
+    <string name="logout">user/logout</string>
 </resources>
