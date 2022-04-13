@@ -1,6 +1,7 @@
 package com.diplom.smartstore.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class Http {
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
             if (token) {
-                connection.setRequestProperty("Authorization", "Bearer" + localStorage.getToken());
+                connection.setRequestProperty("Authorization", "Bearer " + localStorage.getToken());
             }
             if (!method.equals("GET")) {
                 connection.setDoOutput(true);

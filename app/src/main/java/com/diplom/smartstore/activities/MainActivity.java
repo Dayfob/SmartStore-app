@@ -18,10 +18,12 @@ import com.diplom.smartstore.fragments.Account;
 import com.diplom.smartstore.fragments.Cart;
 import com.diplom.smartstore.fragments.Catalog;
 import com.diplom.smartstore.fragments.Home;
+import com.diplom.smartstore.fragments.Login;
 import com.diplom.smartstore.fragments.Register;
 import com.diplom.smartstore.fragments.WishList;
 import com.diplom.smartstore.model.Category;
 import com.diplom.smartstore.utils.Constants;
+import com.diplom.smartstore.utils.LocalStorage;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.Serializable;
@@ -35,11 +37,13 @@ public class MainActivity extends AppCompatActivity {
     ImageView backButton;
     String subCategoryTitle = null;
     List<Category> subcategories;
+    LocalStorage localStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        localStorage = new LocalStorage(this);
 
 
 //        db_handler = new DB_Handler(this);
@@ -116,12 +120,14 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.nav_account: // User Account
-//                    ft.replace(R.id.content, new Account());
-//                    ft.commit();
-//                    titleToolbar.setText(R.string.TitelAccount);
-                    ft.replace(R.id.content, new Register());
+                    if (!localStorage.getToken().equals("")){
+                        titleToolbar.setText(R.string.account);
+                        ft.replace(R.id.content, new Account());
+                    } else {
+                        titleToolbar.setText(R.string.login);
+                        ft.replace(R.id.content, new Login());
+                    }
                     ft.commit();
-                    titleToolbar.setText(R.string.register);
                     return true;
             }
             return false;

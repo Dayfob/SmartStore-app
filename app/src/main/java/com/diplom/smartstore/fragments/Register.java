@@ -10,14 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.utils.Http;
+import com.diplom.smartstore.utils.LocalStorage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,12 +34,17 @@ public class Register extends Fragment {
     EditText etName, etEmail, etPassword, etConfirmation;
     Button btnRegister;
     String name, email, password, confirmation;
+    TextView titleToolbar;
+    LocalStorage localStorage;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
+        titleToolbar = getActivity().findViewById(R.id.toolBarTitle);
+//        localStorage = new LocalStorage(getActivity());
+        localStorage = new LocalStorage(requireActivity());
 
         etName = view.findViewById(R.id.EtName);
         etEmail = view.findViewById(R.id.EtEmail);
@@ -79,7 +88,6 @@ public class Register extends Fragment {
         }
         String data = params.toString();
         String url = getString(R.string.api_server) + getString(R.string.register);
-        Log.d("url", "sendRegister: " + url);
 
         Thread request = new Thread() {
 
@@ -90,13 +98,27 @@ public class Register extends Fragment {
                 http.setData(data);
                 http.send();
 
-                getActivity().runOnUiThread(new Runnable() {
+                requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         Integer code = http.getStatusCode();
                         if (code == 201 || code == 200) {
-                            alertSuccess("Success");
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String token = response.getString("token");
+                                localStorage.setToken(token);
+                                Log.d("token", "send: "+localStorage.getToken());
+
+                                FragmentManager fm = getParentFragmentManager();
+                                FragmentTransaction ft = fm.beginTransaction();
+
+                                titleToolbar.setText("Профиль");
+                                ft.replace(R.id.content, new Account());
+                                ft.commit();
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         } else if (code == 422) {
                             try {
                                 JSONObject response = new JSONObject(http.getResponse());
