@@ -77,7 +77,7 @@
             android:id="@+id/profileOrdersTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Заказы"
+            android:text="История заказов"
             android:textSize="16dp"
             android:layout_margin="4dp"
             android:fontFamily="@font/lexend"

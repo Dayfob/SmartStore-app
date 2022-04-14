@@ -7,11 +7,11 @@
     <string name="account">Account</string>
     <string name="search">search</string>
     <string name="inputTextViewSearch">inputTextViewSearch</string>
-    <string name="TitelHome">Smart Store</string>
-    <string name="TitelCatalog">Каталог</string>
-    <string name="TitelCart">Корзина</string>
-    <string name="TitelWishList">Список желаний</string>
-    <string name="TitelAccount">Профиль</string>
+    <string name="TitleHome">Smart Store</string>
+    <string name="TitleCatalog">Каталог</string>
+    <string name="TitleCart">Корзина</string>
+    <string name="TitleWishList">Список желаний</string>
+    <string name="TitleAccount">Профиль</string>
     <string name="sort">SORT</string>
     <string name="filter">FILTER</string>
     <string name="news_image">news image</string>
@@ -28,4 +28,5 @@
     <string name="register">user/register</string>
     <string name="userData">user/me</string>
     <string name="logout">user/logout</string>
+    <string name="updateUserData">user/update</string>
 </resources>

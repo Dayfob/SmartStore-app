@@ -93,45 +93,48 @@ public class Register extends Fragment {
 
             @Override
             public void run() {
-                Http http = new Http(getActivity(), url);
-                http.setMethod("POST");
-                http.setData(data);
-                http.send();
+                if (isAdded()) {
+                    Http http = new Http(getActivity(), url);
+                    http.setMethod("POST");
+                    http.setData(data);
+                    http.send();
+                    if (isAdded()) {
+                        requireActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Integer code = http.getStatusCode();
+                                if (code == 201 || code == 200) {
+                                    try {
+                                        JSONObject response = new JSONObject(http.getResponse());
+                                        String token = response.getString("token");
+                                        localStorage.setToken(token);
+                                        Log.d("token", "send: " + localStorage.getToken());
 
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Integer code = http.getStatusCode();
-                        if (code == 201 || code == 200) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String token = response.getString("token");
-                                localStorage.setToken(token);
-                                Log.d("token", "send: "+localStorage.getToken());
+                                        FragmentManager fm = getParentFragmentManager();
+                                        FragmentTransaction ft = fm.beginTransaction();
 
-                                FragmentManager fm = getParentFragmentManager();
-                                FragmentTransaction ft = fm.beginTransaction();
+                                        titleToolbar.setText("Профиль");
+                                        ft.replace(R.id.content, new Account());
+                                        ft.commit();
 
-                                titleToolbar.setText("Профиль");
-                                ft.replace(R.id.content, new Account());
-                                ft.commit();
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else if (code == 422) {
+                                    try {
+                                        JSONObject response = new JSONObject(http.getResponse());
+                                        String msg = response.getString("message");
+                                        alertFail(msg);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    alertFail("Ошибка " + code);
+                                }
                             }
-                        } else if (code == 422) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertFail(msg);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            alertFail("Ошибка " + code);
-                        }
+                        });
                     }
-                });
+                }
             }
         };
         request.start();

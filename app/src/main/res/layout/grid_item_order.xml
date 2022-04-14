@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/gridProductsLayoutFlat"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    android:background="@drawable/bg_for_img_rounded_white"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="false"
+    android:paddingLeft="@dimen/gridBorderWidth"
+    android:paddingRight="@dimen/gridBorderWidth">
+
+    <TextView
+        android:id="@+id/orderIdTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/defaultMargin"
+        android:layout_marginRight="@dimen/defaultMargin"
+        android:fontFamily="@font/lexend"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Заказ №"
+        android:textColor="@color/colorSecondary"
+        android:textSize="@dimen/ProductTitle"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/orderId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/defaultMargin"
+        android:layout_marginRight="@dimen/defaultMargin"
+        android:layout_toEndOf="@id/orderIdTitle"
+        android:fontFamily="@font/lexend"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="13001"
+        android:textColor="@color/colorSecondary"
+        android:textSize="@dimen/ProductTitle"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/orderStatusTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/orderId"
+        android:layout_marginLeft="@dimen/defaultMargin"
+        android:layout_marginRight="@dimen/defaultMargin"
+        android:fontFamily="@font/lexend"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Статус:"
+        android:textColor="@color/colorSecondary"
+        android:textSize="@dimen/ProductTitle"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/orderStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/orderId"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="@dimen/defaultMargin"
+        android:layout_toEndOf="@id/orderStatusTitle"
+        android:fontFamily="@font/lexend"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Готов к отправки"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/ProductTitle" />
+
+    <TextView
+        android:id="@+id/orderDeliveryTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/orderStatus"
+        android:layout_marginLeft="@dimen/defaultMargin"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="@dimen/defaultMargin"
+        android:layout_marginBottom="@dimen/defaultMargin"
+        android:fontFamily="@font/lexend"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Способ получения:"
+        android:textColor="@color/Black"
+        android:textSize="@dimen/ProductPrice"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/orderDelivery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/orderStatus"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="@dimen/defaultMargin"
+        android:layout_marginBottom="@dimen/defaultMargin"
+        android:layout_toEndOf="@id/orderDeliveryTitle"
+        android:fontFamily="@font/lexend"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="курьером на дом"
+        android:textColor="@color/Black"
+        android:textSize="@dimen/ProductPrice" />
+
+    <TextView
+        android:id="@+id/orderDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="@dimen/defaultMargin"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="@dimen/defaultMargin"
+        android:layout_marginBottom="@dimen/defaultMargin"
+        android:fontFamily="@font/lexend"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="13.04.2022"
+        android:textColor="@color/Black"
+        android:textSize="@dimen/ProductPrice" />
+
+    <TextView
+        android:id="@+id/orderTotalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/orderDelivery"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="@dimen/defaultMargin"
+        android:layout_marginRight="@dimen/defaultMargin"
+        android:layout_marginBottom="@dimen/defaultMargin"
+        android:fontFamily="@font/lexend"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="10000 тенге"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/ProductPrice" />
+
+</RelativeLayout>

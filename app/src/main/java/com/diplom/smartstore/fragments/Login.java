@@ -51,16 +51,14 @@ public class Login extends Fragment {
         btnLogin = view.findViewById(R.id.BtnLogin);
         btnRegister = view.findViewById(R.id.BtnRegister);
 
-        btnLogin.setOnClickListener(new View.OnClickListener()
-        {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkLogin();
             }
         });
 
-        btnRegister.setOnClickListener(new View.OnClickListener()
-        {
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getParentFragmentManager();
@@ -77,7 +75,7 @@ public class Login extends Fragment {
     private void checkLogin() {
         email = etEmail.getText().toString();
         password = etPassword.getText().toString();
-        if (email.isEmpty() || password.isEmpty()){
+        if (email.isEmpty() || password.isEmpty()) {
             alertFail("Данные введены не полностью");
         } else {
             sendLogin();
@@ -101,53 +99,56 @@ public class Login extends Fragment {
 
             @Override
             public void run() {
-                Http http = new Http(getActivity(), url);//getActivity изза фрагмента вместо активити
-                http.setMethod("POST");
-                http.setData(data);
-                http.send();
+                if (isAdded()) {
+                    Http http = new Http(getActivity(), url);//getActivity изза фрагмента вместо активити
+                    http.setMethod("POST");
+                    http.setData(data);
+                    http.send();
+                    if (isAdded()) {
+                        getActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
+                            @Override
+                            public void run() {
+                                Integer code = http.getStatusCode();
+                                if (code == 200) {
+                                    try {
+                                        JSONObject response = new JSONObject(http.getResponse());
+                                        String token = response.getString("token");
+                                        localStorage.setToken(token);
+                                        Log.d("token", "send: " + localStorage.getToken());
 
-                getActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
-                    @Override
-                    public void run() {
-                        Integer code = http.getStatusCode();
-                        if (code == 200) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String token = response.getString("token");
-                                localStorage.setToken(token);
-                                Log.d("token", "send: "+localStorage.getToken());
+                                        FragmentManager fm = getParentFragmentManager();
+                                        FragmentTransaction ft = fm.beginTransaction();
 
-                                FragmentManager fm = getParentFragmentManager();
-                                FragmentTransaction ft = fm.beginTransaction();
+                                        titleToolbar.setText("Профиль");
+                                        ft.replace(R.id.content, new Account());
+                                        ft.commit();
 
-                                titleToolbar.setText("Профиль");
-                                ft.replace(R.id.content, new Account());
-                                ft.commit();
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else if (code == 422) {
+                                    try {
+                                        JSONObject response = new JSONObject(http.getResponse());
+                                        String msg = response.getString("message");
+                                        alertFail(msg);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else if (code == 401) {
+                                    try {
+                                        JSONObject response = new JSONObject(http.getResponse());
+                                        String msg = response.getString("message");
+                                        alertFail(msg);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    alertFail("Ошибка " + code);
+                                }
                             }
-                        } else if (code == 422) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertFail(msg);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else if (code == 401){
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertFail(msg);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            alertFail("Ошибка " + code);
-                        }
+                        });
                     }
-                });
+                }
             }
         };
         request.start();

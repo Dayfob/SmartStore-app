@@ -19,7 +19,6 @@ import com.diplom.smartstore.fragments.Cart;
 import com.diplom.smartstore.fragments.Catalog;
 import com.diplom.smartstore.fragments.Home;
 import com.diplom.smartstore.fragments.Login;
-import com.diplom.smartstore.fragments.Register;
 import com.diplom.smartstore.fragments.WishList;
 import com.diplom.smartstore.model.Category;
 import com.diplom.smartstore.utils.Constants;
@@ -45,17 +44,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         localStorage = new LocalStorage(this);
 
-
-//        db_handler = new DB_Handler(this);
-//        sessionManager = new SessionManager(this);
-
         // Set Toolbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Set Title
         titleToolbar = findViewById(R.id.toolBarTitle);
-        titleToolbar.setText(R.string.TitelHome);
+        titleToolbar.setText(R.string.TitleHome);
 
         // Back Button
         backButton = findViewById(R.id.backButton);
@@ -93,30 +88,30 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         if (!fm.findFragmentByTag("HOME").isVisible()) {
                             callHomeFragment();
-                            titleToolbar.setText(R.string.TitelHome);
+                            titleToolbar.setText(R.string.TitleHome);
                         }
                     } catch (NullPointerException e) {
                         callHomeFragment();
-                        titleToolbar.setText(R.string.TitelHome);
+                        titleToolbar.setText(R.string.TitleHome);
                     }
                     return true;
 
                 case R.id.nav_catalog: // Catalog
                     ft.replace(R.id.content, new Catalog());
                     ft.commit();
-                    titleToolbar.setText(R.string.TitelCatalog);
+                    titleToolbar.setText(R.string.TitleCatalog);
                     return true;
 
                 case R.id.nav_cart: // Cart
                     ft.replace(R.id.content, new Cart());
                     ft.commit();
-                    titleToolbar.setText(R.string.TitelCart);
+                    titleToolbar.setText(R.string.TitleCart);
                     return true;
 
                 case R.id.nav_wishlist: // Wish List
                     ft.replace(R.id.content, new WishList());
                     ft.commit();
-                    titleToolbar.setText(R.string.TitelWishList);
+                    titleToolbar.setText(R.string.TitleWishList);
                     return true;
 
                 case R.id.nav_account: // User Account
@@ -174,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
             if (fragmentManager.findFragmentByTag(Constants.FRAGMENT_SUBCATEGORY).isVisible()) {
                 fragmentTransaction.replace(R.id.content, new Catalog());
                 fragmentTransaction.commit();
-                titleToolbar.setText(R.string.TitelCatalog);
+                titleToolbar.setText(R.string.TitleCatalog);
                 backButton.setVisibility(View.INVISIBLE);
             }
         } catch (NullPointerException e) {
