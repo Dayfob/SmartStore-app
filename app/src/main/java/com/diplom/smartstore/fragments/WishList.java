@@ -125,7 +125,7 @@ public class WishList extends Fragment implements WishlistAdapter.OnProductListe
                                                     new Brand(productBrand.getInt("id"), productBrand.getString("name"),
                                                             productBrand.getString("slug"), productBrand.getString("description")),
                                                     new Category(productCategory.getInt("id"), productCategory.getString("name"),
-                                                            productCategory.getString("slug"), productCategory.getString("description")),
+                                                            productCategory.getString("slug"), productCategory.getString("description"), null),
                                                     new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
                                                             productSubcategory.getString("slug"), productSubcategory.getString("description"),
                                                             null, attributesSubcategory),

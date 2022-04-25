@@ -54,31 +54,10 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_cart, container, false);
 
-        // load data
-//        List<Product> productList = new ArrayList<>();
-//        productList.add(new Product(1, "Кухня", "Kuhnya", "Dess",
-//                null, null, null, null, 1,2,
-//                100,null));
-//        productList.add(new Product(2, "Кухня", "Kuhnya", "Dess",
-//                null, null, null, null, 1, 2,
-//                100,null));
-//        productList.add(new Product(3, "Кухня", "Kuhnya", "Dess",
-//                null, null, null, null, 1, 2,
-//                100,null));
-//        productList.add(new Product(4, "Кухня", "Kuhnya", "Dess",
-//                null, null, null, null, 1, 2,
-//                100,null));
-//        productList.add(new Product(5, "Кухня", "Kuhnya", "Dess",
-//                null, null, null, null, 1, 2,
-//                100,null));
-//
-//        com.diplom.smartstore.model.Cart cart = new com.diplom.smartstore.model.Cart(productList);
-
         getCartProducts();
 
         buttonBuy = view.findViewById(R.id.cartBuyButton);
         buttonBuy.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 // действие при нажатии кнопки "оформить заказ"
@@ -125,7 +104,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                         for (int i = 0; i < jsonarray.length(); i++) {
                                             JSONObject cartProduct = jsonarray.getJSONObject(i); // продукт корзины
                                             JSONObject product = cartProduct.getJSONObject("item_id"); // продукт
-                                            Integer productAmount = cartProduct.getInt("item_amount"); // продукт
+                                            int productAmount = cartProduct.getInt("item_amount"); // продукт
 
 
                                             JSONObject productBrand = product.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
@@ -158,7 +137,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                                     new Brand(productBrand.getInt("id"), productBrand.getString("name"),
                                                             productBrand.getString("slug"), productBrand.getString("description")),
                                                     new Category(productCategory.getInt("id"), productCategory.getString("name"),
-                                                            productCategory.getString("slug"), productCategory.getString("description")),
+                                                            productCategory.getString("slug"), productCategory.getString("description"), null),
                                                     new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
                                                             productSubcategory.getString("slug"), productSubcategory.getString("description"),
                                                             null, attributesSubcategory),

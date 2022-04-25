@@ -25,11 +25,12 @@ public class Category implements Serializable {
     @Expose
     private List<Product> products;
 
-    public Category(Integer id, String name, String slug, String description) {
+    public Category(Integer id, String name, String slug, String description, List<Subcategory> subcategories) {
         this.id = id;
         this.name = name;
         this.slug = slug;
         this.description = description;
+        this.subcategories = subcategories;
     }
 
     public Integer getId() {

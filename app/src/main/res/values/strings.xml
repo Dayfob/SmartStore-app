@@ -38,4 +38,8 @@
     <string name="addToCart">user/cart/add_product</string>
     <string name="updateInCart">user/cart/update_product</string>
     <string name="deleteFromCart">user/cart/delete_product</string>
+
+    <string name="getCategories">catalog/categories</string>
+    <string name="getSubcategories">catalog/subcategories</string>
+    <string name="getBrands">catalog/brands</string>
 </resources>
