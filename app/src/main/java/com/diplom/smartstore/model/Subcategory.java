@@ -30,14 +30,13 @@ public class Subcategory implements Serializable {
     private List<Product> products;
 
     public Subcategory(Integer id, String name, String slug, String description, String imageUrl,
-                       List<Attribute> attributes, List<Product> products) {
+                       List<Attribute> attributes) {
         this.id = id;
         this.name = name;
         this.slug = slug;
         this.description = description;
         this.imageUrl = imageUrl;
         this.attributes = attributes;
-        this.products = products;
     }
 
     public Integer getId() {

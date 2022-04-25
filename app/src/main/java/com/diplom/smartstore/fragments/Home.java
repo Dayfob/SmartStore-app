@@ -66,17 +66,17 @@ public class Home extends Fragment {
 
         // load data
         subcategoryList.add(new Subcategory(1, "Кухня", "Kuhnya", "Dess",
-                null, null, null));
+                null, null));
         subcategoryList.add(new Subcategory(2, "Кухня2", "Kuhnya2", "Dess2",
-                null, null, null));
+                null, null));
         subcategoryList.add(new Subcategory(3, "Кухня", "Kuhnya", "Dess",
-                null, null, null));
+                null, null));
         subcategoryList.add(new Subcategory(4, "Кухня2", "Kuhnya2", "Dess2",
-                null, null, null));
+                null, null));
         subcategoryList.add(new Subcategory(5, "Кухня", "Kuhnya", "Dess",
-                null, null, null));
+                null, null));
         subcategoryList.add(new Subcategory(6, "Кухня2", "Kuhnya2", "Dess2",
-                null, null, null));
+                null, null));
 
         newsList.add(new News(1, "Кухня", "Kuhnya", "Dess",
                 null, null));

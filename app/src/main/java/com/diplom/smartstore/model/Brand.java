@@ -23,12 +23,11 @@ public class Brand implements Serializable {
     @Expose
     private List<Product> products;
 
-    public Brand(Integer id, String name, String slug, String description, List<Product> products) {
+    public Brand(Integer id, String name, String slug, String description) {
         this.id = id;
         this.name = name;
         this.slug = slug;
         this.description = description;
-        this.products = products;
     }
 
     public Integer getId() {

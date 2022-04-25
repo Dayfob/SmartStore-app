@@ -26,7 +26,11 @@
     <string name="api_server">http://10.0.2.2:8000/api/</string>
     <string name="login">user/login</string>
     <string name="register">user/register</string>
-    <string name="userData">user/me</string>
     <string name="logout">user/logout</string>
+    <string name="userData">user/me</string>
     <string name="updateUserData">user/update</string>
+
+    <string name="getWishlist">user/wishlist/my_wishlist</string>
+    <string name="addToWishlist">user/wishlist/add_product</string>
+    <string name="deleteFromWishlist">user/wishlist/delete_product</string>
 </resources>

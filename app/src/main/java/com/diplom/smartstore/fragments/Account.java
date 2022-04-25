@@ -136,7 +136,7 @@ public class Account extends Fragment {
         Thread request = new Thread() {
             @Override
             public void run() {
-                if (isAdded()) {
+                if (isAdded()) {// вроде проверят добвален ли фрагмент
                     Http http = new Http(getActivity(), url);//getActivity изза фрагмента вместо активити
                     http.setToken(true);
                     Log.d("http", "===:> "+http);

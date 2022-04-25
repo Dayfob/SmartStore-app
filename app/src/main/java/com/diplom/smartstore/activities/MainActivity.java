@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                         titleToolbar.setText(R.string.account);
                         ft.replace(R.id.content, new Account());
                     } else {
-                        titleToolbar.setText(R.string.login);
+                        titleToolbar.setText("Войти");
                         ft.replace(R.id.content, new Login());
                     }
                     ft.commit();
