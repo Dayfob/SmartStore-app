@@ -60,6 +60,11 @@ public class WishList extends Fragment implements WishlistAdapter.OnProductListe
         return view;
     }
 
+    @Override
+    public void onProductClick(int position) {
+        Log.d(TAG, "onProductClick: clicked " + position);
+    }
+
     private void getWishlistProducts() {
         String url = getString(R.string.api_server) + getString(R.string.getWishlist);
 
@@ -81,7 +86,7 @@ public class WishList extends Fragment implements WishlistAdapter.OnProductListe
                                         // получаем JSON ответ
                                         JSONObject response = new JSONObject(http.getResponse());
 
-                                        // перобразуем JSON ответ в массив
+                                        // выбираем из ответа JSON массив продуктов
                                         JSONArray jsonarray = response.getJSONArray("wishlistProducts");
 
                                         // перебираем массив
@@ -151,11 +156,6 @@ public class WishList extends Fragment implements WishlistAdapter.OnProductListe
             }
         };
         request.start();
-    }
-
-    @Override
-    public void onProductClick(int position) {
-        Log.d(TAG, "onProductClick: clicked " + position);
     }
 
     private void alertFail(String s) {

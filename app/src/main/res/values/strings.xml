@@ -33,4 +33,9 @@
     <string name="getWishlist">user/wishlist/my_wishlist</string>
     <string name="addToWishlist">user/wishlist/add_product</string>
     <string name="deleteFromWishlist">user/wishlist/delete_product</string>
+
+    <string name="getCart">user/cart/my_cart</string>
+    <string name="addToCart">user/cart/add_product</string>
+    <string name="updateInCart">user/cart/update_product</string>
+    <string name="deleteFromCart">user/cart/delete_product</string>
 </resources>
