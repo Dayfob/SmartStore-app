@@ -125,6 +125,8 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                         for (int i = 0; i < jsonarray.length(); i++) {
                                             JSONObject cartProduct = jsonarray.getJSONObject(i); // продукт корзины
                                             JSONObject product = cartProduct.getJSONObject("item_id"); // продукт
+                                            Integer productAmount = cartProduct.getInt("item_amount"); // продукт
+
 
                                             JSONObject productBrand = product.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
                                             JSONObject productCategory = product.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
@@ -160,7 +162,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                                     new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
                                                             productSubcategory.getString("slug"), productSubcategory.getString("description"),
                                                             null, attributesSubcategory),
-                                                    0,
+                                                    productAmount,
                                                     product.getInt("amount_left"),
                                                     product.getInt("price"),
                                                     attributesProduct));
