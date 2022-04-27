@@ -41,5 +41,11 @@
 
     <string name="getCategories">catalog/categories</string>
     <string name="getSubcategories">catalog/subcategories</string>
+    <string name="getAllSubcategories">catalog/all_subcategories</string>
     <string name="getBrands">catalog/brands</string>
+
+    <string name="getAllNews">catalog/news</string>
+    <string name="getOneNews">catalog/one_news</string>
+
+    <string name="getAllProducts">catalog/all</string>
 </resources>

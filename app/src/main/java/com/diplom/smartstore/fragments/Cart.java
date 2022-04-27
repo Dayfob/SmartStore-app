@@ -1,5 +1,6 @@
 package com.diplom.smartstore.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -54,7 +55,6 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_cart, container, false);
 
-        getCartProducts();
 
         buttonBuy = view.findViewById(R.id.cartBuyButton);
         buttonBuy.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +64,8 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                 Log.d(TAG, "оформить заказ: clicked " + v);
             }
         });
+
+        getCartProducts();
 
         return view;
     }
@@ -85,6 +87,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                     http.send();
                     if (isAdded()) {
                         requireActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
+                            @SuppressLint("ResourceAsColor")
                             @Override
                             public void run() {
                                 Integer code = http.getStatusCode();
@@ -147,6 +150,16 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                                     attributesProduct));
                                         }
 
+                                        if (productList.size() == 0){
+                                            buttonBuy.setClickable(false);
+                                            buttonBuy.setBackgroundResource(R.drawable.bg_for_buy_btn_rounded_gray);
+                                            buttonBuy.setTextColor(R.color.colorSecondary);
+                                        } else {
+                                            buttonBuy.setClickable(true);
+                                            buttonBuy.setBackgroundResource(R.drawable.bg_for_buy_btn_rounded);
+                                            buttonBuy.setTextColor(R.color.White);
+                                        }
+
                                         com.diplom.smartstore.model.Cart cart = new com.diplom.smartstore.model.Cart(productList);
                                         int productsAmountSum = 0;
                                         int productsPriceSum = 0;
@@ -154,7 +167,6 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                             productsAmountSum += product.getAmountCart();
                                             productsPriceSum += product.getAmountCart() * product.getPrice();
                                         }
-                                        Log.d("product", "===:> " + productsAmountSum + "===:> " + productsPriceSum);
 
 
                                         // Add the following lines to create RecyclerView
@@ -176,6 +188,8 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
+                                } else if (code == 401){
+                                    alertFail("Пожалуйста авторизуйтесь");
                                 } else {
                                     alertFail("Ошибка " + code);
                                 }

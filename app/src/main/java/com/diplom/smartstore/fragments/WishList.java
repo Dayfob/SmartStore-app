@@ -146,6 +146,8 @@ public class WishList extends Fragment implements WishlistAdapter.OnProductListe
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
+                                } else if (code == 401){
+                                    alertFail("Пожалуйста авторизуйтесь");
                                 } else {
                                     alertFail("Ошибка " + code);
                                 }

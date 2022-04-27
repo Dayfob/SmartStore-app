@@ -38,7 +38,6 @@ public class Catalog extends Fragment {
     CatalogAdapter catalogAdapter;
     Context context;
     View view;
-    List<Subcategory> subcategoryList = new ArrayList<>();
     List<Category> categoryList = new ArrayList<>();
 
 
@@ -78,9 +77,10 @@ public class Catalog extends Fragment {
                                         for (int i = 0; i < response.length(); i++) {
                                             JSONObject category = response.getJSONObject(i); // категория
                                             JSONArray subcategories = category.getJSONArray("subcategories"); // подкатегории
+                                            List<Subcategory> subcategoryList = new ArrayList<>();
 
                                             for (int j = 0; j < subcategories.length(); j++) {
-                                                JSONObject subcategory = subcategories.getJSONObject(i); // подкатегория
+                                                JSONObject subcategory = subcategories.getJSONObject(j); // подкатегория
                                                 JSONArray subcategoryAttributes = subcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
 
                                                 List<Attribute> attributesSubcategory = new ArrayList<>();
@@ -158,5 +158,4 @@ public class Catalog extends Fragment {
                     }
                 }).show();
     }
-
 }
