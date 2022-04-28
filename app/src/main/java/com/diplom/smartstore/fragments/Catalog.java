@@ -117,7 +117,7 @@ public class Catalog extends Fragment {
                                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
                                                 RecyclerView.VERTICAL, false);
                                         catalogRecycler.setLayoutManager(layoutManager);
-                                        catalogRecycler.setAdapter(new CatalogAdapter(context, categoryList));
+                                        catalogRecycler.setAdapter(new CatalogAdapter(context, categoryList, getActivity()));
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();

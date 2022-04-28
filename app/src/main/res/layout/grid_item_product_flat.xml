@@ -18,7 +18,7 @@
         android:layout_height="120dp"
         android:background="@drawable/bg_for_img_rounded_white"
         android:contentDescription="@string/product_image"
-        android:scaleType="center"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_empty_image" />
 
     <ImageView

@@ -45,7 +45,12 @@
     <string name="getBrands">catalog/brands</string>
 
     <string name="getAllNews">catalog/news</string>
-    <string name="getOneNews">catalog/one_news</string>
+    <string name="getOneNews">catalog/one_news?news_id=</string>
 
     <string name="getAllProducts">catalog/all</string>
+    <string name="getCategoryProducts">catalog/category?category_id=</string>
+    <string name="getSubcategoryProducts">catalog/subcategory?subcategory_id=</string>
+    <string name="getBrandProducts">catalog/brand?brand_id=</string>
+    <string name="getOneProduct">catalog/product?product_id=</string>
+
 </resources>

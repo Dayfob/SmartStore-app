@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.model.Product;
+import com.diplom.smartstore.utils.LoadImage;
 
 import java.util.List;
 
@@ -65,8 +66,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     @Override
     public void onBindViewHolder(@NonNull WishlistAdapter.WishlistViewHolder holder, int position) {
         // нужно добавить асихронную загрузку фото:
-//        holder.subcategoryImage.setImageBitmap(subcategories.get(position).getImageUrl());
-//        holder.productImage.setImageBitmap();
+        new LoadImage(holder.productImage).execute(products.get(position).getImageUrl());
         holder.productName.setText(products.get(position).getName());
         holder.productPrice.setText(products.get(position).getPrice() + "$");
         holder.productAmount.setText("");
@@ -77,47 +77,4 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         void onProductClick(int position);
     }
 
-//    public class FetchImage extends Thread {
-//
-//        Context Context;
-//        String url;
-//        Bitmap bitmap;
-//        ProgressDialog progressDialog;
-//        Handler mainHandler = new Handler();
-//
-//        public FetchImage(String url){
-//            this.url = url;
-//        }
-//
-//        @Override
-//        public void run() {
-//            mainHandler.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    progressDialog = new ProgressDialog(Context);
-//                    progressDialog.setMessage("Loading");
-//                    progressDialog.setCancelable(false);
-//                    progressDialog.show();
-//                }
-//            });
-//
-//            InputStream inputStream = null;
-//            try {
-//                inputStream = new URL(url).openStream();
-//                bitmap = BitmapFactory.decodeStream(inputStream);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            mainHandler.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (progressDialog.isShowing()){
-//                        progressDialog.dismiss();
-//                        // тут нужно присваивать картинку к ImageView, но так нельзя
-//                    }
-//                }
-//            });
-//        }
-//    }
 }

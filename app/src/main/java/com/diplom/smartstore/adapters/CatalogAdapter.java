@@ -1,6 +1,7 @@
 package com.diplom.smartstore.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +9,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
+import com.diplom.smartstore.activities.MainActivity;
+import com.diplom.smartstore.fragments.Catalog;
+import com.diplom.smartstore.fragments.SubcategoryProductList;
 import com.diplom.smartstore.model.Category;
 import com.diplom.smartstore.model.Subcategory;
 
@@ -23,11 +30,13 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
     private static final String TAG = "onClick";
     Context context; // страница на которой все будет выведено
     List<Category> categories; // список всех категорий
+    FragmentActivity mainActivity;
 
     // конструктор
-    public CatalogAdapter(Context context, List<Category> categories) {
+    public CatalogAdapter(Context context, List<Category> categories, FragmentActivity mainActivity) {
         this.context = context;
         this.categories = categories;
+        this.mainActivity = mainActivity;
     }
 
     // держатель вызывающий раздуватель
@@ -55,6 +64,15 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
     public void onSubcategoryClick(int position) {
         Log.d(TAG, "onSubcategoryClick: clicked " + position);
         //действия при нажатии на подкаталог
+        // Prevent Reload Same Fragment
+        FragmentManager fm = mainActivity.getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        SubcategoryProductList subcategoryList = new SubcategoryProductList();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", categories.get(position).getId());
+        subcategoryList.setArguments(bundle);
+        ft.replace(R.id.content, subcategoryList);
+        ft.commit();
     }
 
     // описываются элементы для работы
