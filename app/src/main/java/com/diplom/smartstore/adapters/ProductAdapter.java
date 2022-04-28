@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.model.Product;
+import com.diplom.smartstore.utils.LoadImage;
 
 import java.util.List;
 
@@ -64,8 +65,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
     @Override
     public void onBindViewHolder(@NonNull ProductsViewHolder holder, int position) {
         // нужно добавить асихронную загрузку фото:
-//        holder.subcategoryImage.setImageBitmap(subcategories.get(position).getImageUrl());
-//        holder.productImage.setImageBitmap();
+        new LoadImage(holder.productImage).execute(products.get(position).getImageUrl());
         holder.productName.setText(products.get(position).getName());
         holder.productPrice.setText(products.get(position).getPrice() + "$");
     }

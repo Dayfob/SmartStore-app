@@ -140,151 +140,150 @@ public class Home extends Fragment {
         Thread request = new Thread() {
             @Override
             public void run() {
-            if (isAdded()) {
-                Http httpNews = new Http(getActivity(), urlNews);//getActivity изза фрагмента вместо активити
-                httpNews.setToken(true);
-                httpNews.send();
-                Http httpSubcategories = new Http(getActivity(), urlSubcategories);//getActivity изза фрагмента вместо активити
-                httpSubcategories.setToken(true);
-                httpSubcategories.send();
-                Http httpProducts = new Http(getActivity(), urlProducts);//getActivity изза фрагмента вместо активити
-                httpProducts.setToken(true);
-                httpProducts.send();
-
                 if (isAdded()) {
-                    requireActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
-                        @Override
-                        public void run() {
-                            Integer codeResponseNews = httpNews.getStatusCode();
-                            if (codeResponseNews == 200) {
-                                try {
-                                    // получаем JSON ответ
-                                    JSONArray response = new JSONArray(httpNews.getResponse());
-                                    // перебираем массив
-                                    for (int i = 0; i < response.length(); i++) {
-                                        JSONObject news = response.getJSONObject(i); // новость
-                                        // добавляем новость в массив нвостей
-                                        newsList.add(new News(
-                                                news.getInt("id"),
-                                                news.getString("title"),
-                                                news.getString("slug"),
-                                                news.getString("text"),
-                                                null,
-                                                null));
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                alertFail("Ошибка " + codeResponseNews);
-                            }
+                    Http httpNews = new Http(getActivity(), urlNews);//getActivity изза фрагмента вместо активити
+                    httpNews.setToken(true);
+                    httpNews.send();
+                    Http httpSubcategories = new Http(getActivity(), urlSubcategories);//getActivity изза фрагмента вместо активити
+                    httpSubcategories.setToken(true);
+                    httpSubcategories.send();
+                    Http httpProducts = new Http(getActivity(), urlProducts);//getActivity изза фрагмента вместо активити
+                    httpProducts.setToken(true);
+                    httpProducts.send();
 
-                            Integer codeResponseSubcategories = httpSubcategories.getStatusCode();
-                            if (codeResponseSubcategories == 200) {
-                                try {
-                                    // получаем JSON ответ
-                                    JSONArray response = new JSONArray(httpSubcategories.getResponse());
-                                    // перебираем массив
-                                    for (int j = 0; j < response.length(); j++) {
-                                        JSONObject subcategory = response.getJSONObject(j); // подкатегория
-                                        JSONArray subcategoryAttributes = subcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
-
-                                        List<Attribute> attributesSubcategory = new ArrayList<>();
-
-                                        for (int p = 0; p < subcategoryAttributes.length(); p++) {
-                                            // добавляем аттрибут в массив аттрибутов подкатегории
-                                            attributesSubcategory.add(new Attribute(p, subcategoryAttributes.get(p).toString(), null));
+                    if (isAdded()) {
+                        requireActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
+                            @Override
+                            public void run() {
+                                Integer codeResponseNews = httpNews.getStatusCode();
+                                if (codeResponseNews == 200) {
+                                    try {
+                                        // получаем JSON ответ
+                                        JSONArray response = new JSONArray(httpNews.getResponse());
+                                        // перебираем массив
+                                        for (int i = 0; i < response.length(); i++) {
+                                            JSONObject news = response.getJSONObject(i); // новость
+                                            // добавляем новость в массив нвостей
+                                            newsList.add(new News(
+                                                    news.getInt("id"),
+                                                    news.getString("title"),
+                                                    news.getString("slug"),
+                                                    news.getString("text"),
+                                                    news.getString("image_url"),
+                                                    null));
                                         }
-
-                                        // добавляем подктегорию в массив подктегорий категории
-                                        subcategoryList.add(new Subcategory(
-                                                subcategory.getInt("id"),
-                                                subcategory.getString("name"),
-                                                subcategory.getString("slug"),
-                                                subcategory.getString("description"),
-                                                null,
-                                                attributesSubcategory));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                } else {
+                                    alertFail("Ошибка " + codeResponseNews);
                                 }
-                            } else {
-                                alertFail("Ошибка " + codeResponseSubcategories);
-                            }
 
-                            Integer codeResponseProducts = httpProducts.getStatusCode();
-                            if (codeResponseProducts == 200) {
-                                try {
-                                    // получаем JSON ответ
-                                    JSONArray response = new JSONArray(httpProducts.getResponse());
+                                Integer codeResponseSubcategories = httpSubcategories.getStatusCode();
+                                if (codeResponseSubcategories == 200) {
+                                    try {
+                                        // получаем JSON ответ
+                                        JSONArray response = new JSONArray(httpSubcategories.getResponse());
+                                        // перебираем массив
+                                        for (int j = 0; j < response.length(); j++) {
+                                            JSONObject subcategory = response.getJSONObject(j); // подкатегория
+                                            JSONArray subcategoryAttributes = subcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
 
-                                    // перебираем массив
-                                    for (int i = 0; i < response.length(); i++) {
-                                        JSONObject product = response.getJSONObject(i); // продукт
+                                            List<Attribute> attributesSubcategory = new ArrayList<>();
 
-                                        JSONObject productBrand = product.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
-                                        JSONObject productCategory = product.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
-                                        JSONObject productSubcategory = product.getJSONObject("subcategory_id"); // подкатегория продукта (аттрибут объекта продукт)
+                                            for (int p = 0; p < subcategoryAttributes.length(); p++) {
+                                                // добавляем аттрибут в массив аттрибутов подкатегории
+                                                attributesSubcategory.add(new Attribute(p, subcategoryAttributes.get(p).toString(), null));
+                                            }
 
-                                        JSONArray productSubcategoryAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
-                                        JSONArray productAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
-
-                                        // перебираем список
-                                        List<Attribute> attributesSubcategory = new ArrayList<>();
-                                        List<Attribute> attributesProduct = new ArrayList<>();
-
-                                        for (int j = 0; j < productSubcategoryAttributes.length(); j++) {
-                                            // добавляем аттрибут в массив аттрибутов подкатегории
-                                            Attribute productSubcategoryAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), null);
-                                            attributesSubcategory.add(productSubcategoryAttribute);
-                                            // добавляем аттрибут в массив аттрибутов товара
-                                            Attribute productAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), productAttributes.get(j).toString());
-                                            attributesProduct.add(productAttribute);
+                                            // добавляем подктегорию в массив подктегорий категории
+                                            subcategoryList.add(new Subcategory(
+                                                    subcategory.getInt("id"),
+                                                    subcategory.getString("name"),
+                                                    subcategory.getString("slug"),
+                                                    subcategory.getString("description"),
+                                                    null, // image
+                                                    attributesSubcategory));
                                         }
-
-                                        // добавляем товар в массив товаров
-                                        productList.add(new Product(product.getInt("id"),
-                                                product.getString("name"),
-                                                product.getString("slug"),
-                                                product.getString("image_url"),
-                                                product.getString("description"),
-                                                new Brand(productBrand.getInt("id"), productBrand.getString("name"),
-                                                        productBrand.getString("slug"), productBrand.getString("description")),
-                                                new Category(productCategory.getInt("id"), productCategory.getString("name"),
-                                                        productCategory.getString("slug"), productCategory.getString("description"), null),
-                                                new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
-                                                        productSubcategory.getString("slug"), productSubcategory.getString("description"),
-                                                        null, attributesSubcategory),
-                                                0,
-                                                product.getInt("amount_left"),
-                                                product.getInt("price"),
-                                                attributesProduct));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                } else {
+                                    alertFail("Ошибка " + codeResponseSubcategories);
                                 }
-                            } else {
-                                alertFail("Ошибка " + codeResponseProducts);
+
+                                Integer codeResponseProducts = httpProducts.getStatusCode();
+                                if (codeResponseProducts == 200) {
+                                    try {
+                                        // получаем JSON ответ
+                                        JSONArray response = new JSONArray(httpProducts.getResponse());
+
+                                        // перебираем массив
+                                        for (int i = 0; i < response.length(); i++) {
+                                            JSONObject product = response.getJSONObject(i); // продукт
+
+                                            JSONObject productBrand = product.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
+                                            JSONObject productCategory = product.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
+                                            JSONObject productSubcategory = product.getJSONObject("subcategory_id"); // подкатегория продукта (аттрибут объекта продукт)
+
+                                            JSONArray productSubcategoryAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
+                                            JSONArray productAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
+
+                                            // перебираем список
+                                            List<Attribute> attributesSubcategory = new ArrayList<>();
+                                            List<Attribute> attributesProduct = new ArrayList<>();
+
+                                            for (int j = 0; j < productSubcategoryAttributes.length(); j++) {
+                                                // добавляем аттрибут в массив аттрибутов подкатегории
+                                                Attribute productSubcategoryAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), null);
+                                                attributesSubcategory.add(productSubcategoryAttribute);
+                                                // добавляем аттрибут в массив аттрибутов товара
+                                                Attribute productAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), productAttributes.get(j).toString());
+                                                attributesProduct.add(productAttribute);
+                                            }
+
+                                            // добавляем товар в массив товаров
+                                            productList.add(new Product(product.getInt("id"),
+                                                    product.getString("name"),
+                                                    product.getString("slug"),
+                                                    product.getString("image_url"),
+                                                    product.getString("description"),
+                                                    new Brand(productBrand.getInt("id"), productBrand.getString("name"),
+                                                            productBrand.getString("slug"), productBrand.getString("description")),
+                                                    new Category(productCategory.getInt("id"), productCategory.getString("name"),
+                                                            productCategory.getString("slug"), productCategory.getString("description"), null),
+                                                    new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
+                                                            productSubcategory.getString("slug"), productSubcategory.getString("description"),
+                                                            null, attributesSubcategory), //image
+                                                    0,
+                                                    product.getInt("amount_left"),
+                                                    product.getInt("price"),
+                                                    attributesProduct));
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    alertFail("Ошибка " + codeResponseProducts);
+                                }
+
+                                app = new App(null, productList, null, subcategoryList, null, newsList);
+
+                                // Add the following lines to create RecyclerView
+                                homeRecycler = view.findViewById(R.id.homeModulesRecyclerView);
+                                homeRecycler.setHasFixedSize(true);
+                                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
+                                        RecyclerView.VERTICAL, false);
+                                homeRecycler.setLayoutManager(layoutManager);
+                                homeRecycler.setAdapter(new HomeAdapter(context, app, newsList, subcategoryList, productList));
+
                             }
-
-                            app = new App(null, productList, null, subcategoryList, null, newsList);
-
-                            // Add the following lines to create RecyclerView
-                            homeRecycler = view.findViewById(R.id.homeModulesRecyclerView);
-                            homeRecycler.setHasFixedSize(true);
-                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
-                                    RecyclerView.VERTICAL, false);
-                            homeRecycler.setLayoutManager(layoutManager);
-                            homeRecycler.setAdapter(new HomeAdapter(context, app, newsList, subcategoryList, productList));
-
-                        }
-                    });
+                        });
+                    }
                 }
-            }
             }
         };
         request.start();
-        Log.d("test", "http.getResponse() = " + newsList.size());
     }
 
     private void alertFail(String s) {

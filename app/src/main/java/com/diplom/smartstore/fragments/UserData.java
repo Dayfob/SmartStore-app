@@ -57,7 +57,6 @@ public class UserData extends Fragment {
                 email = etEmail.getText().toString();
                 phone = etPhone.getText().toString();
                 IIN = etIIN.getText().toString();
-                Log.d("http", "onClick: "+name+" "+email+" "+phone+" "+IIN);
 
                 if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || IIN.isEmpty()) {
                     alertFail("Данные введены не полностью");
@@ -92,7 +91,6 @@ public class UserData extends Fragment {
                     http.setToken(true);
                     http.setMethod("POST");
                     http.setData(data);
-                    Log.d("http", "===:> "+http);
                     http.send();
                     if (isAdded()) {
                         requireActivity().runOnUiThread(new Runnable() {
@@ -152,7 +150,6 @@ public class UserData extends Fragment {
                                 if (code == 200) {
                                     try {
                                         JSONArray response = new JSONArray(http.getResponse());
-                                        Log.d("user", "run: " + response);
                                         String name = null;
                                         String email = null;
                                         String phoneNumber = null;

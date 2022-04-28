@@ -150,7 +150,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                                     attributesProduct));
                                         }
 
-                                        if (productList.size() == 0){
+                                        if (productList.size() == 0) {
                                             buttonBuy.setClickable(false);
                                             buttonBuy.setBackgroundResource(R.drawable.bg_for_buy_btn_rounded_gray);
                                             buttonBuy.setTextColor(R.color.colorSecondary);
@@ -188,7 +188,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-                                } else if (code == 401){
+                                } else if (code == 401) {
                                     alertFail("Пожалуйста авторизуйтесь");
                                 } else {
                                     alertFail("Ошибка " + code);

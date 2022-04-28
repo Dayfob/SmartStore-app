@@ -87,7 +87,7 @@ public class Product implements Serializable {
         this.slug = slug;
     }
 
-    public String getImgUrl() {
+    public String getImageUrl() {
         return imgUrl;
     }
 

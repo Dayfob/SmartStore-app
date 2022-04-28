@@ -74,7 +74,6 @@ public class WishList extends Fragment implements WishlistAdapter.OnProductListe
                 if (isAdded()) {
                     Http http = new Http(getActivity(), url);//getActivity изза фрагмента вместо активити
                     http.setToken(true);
-                    Log.d("http", "===:> " + http);
                     http.send();
                     if (isAdded()) {
                         requireActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
@@ -94,7 +93,6 @@ public class WishList extends Fragment implements WishlistAdapter.OnProductListe
                                             JSONObject wishlistProduct = jsonarray.getJSONObject(i); // продукт листа желаний
                                             JSONObject product = wishlistProduct.getJSONObject("item_id"); // продукт
 
-                                            Log.d("product", "===:> " + product);
                                             JSONObject productBrand = product.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
                                             JSONObject productCategory = product.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
                                             JSONObject productSubcategory = product.getJSONObject("subcategory_id"); // подкатегория продукта (аттрибут объекта продукт)
@@ -128,7 +126,7 @@ public class WishList extends Fragment implements WishlistAdapter.OnProductListe
                                                             productCategory.getString("slug"), productCategory.getString("description"), null),
                                                     new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
                                                             productSubcategory.getString("slug"), productSubcategory.getString("description"),
-                                                            null, attributesSubcategory),
+                                                            null, attributesSubcategory), // image
                                                     0,
                                                     product.getInt("amount_left"),
                                                     product.getInt("price"),

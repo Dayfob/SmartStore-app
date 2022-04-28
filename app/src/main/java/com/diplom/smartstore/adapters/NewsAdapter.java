@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.model.News;
+import com.diplom.smartstore.utils.LoadImage;
 
 import java.util.List;
 
@@ -38,8 +39,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
         // нужно добавить асихронную загрузку фото:
-//        holder.subcategoryImage.setImageBitmap(subcategories.get(position).getImageUrl());
-//        holder.newsImage.setImageBitmap();
+        new LoadImage(holder.newsImage).execute(newsList.get(position).getImageUrl());
     }
 
     @Override

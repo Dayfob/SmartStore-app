@@ -90,8 +90,6 @@ public class Catalog extends Fragment {
                                                     attributesSubcategory.add(new Attribute(p, subcategoryAttributes.get(p).toString(), null));
                                                 }
 
-                                                Log.d("attributesSubcategory", "===:> " + subcategory.getInt("id"));
-
                                                 // добавляем подктегорию в массив подктегорий категории
                                                 subcategoryList.add(new Subcategory(
                                                         subcategory.getInt("id"),
