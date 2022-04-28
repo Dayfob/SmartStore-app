@@ -1,6 +1,7 @@
 package com.diplom.smartstore.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.fragments.Catalog;
+import com.diplom.smartstore.fragments.SubcategoryProductList;
 import com.diplom.smartstore.model.App;
 import com.diplom.smartstore.model.News;
 import com.diplom.smartstore.model.Product;
@@ -35,14 +38,16 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     List<News> newsList;
     List<Subcategory> subcategoryList;
     List<Product> productList;
+    FragmentActivity fragmentActivity;
 
     // конструктор
-    public HomeAdapter(Context context, App app, List<News> newsList, List<Subcategory> subcategoryList, List<Product> productList) {
+    public HomeAdapter(Context context, App app, List<News> newsList, List<Subcategory> subcategoryList, List<Product> productList, FragmentActivity fragmentActivity) {
         this.context = context;
         this.app = app;
         this.newsList = newsList;
         this.subcategoryList = subcategoryList;
         this.productList = productList;
+        this.fragmentActivity = fragmentActivity;
     }
 
     // какие данные будут вставлены, установка данных
@@ -102,26 +107,42 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onNewsClick(int position) {
         Log.d(TAG, "onNewsClick: clicked " + position);
 
-//        app.getNews().get(position);
-//        FragmentManager fm = getParentFragmentManager();
+//        FragmentManager fm = fragmentActivity.getSupportFragmentManager();
 //        FragmentTransaction ft = fm.beginTransaction();
-//
-//
-//        ft.replace(R.id.content, new Catalog());
+//        SubcategoryProductList subcategoryList = new SubcategoryProductList();
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("id", newsList.get(position).getId());
+//        subcategoryList.setArguments(bundle);
+//        ft.replace(R.id.content, subcategoryList);
 //        ft.commit();
-//        titleToolbar.setText("");
     }
 
     @Override
     public void onSubcategoryClick(int position) {
         Log.d(TAG, "onSubcategoryClick: clicked " + position);
 
+        FragmentManager fm = fragmentActivity.getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        SubcategoryProductList subcategoryList = new SubcategoryProductList();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", newsList.get(position).getId());
+        subcategoryList.setArguments(bundle);
+        ft.replace(R.id.content, subcategoryList);
+        ft.commit();
     }
 
     @Override
     public void onProductClick(int position) {
         Log.d(TAG, "onProductClick: clicked " + position);
 
+//        FragmentManager fm = fragmentActivity.getSupportFragmentManager();
+//        FragmentTransaction ft = fm.beginTransaction();
+//        SubcategoryProductList subcategoryList = new SubcategoryProductList();
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("id", newsList.get(position).getId());
+//        subcategoryList.setArguments(bundle);
+//        ft.replace(R.id.content, subcategoryList);
+//        ft.commit();
     }
 
     // описываются элементы для работы

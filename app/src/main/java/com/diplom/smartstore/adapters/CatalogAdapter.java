@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
-import com.diplom.smartstore.activities.MainActivity;
-import com.diplom.smartstore.fragments.Catalog;
 import com.diplom.smartstore.fragments.SubcategoryProductList;
 import com.diplom.smartstore.model.Category;
 import com.diplom.smartstore.model.Subcategory;
@@ -30,13 +28,13 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
     private static final String TAG = "onClick";
     Context context; // страница на которой все будет выведено
     List<Category> categories; // список всех категорий
-    FragmentActivity mainActivity;
+    FragmentActivity fragmentActivity;
 
     // конструктор
-    public CatalogAdapter(Context context, List<Category> categories, FragmentActivity mainActivity) {
+    public CatalogAdapter(Context context, List<Category> categories, FragmentActivity fragmentActivity) {
         this.context = context;
         this.categories = categories;
-        this.mainActivity = mainActivity;
+        this.fragmentActivity = fragmentActivity;
     }
 
     // держатель вызывающий раздуватель
@@ -65,7 +63,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
         Log.d(TAG, "onSubcategoryClick: clicked " + position);
         //действия при нажатии на подкаталог
         // Prevent Reload Same Fragment
-        FragmentManager fm = mainActivity.getSupportFragmentManager();
+        FragmentManager fm = fragmentActivity.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         SubcategoryProductList subcategoryList = new SubcategoryProductList();
         Bundle bundle = new Bundle();

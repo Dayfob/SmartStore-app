@@ -275,7 +275,7 @@ public class Home extends Fragment {
                                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
                                         RecyclerView.VERTICAL, false);
                                 homeRecycler.setLayoutManager(layoutManager);
-                                homeRecycler.setAdapter(new HomeAdapter(context, app, newsList, subcategoryList, productList));
+                                homeRecycler.setAdapter(new HomeAdapter(context, app, newsList, subcategoryList, productList, getActivity()));
 
                             }
                         });
