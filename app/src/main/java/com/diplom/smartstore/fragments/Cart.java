@@ -47,7 +47,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
     Button buttonBuy;
     View view;
     List<Product> productList = new ArrayList<>();
-    Cart Cart;
+    Cart Cart = this;
 
     @Nullable
     @Override

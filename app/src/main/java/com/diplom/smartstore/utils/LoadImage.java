@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.diplom.smartstore.R;
+
 import org.apache.http.HttpStatus;
 
 import java.io.InputStream;
@@ -43,11 +45,10 @@ public class LoadImage extends AsyncTask<String, Void, Bitmap> {
             if (imageView != null) {
                 if (bitmap != null) {
                     imageView.setImageBitmap(bitmap);
+                } else {
+                    Drawable placeholder = imageView.getContext().getResources().getDrawable(R.drawable.ic_empty_image);
+                    imageView.setImageDrawable(placeholder);
                 }
-//                else {
-//                    Drawable placeholder = imageView.getContext().getResources().getDrawable(R.);
-//                    imageView.setImageDrawable(placeholder);
-//                }
             }
         }
     }
@@ -64,10 +65,10 @@ public class LoadImage extends AsyncTask<String, Void, Bitmap> {
 
             InputStream inputStream = urlConnection.getInputStream();
             if (inputStream != null) {
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                return bitmap;
+                return BitmapFactory.decodeStream(inputStream);
             }
         } catch (Exception e) {
+            assert urlConnection != null;
             urlConnection.disconnect();
             Log.w("ImageDownloader", "Error downloading image from " + url);
         } finally {

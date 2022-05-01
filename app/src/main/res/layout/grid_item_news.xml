@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/newsImageView"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
+        android:layout_width="300dp"
+        android:layout_height="160dp"
         android:layout_margin="5dp"
         android:background="@drawable/bg_for_img_rounded_white"
         android:contentDescription="@string/product_image"

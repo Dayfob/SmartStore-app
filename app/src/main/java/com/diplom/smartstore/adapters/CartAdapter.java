@@ -1,7 +1,6 @@
 package com.diplom.smartstore.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.model.Cart;
-import com.diplom.smartstore.model.Category;
-import com.diplom.smartstore.model.Product;
-import com.diplom.smartstore.model.Subcategory;
 import com.diplom.smartstore.utils.LoadImage;
-
-import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
@@ -76,7 +69,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public void onBindViewHolder(@NonNull CartAdapter.CartViewHolder holder, int position) {
         // нужно добавить асихронную загрузку фото:
-        new LoadImage(holder.productImage).execute(cart.getProducts().get(position).getImageUrl());
+        new LoadImage(holder.productImage).execute(cart.getProducts().get(position).getImgUrl());
         holder.productName.setText(cart.getProducts().get(position).getName());
         holder.productPrice.setText(cart.getProducts().get(position).getPrice() + "$");
         holder.productAmount.setText(cart.getProducts().get(position).getAmountCart() + " шт.");

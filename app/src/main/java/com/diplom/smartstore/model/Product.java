@@ -67,6 +67,14 @@ public class Product implements Serializable {
         this.liked = liked;
     }
 
+    public Boolean getLiked() {
+        return liked;
+    }
+
+    public void setLiked(Boolean liked) {
+        this.liked = liked;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -91,7 +99,7 @@ public class Product implements Serializable {
         this.slug = slug;
     }
 
-    public String getImageUrl() {
+    public String getImgUrl() {
         return imgUrl;
     }
 

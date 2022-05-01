@@ -13,6 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,17 +35,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SubcategoryProductList extends Fragment implements SubcategoryProductListAdapter.OnProductListener {
 
     private static final String TAG = "onClick";
-    RecyclerView recyclerView;
     Context context;
     TextView titleToolbar;
     LocalStorage localStorage;
     List<Product> productList = new ArrayList<>();
     View view;
-    private SubcategoryProductList subcategoryProductList;
+    SubcategoryProductList subcategoryProductList = this; // решило проблему с null
     int SubcategoryId = 1;
 
 
@@ -68,6 +71,15 @@ public class SubcategoryProductList extends Fragment implements SubcategoryProdu
     @Override
     public void onProductClick(int position) {
         Log.d(TAG, "onProductClick: clicked " + position);
+
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        com.diplom.smartstore.fragments.Product productFragment = new com.diplom.smartstore.fragments.Product();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", productList.get(position).getId());
+        productFragment.setArguments(bundle);
+        ft.replace(R.id.content, productFragment);
+        ft.commit();
     }
 
     private void getProducts() {
@@ -136,17 +148,17 @@ public class SubcategoryProductList extends Fragment implements SubcategoryProdu
                                         }
 
                                         // Add the following lines to create RecyclerView
-                                        recyclerView = view.findViewById(R.id.wishlistRecyclerView);
+                                        RecyclerView recyclerView = view.findViewById(R.id.wishlistRecyclerView);
+                                        recyclerView.setAdapter(new SubcategoryProductListAdapter(context, productList, subcategoryProductList));
                                         recyclerView.setHasFixedSize(true);
                                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
                                                 RecyclerView.VERTICAL, false);
                                         recyclerView.setLayoutManager(layoutManager);
-                                        recyclerView.setAdapter(new SubcategoryProductListAdapter(context, productList, subcategoryProductList));
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-                                } else if (code == 401){
+                                } else if (code == 401) {
                                     alertFail("Пожалуйста авторизуйтесь");
                                 } else {
                                     alertFail("Ошибка " + code);

@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.adapters.ProductAttributesListAdapter;
-import com.diplom.smartstore.adapters.SubcategoryProductListAdapter;
 import com.diplom.smartstore.model.Attribute;
 import com.diplom.smartstore.model.Brand;
 import com.diplom.smartstore.model.Category;
@@ -165,7 +163,7 @@ public class Product extends Fragment {
 
 //                                        Log.d("test", product.getName());
                                         // добавление данных в поля
-                                        new LoadImage(productImage).execute(product.getImageUrl());
+                                        new LoadImage(productImage).execute(product.getImgUrl());
                                         tvProductName.setText(product.getName());
                                         tvProductNumber.setText(attributesProduct.get(0).getValue());
                                         tvProductPrice.setText(Integer.toString(product.getPrice()));

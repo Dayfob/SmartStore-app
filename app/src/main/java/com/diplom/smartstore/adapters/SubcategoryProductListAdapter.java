@@ -30,14 +30,16 @@ public class SubcategoryProductListAdapter extends RecyclerView.Adapter<Subcateg
 
     @NonNull
     @Override
-    public SubcategoryProductListAdapter.SubcategoryProductListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SubcategoryProductListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View productsItems = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.grid_item_product_flat, parent, false); // указывается дизайн
-        return new SubcategoryProductListAdapter.SubcategoryProductListViewHolder(productsItems, onProductListener); // указываются элементы для работы
+        return new SubcategoryProductListViewHolder(productsItems, onProductListener); // указываются элементы для работы
     }
 
     @Override
-    public int getItemCount() {return products.size();}
+    public int getItemCount() {
+        return products.size();
+    }
 
     public static final class SubcategoryProductListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -66,14 +68,14 @@ public class SubcategoryProductListAdapter extends RecyclerView.Adapter<Subcateg
     @Override
     public void onBindViewHolder(@NonNull SubcategoryProductListAdapter.SubcategoryProductListViewHolder holder, int position) {
         // нужно добавить асихронную загрузку фото:
-        new LoadImage(holder.productImage).execute(products.get(position).getImageUrl());
+        new LoadImage(holder.productImage).execute(products.get(position).getImgUrl());
         holder.productName.setText(products.get(position).getName());
         holder.productPrice.setText(products.get(position).getPrice() + "$");
         holder.productAmount.setText("");
     }
 
     // интерфейс для прослушивания нажатия на продукт
-    public interface OnProductListener{
+    public interface OnProductListener {
         void onProductClick(int position);
     }
 

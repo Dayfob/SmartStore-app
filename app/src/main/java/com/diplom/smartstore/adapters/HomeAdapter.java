@@ -123,11 +123,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         FragmentManager fm = fragmentActivity.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        SubcategoryProductList subcategoryList = new SubcategoryProductList();
+        SubcategoryProductList subcategoryFragment = new SubcategoryProductList();
         Bundle bundle = new Bundle();
-        bundle.putInt("id", newsList.get(position).getId());
-        subcategoryList.setArguments(bundle);
-        ft.replace(R.id.content, subcategoryList);
+        bundle.putInt("id", subcategoryList.get(position).getId());
+        subcategoryFragment.setArguments(bundle);
+        ft.replace(R.id.content, subcategoryFragment);
         ft.commit();
     }
 
@@ -197,7 +197,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     // лист продуктов
     private void setProductsRecycler(RecyclerView recyclerView, List<Product> productsList) {
-        ProductAdapter productAdapter = new ProductAdapter(context, productsList, this);
+        ProductAdapter productAdapter = new ProductAdapter(context, productsList, this, fragmentActivity);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(productAdapter);
     }

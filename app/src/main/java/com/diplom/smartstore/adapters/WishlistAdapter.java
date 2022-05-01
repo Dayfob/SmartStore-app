@@ -66,7 +66,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     @Override
     public void onBindViewHolder(@NonNull WishlistAdapter.WishlistViewHolder holder, int position) {
         // нужно добавить асихронную загрузку фото:
-        new LoadImage(holder.productImage).execute(products.get(position).getImageUrl());
+        new LoadImage(holder.productImage).execute(products.get(position).getImgUrl());
         holder.productName.setText(products.get(position).getName());
         holder.productPrice.setText(products.get(position).getPrice() + "$");
         holder.productAmount.setText("");

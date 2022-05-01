@@ -44,7 +44,7 @@ public class WishList extends Fragment implements WishlistAdapter.OnProductListe
     LocalStorage localStorage;
     List<Product> productList = new ArrayList<>();
     View view;
-    private WishList WishList;
+    WishList WishList = this;
 
 
     @Nullable
