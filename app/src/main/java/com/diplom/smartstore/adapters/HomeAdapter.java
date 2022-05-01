@@ -135,14 +135,14 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onProductClick(int position) {
         Log.d(TAG, "onProductClick: clicked " + position);
 
-//        FragmentManager fm = fragmentActivity.getSupportFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//        SubcategoryProductList subcategoryList = new SubcategoryProductList();
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("id", newsList.get(position).getId());
-//        subcategoryList.setArguments(bundle);
-//        ft.replace(R.id.content, subcategoryList);
-//        ft.commit();
+        FragmentManager fm = fragmentActivity.getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        com.diplom.smartstore.fragments.Product productFragment = new com.diplom.smartstore.fragments.Product();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", productList.get(position).getId());
+        productFragment.setArguments(bundle);
+        ft.replace(R.id.content, productFragment);
+        ft.commit();
     }
 
     // описываются элементы для работы

@@ -147,7 +147,8 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                                     productAmount,
                                                     product.getInt("amount_left"),
                                                     product.getInt("price"),
-                                                    attributesProduct));
+                                                    attributesProduct,
+                                                    product.getBoolean("liked")));
                                         }
 
                                         if (productList.size() == 0) {

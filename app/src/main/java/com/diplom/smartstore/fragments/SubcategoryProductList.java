@@ -131,7 +131,8 @@ public class SubcategoryProductList extends Fragment implements SubcategoryProdu
                                                     0,
                                                     product.getInt("amount_left"),
                                                     product.getInt("price"),
-                                                    attributesProduct));
+                                                    attributesProduct,
+                                                    product.getBoolean("liked")));
                                         }
 
                                         // Add the following lines to create RecyclerView

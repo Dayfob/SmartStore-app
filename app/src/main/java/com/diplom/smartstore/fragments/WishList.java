@@ -130,7 +130,8 @@ public class WishList extends Fragment implements WishlistAdapter.OnProductListe
                                                     0,
                                                     product.getInt("amount_left"),
                                                     product.getInt("price"),
-                                                    attributesProduct));
+                                                    attributesProduct,
+                                                    product.getBoolean("liked")));
                                         }
 
                                         // Add the following lines to create RecyclerView

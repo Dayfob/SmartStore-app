@@ -258,7 +258,8 @@ public class Home extends Fragment {
                                                     0,
                                                     product.getInt("amount_left"),
                                                     product.getInt("price"),
-                                                    attributesProduct));
+                                                    attributesProduct,
+                                                    product.getBoolean("liked")));
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();

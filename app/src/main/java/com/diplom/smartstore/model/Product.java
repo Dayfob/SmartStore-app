@@ -45,10 +45,13 @@ public class Product implements Serializable {
     @SerializedName("attributes")
     @Expose
     private List<Attribute> attributes;
+    @SerializedName("liked")
+    @Expose
+    private Boolean liked;
 
     public Product(Integer id, String name, String slug, String imgUrl, String description,
                    Brand brand, Category category, Subcategory subcategory,
-                   int amountCart, int amountLeft, int price, List<Attribute> attributes) {
+                   int amountCart, int amountLeft, int price, List<Attribute> attributes, Boolean liked) {
         this.id = id;
         this.name = name;
         this.slug = slug;
@@ -61,6 +64,7 @@ public class Product implements Serializable {
         this.amountLeft = amountLeft;
         this.price = price;
         this.attributes = attributes;
+        this.liked = liked;
     }
 
     public Integer getId() {
