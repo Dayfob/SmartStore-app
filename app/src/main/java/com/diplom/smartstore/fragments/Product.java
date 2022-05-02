@@ -73,27 +73,21 @@ public class Product extends Fragment {
 
 
         tvProductCartAmount.setText(String.valueOf(cartAmount));
-        btnCartMinus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (cartAmount > 1) {
-                    cartAmount--;
-                    tvProductCartAmount.setText(String.valueOf(cartAmount));
-                }
-            }
-        });
-        btnCartPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cartAmount++;
+        btnCartMinus.setOnClickListener(v -> {
+            if (cartAmount > 1) {
+                cartAmount--;
                 tvProductCartAmount.setText(String.valueOf(cartAmount));
             }
+        });
+        btnCartPlus.setOnClickListener(v -> {
+            cartAmount++;
+            tvProductCartAmount.setText(String.valueOf(cartAmount));
         });
         btnCartAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // прослшуивание нажатия добавить в корзину
-
+                addToCart(productId, cartAmount);
             }
         });
 
@@ -101,6 +95,63 @@ public class Product extends Fragment {
         getProduct();
 
         return view;
+    }
+
+    private void addToCart(Integer id, int cartAmount) {
+        String url = getString(R.string.api_server) + getString(R.string.addToCart);
+
+        JSONObject params = new JSONObject();
+        try {
+            params.put("item_id", id);
+            params.put("item_amount", cartAmount);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String data = params.toString();
+
+        Thread request = new Thread() {
+            @Override
+            public void run() {
+                if (isAdded()) {// вроде проверят добвален ли фрагмент
+                    Http http = new Http(getActivity(), url);//getActivity изза фрагмента вместо активити
+                    http.setMethod("POST");
+                    http.setToken(true);
+                    http.setData(data);
+                    http.send();
+
+                    if (isAdded()) {
+                        requireActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void run() {
+                                Integer code = http.getStatusCode();
+                                if (code == 201 || code == 200) {
+                                    try {
+                                        JSONObject response = new JSONObject(http.getResponse());
+                                        String msg = response.getString("message");
+                                        alertSuccess(msg);
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else if (code == 422) {
+                                    try {
+                                        JSONObject response = new JSONObject(http.getResponse());
+                                        String msg = response.getString("message");
+                                        alertFail(msg);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    alertFail("Ошибка " + code);
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        };
+        request.start();
     }
 
     private void getProduct() {

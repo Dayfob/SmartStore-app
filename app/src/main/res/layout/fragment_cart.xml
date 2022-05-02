@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="6dp"
             tools:itemCount="2"
-            tools:listitem="@layout/grid_item_product_flat" />
+            tools:listitem="@layout/grid_item_product_flat_cart" />
     </LinearLayout>
 
     <LinearLayout
@@ -43,14 +43,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Общее количество товаров:" />
+                    android:text="Total number of goods:" />
 
                 <TextView
                     android:id="@+id/cartProductAmountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="0 шт." />
+                    android:text="0 PCS." />
             </RelativeLayout>
 
             <RelativeLayout
@@ -62,14 +62,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Общая сумма:" />
+                    android:text="Total amount:" />
 
                 <TextView
                     android:id="@+id/cartProductPriceAmountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="0 тенге" />
+                    android:text="0 tg." />
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Итого:"
+                    android:text="Total:"
                     android:textColor="@color/colorSecondary"
                     android:textSize="20sp" />
 
@@ -96,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="0 тенге"
+                    android:text="0 tg."
                     android:textColor="@color/colorAccent"
                     android:textSize="20sp" />
             </RelativeLayout>
@@ -108,7 +108,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_below="@+id/cartTotalTextViews"
                 android:background="@drawable/bg_for_buy_btn_rounded"
-                android:text="Оформить заказ"
+                android:text="Place an order"
                 android:textColor="@color/White"
                 android:fontFamily="@font/lexend"/>
 

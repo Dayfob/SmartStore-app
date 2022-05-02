@@ -94,9 +94,11 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 if (products.get(position).getLiked()) {
                     holder.buttonLike.setColorFilter(fragmentActivity.getResources().getColor(R.color.colorSecondary));
                     deleteFromFavourite(products.get(position).getId());
+                    products.get(position).setLiked(false);
                 } else {
                     holder.buttonLike.setColorFilter(fragmentActivity.getResources().getColor(R.color.colorAccent));
                     addToFavourite(products.get(position).getId());
+                    products.get(position).setLiked(true);
                 }
             }
         });
