@@ -140,7 +140,7 @@ public class WishList extends Fragment implements WishlistAdapter.OnProductListe
                                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
                                                 RecyclerView.VERTICAL, false);
                                         wishlistRecycler.setLayoutManager(layoutManager);
-                                        wishlistRecycler.setAdapter(new WishlistAdapter(context, productList, WishList));
+                                        wishlistRecycler.setAdapter(new WishlistAdapter(context, productList, WishList, getActivity()));
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();

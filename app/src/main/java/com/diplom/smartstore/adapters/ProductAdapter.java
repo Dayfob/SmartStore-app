@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -87,19 +88,75 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
         holder.productName.setText(products.get(position).getName());
         holder.productPrice.setText(products.get(position).getPrice() + "$");
 
-        Log.d("liked?", String.valueOf(products.get(position).getLiked()));
         if (products.get(position).getLiked()) {
-            holder.buttonLike.setColorFilter(R.color.colorAccent);
+            holder.buttonLike.setColorFilter(fragmentActivity.getResources().getColor(R.color.colorAccent));
         } else {
-            holder.buttonLike.setColorFilter(R.color.colorSecondary);
+            holder.buttonLike.setColorFilter(fragmentActivity.getResources().getColor(R.color.colorSecondary));
         }
 
         holder.buttonLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addToFavourite(products.get(position).getId());
+                if (products.get(position).getLiked()) {
+                    holder.buttonLike.setColorFilter(fragmentActivity.getResources().getColor(R.color.colorSecondary));
+                    deleteFromFavourite(products.get(position).getId());
+                } else {
+                    holder.buttonLike.setColorFilter(fragmentActivity.getResources().getColor(R.color.colorAccent));
+                    addToFavourite(products.get(position).getId());
+                }
             }
         });
+    }
+
+    private void deleteFromFavourite(Integer id) {
+        String url = fragmentActivity.getString(R.string.api_server) + fragmentActivity.getString(R.string.deleteFromWishlist);
+
+        JSONObject params = new JSONObject();
+        try {
+            params.put("item_id", id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String data = params.toString();
+
+        Thread request = new Thread() {
+            @Override
+            public void run() {
+                Http http = new Http(fragmentActivity, url);
+                http.setMethod("POST");
+                http.setToken(true);
+                http.setData(data);
+                http.send();
+                fragmentActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Integer code = http.getStatusCode();
+                        if (code == 201 || code == 200) {
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String msg = response.getString("message");
+                                alertSuccess(msg);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (code == 422) {
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String msg = response.getString("message");
+                                alertFail(msg);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            alertFail("Ошибка " + code);
+                        }
+                    }
+                });
+            }
+
+        };
+        request.start();
     }
 
     private void addToFavourite(Integer id) {

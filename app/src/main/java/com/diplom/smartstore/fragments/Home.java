@@ -1,37 +1,23 @@
 package com.diplom.smartstore.fragments;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
-import com.diplom.smartstore.adapters.CatalogAdapter;
 import com.diplom.smartstore.adapters.HomeAdapter;
-import com.diplom.smartstore.adapters.NewsAdapter;
-import com.diplom.smartstore.interfaces.ShowBackButton;
-import com.diplom.smartstore.interfaces.ToolbarTitle;
 import com.diplom.smartstore.model.App;
 import com.diplom.smartstore.model.Attribute;
 import com.diplom.smartstore.model.Brand;
@@ -46,7 +32,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Home extends Fragment {
@@ -60,6 +45,7 @@ public class Home extends Fragment {
     private List<Subcategory> subcategoryList = new ArrayList<>();
     private List<News> newsList = new ArrayList<>();
     private List<Product> productList = new ArrayList<>();
+    private List<Product> wishlistProductList = new ArrayList<>();
     private App app;
 //    @Override
     //    public void onAttach(Context context) {
@@ -135,6 +121,7 @@ public class Home extends Fragment {
         String urlNews = getString(R.string.api_server) + getString(R.string.getAllNews);
         String urlSubcategories = getString(R.string.api_server) + getString(R.string.getAllSubcategories);
         String urlProducts = getString(R.string.api_server) + getString(R.string.getAllProducts);
+        String urlWishlist = getString(R.string.api_server) + getString(R.string.getWishlist);
 
         // запрос для получения нвостей
         Thread request = new Thread() {
@@ -150,6 +137,9 @@ public class Home extends Fragment {
                     Http httpProducts = new Http(getActivity(), urlProducts);//getActivity изза фрагмента вместо активити
                     httpProducts.setToken(true);
                     httpProducts.send();
+                    Http httpWishlist = new Http(getActivity(), urlWishlist);//getActivity изза фрагмента вместо активити
+                    httpWishlist.setToken(true);
+                    httpWishlist.send();
 
                     if (isAdded()) {
                         requireActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
@@ -212,6 +202,70 @@ public class Home extends Fragment {
                                     alertFail("Ошибка " + codeResponseSubcategories);
                                 }
 
+                                Integer code = httpWishlist.getStatusCode();
+                                if (code == 200) {
+                                    try {
+                                        // получаем JSON ответ
+                                        JSONObject response = new JSONObject(httpWishlist.getResponse());
+
+                                        // выбираем из ответа JSON массив продуктов
+                                        JSONArray jsonarray = response.getJSONArray("wishlistProducts");
+
+                                        // перебираем массив
+                                        for (int i = 0; i < jsonarray.length(); i++) {
+                                            JSONObject wishlistProduct = jsonarray.getJSONObject(i); // продукт листа желаний
+                                            JSONObject product = wishlistProduct.getJSONObject("item_id"); // продукт
+
+                                            JSONObject productBrand = product.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
+                                            JSONObject productCategory = product.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
+                                            JSONObject productSubcategory = product.getJSONObject("subcategory_id"); // подкатегория продукта (аттрибут объекта продукт)
+
+
+                                            JSONArray productSubcategoryAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
+                                            JSONArray productAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
+
+                                            // перебираем список
+                                            List<Attribute> attributesSubcategory = new ArrayList<>();
+                                            List<Attribute> attributesProduct = new ArrayList<>();
+
+                                            for (int j = 0; j < productSubcategoryAttributes.length(); j++) {
+                                                // добавляем аттрибут в массив аттрибутов подкатегории
+                                                Attribute productSubcategoryAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), null);
+                                                attributesSubcategory.add(productSubcategoryAttribute);
+                                                // добавляем аттрибут в массив аттрибутов товара
+                                                Attribute productAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), productAttributes.get(j).toString());
+                                                attributesProduct.add(productAttribute);
+                                            }
+
+                                            // добавляем товар в массив товаров списка желаний
+                                            wishlistProductList.add(new Product(product.getInt("id"),
+                                                    product.getString("name"),
+                                                    product.getString("slug"),
+                                                    product.getString("image_url"),
+                                                    product.getString("description"),
+                                                    new Brand(productBrand.getInt("id"), productBrand.getString("name"),
+                                                            productBrand.getString("slug"), productBrand.getString("description")),
+                                                    new Category(productCategory.getInt("id"), productCategory.getString("name"),
+                                                            productCategory.getString("slug"), productCategory.getString("description"), null),
+                                                    new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
+                                                            productSubcategory.getString("slug"), productSubcategory.getString("description"),
+                                                            null, attributesSubcategory), // image
+                                                    0,
+                                                    product.getInt("amount_left"),
+                                                    product.getInt("price"),
+                                                    attributesProduct,
+                                                    product.getBoolean("liked")));
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else if (code == 401){
+                                    alertFail("Пожалуйста авторизуйтесь");
+                                } else {
+                                    alertFail("Ошибка " + code);
+                                }
+
                                 Integer codeResponseProducts = httpProducts.getStatusCode();
                                 if (codeResponseProducts == 200) {
                                     try {
@@ -242,6 +296,15 @@ public class Home extends Fragment {
                                                 attributesProduct.add(productAttribute);
                                             }
 
+                                            boolean inCart = false;
+
+                                            for (Product wishlistProduct: wishlistProductList) {
+                                                if (product.getInt("id") == wishlistProduct.getId()){
+                                                    inCart = true;
+                                                    Log.d("test", wishlistProduct.getId() + " is true");
+                                                }
+                                            }
+
                                             // добавляем товар в массив товаров
                                             productList.add(new Product(product.getInt("id"),
                                                     product.getString("name"),
@@ -259,7 +322,7 @@ public class Home extends Fragment {
                                                     product.getInt("amount_left"),
                                                     product.getInt("price"),
                                                     attributesProduct,
-                                                    product.getBoolean("liked")));
+                                                    inCart));
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();

@@ -47,6 +47,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
     Button buttonBuy;
     View view;
     List<Product> productList = new ArrayList<>();
+    private List<Product> wishlistProductList = new ArrayList<>();
     Cart Cart = this;
 
     @Nullable
@@ -77,6 +78,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
 
     private void getCartProducts() {
         String url = getString(R.string.api_server) + getString(R.string.getCart);
+        String urlWishlist = getString(R.string.api_server) + getString(R.string.getWishlist);
 
         Thread request = new Thread() {
             @Override
@@ -85,11 +87,79 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                     Http http = new Http(getActivity(), url);//getActivity изза фрагмента вместо активити
                     http.setToken(true);
                     http.send();
+                    Http httpWishlist = new Http(getActivity(), urlWishlist);//getActivity изза фрагмента вместо активити
+                    httpWishlist.setToken(true);
+                    httpWishlist.send();
                     if (isAdded()) {
                         requireActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
                             @SuppressLint("ResourceAsColor")
                             @Override
                             public void run() {
+                                Integer codeHttpWishlist = httpWishlist.getStatusCode();
+                                if (codeHttpWishlist == 200) {
+                                    try {
+                                        // получаем JSON ответ
+                                        JSONObject response = new JSONObject(httpWishlist.getResponse());
+
+                                        // выбираем из ответа JSON массив продуктов
+                                        JSONArray jsonarray = response.getJSONArray("wishlistProducts");
+
+                                        // перебираем массив
+                                        for (int i = 0; i < jsonarray.length(); i++) {
+                                            JSONObject wishlistProduct = jsonarray.getJSONObject(i); // продукт листа желаний
+                                            JSONObject product = wishlistProduct.getJSONObject("item_id"); // продукт
+
+                                            JSONObject productBrand = product.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
+                                            JSONObject productCategory = product.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
+                                            JSONObject productSubcategory = product.getJSONObject("subcategory_id"); // подкатегория продукта (аттрибут объекта продукт)
+
+
+                                            JSONArray productSubcategoryAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
+                                            JSONArray productAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
+
+                                            // перебираем список
+                                            List<Attribute> attributesSubcategory = new ArrayList<>();
+                                            List<Attribute> attributesProduct = new ArrayList<>();
+
+                                            for (int j = 0; j < productSubcategoryAttributes.length(); j++) {
+                                                // добавляем аттрибут в массив аттрибутов подкатегории
+                                                Attribute productSubcategoryAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), null);
+                                                attributesSubcategory.add(productSubcategoryAttribute);
+                                                // добавляем аттрибут в массив аттрибутов товара
+                                                Attribute productAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), productAttributes.get(j).toString());
+                                                attributesProduct.add(productAttribute);
+                                            }
+
+                                            // добавляем товар в массив товаров списка желаний
+                                            wishlistProductList.add(new Product(product.getInt("id"),
+                                                    product.getString("name"),
+                                                    product.getString("slug"),
+                                                    product.getString("image_url"),
+                                                    product.getString("description"),
+                                                    new Brand(productBrand.getInt("id"), productBrand.getString("name"),
+                                                            productBrand.getString("slug"), productBrand.getString("description")),
+                                                    new Category(productCategory.getInt("id"), productCategory.getString("name"),
+                                                            productCategory.getString("slug"), productCategory.getString("description"), null),
+                                                    new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
+                                                            productSubcategory.getString("slug"), productSubcategory.getString("description"),
+                                                            null, attributesSubcategory), // image
+                                                    0,
+                                                    product.getInt("amount_left"),
+                                                    product.getInt("price"),
+                                                    attributesProduct,
+                                                    product.getBoolean("liked")));
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else if (codeHttpWishlist == 401){
+                                    alertFail("Пожалуйста авторизуйтесь");
+                                } else {
+                                    alertFail("Ошибка " + codeHttpWishlist);
+                                }
+
+
                                 Integer code = http.getStatusCode();
                                 if (code == 200) {
                                     try {
@@ -131,6 +201,15 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                                 attributesProduct.add(productAttribute);
                                             }
 
+                                            boolean inCart = false;
+
+                                            for (Product wishlistProduct: wishlistProductList) {
+                                                if (product.getInt("id") == wishlistProduct.getId()){
+                                                    inCart = true;
+                                                    Log.d("test", wishlistProduct.getId() + " is true");
+                                                }
+                                            }
+
                                             // добавляем товар в массив товаров корзины
                                             productList.add(new Product(product.getInt("id"),
                                                     product.getString("name"),
@@ -148,7 +227,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                                     product.getInt("amount_left"),
                                                     product.getInt("price"),
                                                     attributesProduct,
-                                                    product.getBoolean("liked")));
+                                                    inCart));
                                         }
 
                                         if (productList.size() == 0) {
@@ -176,7 +255,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
                                                 RecyclerView.VERTICAL, false);
                                         cartRecycler.setLayoutManager(layoutManager);
-                                        cartRecycler.setAdapter(new CartAdapter(context, cart, Cart));
+                                        cartRecycler.setAdapter(new CartAdapter(context, cart, Cart, getActivity()));
 
                                         productsAmount = view.findViewById(R.id.cartProductAmountTextView);
                                         productsPrice = view.findViewById(R.id.cartProductPriceAmountTextView);
