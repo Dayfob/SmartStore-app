@@ -96,7 +96,7 @@ public class Catalog extends Fragment {
                                                         subcategory.getString("name"),
                                                         subcategory.getString("slug"),
                                                         subcategory.getString("description"),
-                                                        null,
+                                                        subcategory.getString("image_url"),
                                                         attributesSubcategory));
 
 

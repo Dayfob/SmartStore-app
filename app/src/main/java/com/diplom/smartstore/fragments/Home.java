@@ -202,7 +202,7 @@ public class Home extends Fragment {
                                                     subcategory.getString("name"),
                                                     subcategory.getString("slug"),
                                                     subcategory.getString("description"),
-                                                    null, // image
+                                                    subcategory.getString("image_url"), // image
                                                     attributesSubcategory));
                                         }
                                     } catch (JSONException e) {

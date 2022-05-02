@@ -30,6 +30,7 @@ public class UserData extends Fragment {
     TextView etName, etEmail, etPhone, etIIN;
     Button btnUpdate;
     LocalStorage localStorage;
+    String oldEmail;
     String name, email, phone, IIN;
     TextView titleToolbar;
 
@@ -73,9 +74,15 @@ public class UserData extends Fragment {
         JSONObject params = new JSONObject();
         try {
             params.put("name", name);
-            params.put("email", email);
-            params.put("phone", phone);
-            params.put("iin", IIN);
+            if (!email.equals(oldEmail)){
+                params.put("email", email);
+            }
+            if (phone != null){
+                params.put("phone", phone);
+            }
+            if (IIN != null){
+                params.put("iin", IIN);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -101,6 +108,7 @@ public class UserData extends Fragment {
                                     try {
                                         JSONObject response = new JSONObject(http.getResponse());
                                         String msg = response.getString("message");
+                                        alertSuccess(msg);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -168,6 +176,7 @@ public class UserData extends Fragment {
                                         }
                                         if (email != null) {
                                             etEmail.setText(email);
+                                            oldEmail = email;
                                         }
                                         if (phoneNumber != null) {
                                             etPhone.setText(phoneNumber);
