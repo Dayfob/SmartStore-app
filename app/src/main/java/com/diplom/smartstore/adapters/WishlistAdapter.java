@@ -71,7 +71,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
         @Override
         public void onClick(View v) {
-            onProductListener.onProductClick(getAdapterPosition());
+            onProductListener.onProductClick(getAdapterPosition()); // call the onClick in the OnItemClickListener
         }
     }
 

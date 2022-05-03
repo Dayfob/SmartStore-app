@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +35,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class WishList extends Fragment implements WishlistAdapter.OnProductListener {
 
@@ -63,6 +66,14 @@ public class WishList extends Fragment implements WishlistAdapter.OnProductListe
     @Override
     public void onProductClick(int position) {
         Log.d(TAG, "onProductClick: clicked " + position);
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        com.diplom.smartstore.fragments.Product productFragment = new com.diplom.smartstore.fragments.Product();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", productList.get(position).getId());
+        productFragment.setArguments(bundle);
+        ft.replace(R.id.content, productFragment);
+        ft.commit();
     }
 
     private void getWishlistProducts() {

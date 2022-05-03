@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -74,6 +76,14 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
     @Override
     public void onProductClick(int position) {
         Log.d(TAG, "onProductClick: clicked " + position);
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        com.diplom.smartstore.fragments.Product productFragment = new com.diplom.smartstore.fragments.Product();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", productList.get(position).getId());
+        productFragment.setArguments(bundle);
+        ft.replace(R.id.content, productFragment);
+        ft.commit();
     }
 
     private void getCartProducts() {
