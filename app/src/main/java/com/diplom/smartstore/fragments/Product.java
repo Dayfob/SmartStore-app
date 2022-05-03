@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Product extends Fragment {
 
@@ -44,6 +45,7 @@ public class Product extends Fragment {
     RecyclerView attributesRecycler;
     View view;
     TextView titleToolbar;
+    ImageView backToolbar;
     int productId;
     int cartAmount = 1;
     com.diplom.smartstore.model.Product product;
@@ -55,7 +57,15 @@ public class Product extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_product, container, false);
-        titleToolbar = view.findViewById(R.id.toolBarTitle);
+        // отображается но не возвращает назад
+//        titleToolbar = requireActivity().findViewById(R.id.toolBarTitle);
+//        backToolbar = requireActivity().findViewById(R.id.backButton);
+//        backToolbar.setVisibility(View.VISIBLE);
+//        backToolbar.setOnClickListener(v -> {
+//            requireActivity().onBackPressed();
+//            requireActivity().onBackPressed();
+//            getFragmentManager().popBackStack();
+//        });
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {

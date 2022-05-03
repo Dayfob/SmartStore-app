@@ -2,6 +2,7 @@ package com.diplom.smartstore.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -171,35 +172,50 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void backButtonClick() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        try {
-            if (fragmentManager.findFragmentByTag(Constants.FRAGMENT_PRODUCTS).isVisible()) {
-                // add bundle arguments
-                Bundle bundle = new Bundle();
-                bundle.putString(Constants.TITLE, subCategoryTitle);
-                bundle.putSerializable(Constants.CATEGORY_KEY, (Serializable) subcategories);
+//        Fragment productFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("product");
+//        Fragment userDataFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("userData");
+//        Fragment subcategoryProductsFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("subcategoryProducts");
+//        Fragment ordersFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("orders");
+//        Fragment registrationFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("registration");
+//        if (productFragment != null && productFragment.isVisible() ||
+//                userDataFragment != null && userDataFragment.isVisible() ||
+//                subcategoryProductsFragment != null && subcategoryProductsFragment.isVisible() ||
+//                ordersFragment != null && ordersFragment.isVisible() ||
+//                registrationFragment != null && registrationFragment.isVisible()) {
+//            // add your code here
+//            backButton.setVisibility(View.VISIBLE);
+//        }
 
-//                Subcategories subcategories = new Subcategories();
-//                subcategories.setArguments(bundle);
+// old code
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        try {
+//            if (fragmentManager.findFragmentByTag(Constants.FRAGMENT_PRODUCTS).isVisible()) {
+//                // add bundle arguments
+//                Bundle bundle = new Bundle();
+//                bundle.putString(Constants.TITLE, subCategoryTitle);
+//                bundle.putSerializable(Constants.CATEGORY_KEY, (Serializable) subcategories);
 //
-//                fragmentTransaction.replace(R.id.content, subcategories, Constants.FRAGMENT_SUBCATEGORY);
-                fragmentTransaction.commit();
-                return;
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            if (fragmentManager.findFragmentByTag(Constants.FRAGMENT_SUBCATEGORY).isVisible()) {
-                fragmentTransaction.replace(R.id.content, new Catalog());
-                fragmentTransaction.commit();
-                titleToolbar.setText(R.string.TitleCatalog);
-                backButton.setVisibility(View.INVISIBLE);
-            }
-        } catch (NullPointerException e) {
-            super.onBackPressed();
-        }
+////                Subcategories subcategories = new Subcategories();
+////                subcategories.setArguments(bundle);
+////
+////                fragmentTransaction.replace(R.id.content, subcategories, Constants.FRAGMENT_SUBCATEGORY);
+//                fragmentTransaction.commit();
+//                return;
+//            }
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            if (fragmentManager.findFragmentByTag(Constants.FRAGMENT_SUBCATEGORY).isVisible()) {
+//                fragmentTransaction.replace(R.id.content, new Catalog());
+//                fragmentTransaction.commit();
+//                titleToolbar.setText(R.string.TitleCatalog);
+//                backButton.setVisibility(View.INVISIBLE);
+//            }
+//        } catch (NullPointerException e) {
+//            super.onBackPressed();
+//        }
     }
 }

@@ -83,6 +83,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
         bundle.putInt("id", productList.get(position).getId());
         productFragment.setArguments(bundle);
         ft.replace(R.id.content, productFragment);
+        ft.addToBackStack("product");
         ft.commit();
     }
 

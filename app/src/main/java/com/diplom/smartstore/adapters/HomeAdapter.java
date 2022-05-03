@@ -114,6 +114,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //        bundle.putInt("id", newsList.get(position).getId());
 //        subcategoryList.setArguments(bundle);
 //        ft.replace(R.id.content, subcategoryList);
+//        ft.addToBackStack("product");
 //        ft.commit();
     }
 
@@ -128,6 +129,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         bundle.putInt("id", subcategoryList.get(position).getId());
         subcategoryFragment.setArguments(bundle);
         ft.replace(R.id.content, subcategoryFragment);
+        ft.addToBackStack("subcategoryProducts");
         ft.commit();
     }
 
@@ -142,6 +144,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         bundle.putInt("id", productList.get(position).getId());
         productFragment.setArguments(bundle);
         ft.replace(R.id.content, productFragment);
+        ft.addToBackStack("product");
         ft.commit();
     }
 

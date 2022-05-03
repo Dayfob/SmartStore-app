@@ -64,6 +64,7 @@ public class Login extends Fragment {
                 FragmentTransaction ft = fm.beginTransaction();
                 titleToolbar.setText("Регистрация");
                 ft.replace(R.id.content, new Register());
+                ft.addToBackStack("registration");
                 ft.commit();
             }
         });

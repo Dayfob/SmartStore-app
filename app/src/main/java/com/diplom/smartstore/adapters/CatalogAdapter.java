@@ -70,6 +70,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
         bundle.putInt("id", categories.get(position).getId());
         subcategoryList.setArguments(bundle);
         ft.replace(R.id.content, subcategoryList);
+        ft.addToBackStack("subcategoryProducts");
         ft.commit();
     }
 

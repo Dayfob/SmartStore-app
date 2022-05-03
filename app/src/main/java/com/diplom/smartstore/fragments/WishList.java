@@ -73,6 +73,7 @@ public class WishList extends Fragment implements WishlistAdapter.OnProductListe
         bundle.putInt("id", productList.get(position).getId());
         productFragment.setArguments(bundle);
         ft.replace(R.id.content, productFragment);
+        ft.addToBackStack("product");
         ft.commit();
     }
 

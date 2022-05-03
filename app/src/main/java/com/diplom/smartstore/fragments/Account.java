@@ -65,6 +65,7 @@ public class Account extends Fragment {
                 titleToolbar.setText("Личные данные");
 
                 ft.replace(R.id.content, new UserData());
+                ft.addToBackStack("userData");
                 ft.commit();
             }
         });
@@ -78,6 +79,7 @@ public class Account extends Fragment {
                 titleToolbar.setText("История заказов");
 
                 ft.replace(R.id.content, new Orders());
+                ft.addToBackStack("orders");
                 ft.commit();
             }
         });

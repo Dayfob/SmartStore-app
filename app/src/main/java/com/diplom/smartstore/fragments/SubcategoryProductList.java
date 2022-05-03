@@ -80,6 +80,7 @@ public class SubcategoryProductList extends Fragment implements SubcategoryProdu
         bundle.putInt("id", productList.get(position).getId());
         productFragment.setArguments(bundle);
         ft.replace(R.id.content, productFragment);
+        ft.addToBackStack("product");
         ft.commit();
     }
 
@@ -160,7 +161,7 @@ public class SubcategoryProductList extends Fragment implements SubcategoryProdu
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-                                } else if (codeHttpWishlist == 401){
+                                } else if (codeHttpWishlist == 401) {
                                     alertFail("Пожалуйста авторизуйтесь");
                                 } else {
                                     alertFail("Ошибка " + codeHttpWishlist);
@@ -199,8 +200,8 @@ public class SubcategoryProductList extends Fragment implements SubcategoryProdu
 
                                             boolean inCart = false;
 
-                                            for (Product wishlistProduct: wishlistProductList) {
-                                                if (product.getInt("id") == wishlistProduct.getId()){
+                                            for (Product wishlistProduct : wishlistProductList) {
+                                                if (product.getInt("id") == wishlistProduct.getId()) {
                                                     inCart = true;
                                                     Log.d("test", wishlistProduct.getId() + " is true");
                                                 }
