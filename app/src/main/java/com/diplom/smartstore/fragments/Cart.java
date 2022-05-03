@@ -61,12 +61,13 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
 
 
         buttonBuy = view.findViewById(R.id.cartBuyButton);
-        buttonBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // действие при нажатии кнопки "оформить заказ"
-                Log.d(TAG, "оформить заказ: clicked " + v);
-            }
+        buttonBuy.setOnClickListener(v -> {
+            // действие при нажатии кнопки "оформить заказ"
+            FragmentManager fm = requireActivity().getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.content, new CreateOrder());
+            ft.addToBackStack("createOrder");
+            ft.commit();
         });
 
         getCartProducts();

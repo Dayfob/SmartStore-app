@@ -177,11 +177,12 @@ public class MainActivity extends AppCompatActivity {
 //        Fragment subcategoryProductsFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("subcategoryProducts");
 //        Fragment ordersFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("orders");
 //        Fragment registrationFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("registration");
+//        Fragment createOrderFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("createOrder");
 //        if (productFragment != null && productFragment.isVisible() ||
 //                userDataFragment != null && userDataFragment.isVisible() ||
 //                subcategoryProductsFragment != null && subcategoryProductsFragment.isVisible() ||
 //                ordersFragment != null && ordersFragment.isVisible() ||
-//                registrationFragment != null && registrationFragment.isVisible()) {
+//                registrationFragment != null && registrationFragment.isVisible() && createOrderFragment.isVisible()) {
 //            // add your code here
 //            backButton.setVisibility(View.VISIBLE);
 //        }
