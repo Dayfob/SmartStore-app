@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
+import com.diplom.smartstore.activities.MainActivity;
 import com.diplom.smartstore.adapters.ProductAttributesListAdapter;
+import com.diplom.smartstore.adapters.SubcategoryProductListAdapter;
 import com.diplom.smartstore.model.Attribute;
 import com.diplom.smartstore.model.Brand;
 import com.diplom.smartstore.model.Category;
@@ -40,7 +43,7 @@ public class Product extends Fragment {
 
 
     TextView tvProductName, tvProductNumber, tvProductPrice, tvProductCartAmount, tvProductDescription;
-    ImageView productImage;
+    ImageView productImage, buttonLike;
     Button btnCartMinus, btnCartPlus, btnCartAdd;
     RecyclerView attributesRecycler;
     View view;
@@ -48,6 +51,7 @@ public class Product extends Fragment {
     ImageView backToolbar;
     int productId;
     int cartAmount = 1;
+    private List<com.diplom.smartstore.model.Product> wishlistProductList = new ArrayList<>();
     com.diplom.smartstore.model.Product product;
     Context context;
 
@@ -73,6 +77,7 @@ public class Product extends Fragment {
         }
 
         productImage = view.findViewById(R.id.productImage);
+        buttonLike = view.findViewById(R.id.productHeart);
         tvProductName = view.findViewById(R.id.productName);
         tvProductNumber = view.findViewById(R.id.productNumber);
         tvProductPrice = view.findViewById(R.id.productPrice);
@@ -167,6 +172,7 @@ public class Product extends Fragment {
 
     private void getProduct() {
         String url = getString(R.string.api_server) + getString(R.string.getOneProduct) + productId;
+        String urlWishlist = getString(R.string.api_server) + getString(R.string.getWishlist);
 
         Thread request = new Thread() {
             @Override
@@ -175,22 +181,35 @@ public class Product extends Fragment {
                     Http http = new Http(getActivity(), url);//getActivity изза фрагмента вместо активити
                     http.setToken(true);
                     http.send();
-                    if (isAdded()) {
-                        requireActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
-                            @SuppressLint("SetTextI18n")
-                            @Override
-                            public void run() {
-                                Integer code = http.getStatusCode();
-                                if (code == 200) {
-                                    try {
-                                        JSONObject response = new JSONObject(http.getResponse());
 
-                                        JSONObject productBrand = response.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
-                                        JSONObject productCategory = response.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
-                                        JSONObject productSubcategory = response.getJSONObject("subcategory_id"); // подкатегория продукта (аттрибут объекта продукт)
+                    Http httpWishlist = new Http(getActivity(), urlWishlist);//getActivity изза фрагмента вместо активити
+                    httpWishlist.setToken(true);
+                    httpWishlist.send();
+
+                    if (isAdded()) {
+                        //getActivity изза фрагмента вместо активити
+                        requireActivity().runOnUiThread(() -> {
+                            Integer codeHttpWishlist = httpWishlist.getStatusCode();
+                            if (codeHttpWishlist == 200) {
+                                try {
+                                    // получаем JSON ответ
+                                    JSONObject response = new JSONObject(httpWishlist.getResponse());
+
+                                    // выбираем из ответа JSON массив продуктов
+                                    JSONArray jsonarray = response.getJSONArray("wishlistProducts");
+
+                                    // перебираем массив
+                                    for (int i = 0; i < jsonarray.length(); i++) {
+                                        JSONObject wishlistProduct = jsonarray.getJSONObject(i); // продукт листа желаний
+                                        JSONObject product = wishlistProduct.getJSONObject("item_id"); // продукт
+
+                                        JSONObject productBrand = product.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
+                                        JSONObject productCategory = product.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
+                                        JSONObject productSubcategory = product.getJSONObject("subcategory_id"); // подкатегория продукта (аттрибут объекта продукт)
+
 
                                         JSONArray productSubcategoryAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
-                                        JSONArray productAttributes = response.getJSONArray("attributes"); // список аттрибутов подкатегории
+                                        JSONArray productAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
 
                                         // перебираем список
                                         List<Attribute> attributesSubcategory = new ArrayList<>();
@@ -205,11 +224,12 @@ public class Product extends Fragment {
                                             attributesProduct.add(productAttribute);
                                         }
 
-                                        product = new com.diplom.smartstore.model.Product(response.getInt("id"),
-                                                response.getString("name"),
-                                                response.getString("slug"),
-                                                response.getString("image_url"),
-                                                response.getString("description"),
+                                        // добавляем товар в массив товаров списка желаний
+                                        wishlistProductList.add(new com.diplom.smartstore.model.Product(product.getInt("id"),
+                                                product.getString("name"),
+                                                product.getString("slug"),
+                                                product.getString("image_url"),
+                                                product.getString("description"),
                                                 new Brand(productBrand.getInt("id"), productBrand.getString("name"),
                                                         productBrand.getString("slug"), productBrand.getString("description")),
                                                 new Category(productCategory.getInt("id"), productCategory.getString("name"),
@@ -218,39 +238,220 @@ public class Product extends Fragment {
                                                         productSubcategory.getString("slug"), productSubcategory.getString("description"),
                                                         null, attributesSubcategory), // image
                                                 0,
-                                                response.getInt("amount_left"),
-                                                response.getInt("price"),
+                                                product.getInt("amount_left"),
+                                                product.getInt("price"),
                                                 attributesProduct,
-                                                response.getBoolean("liked"));
+                                                product.getBoolean("liked")));
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (codeHttpWishlist == 401) {
+                                alertFail("Пожалуйста авторизуйтесь");
+                            } else {
+                                alertFail("Ошибка " + codeHttpWishlist);
+                            }
+
+                            Integer code = http.getStatusCode();
+                            if (code == 200) {
+                                try {
+                                    JSONObject response = new JSONObject(http.getResponse());
+
+                                    JSONObject productBrand = response.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
+                                    JSONObject productCategory = response.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
+                                    JSONObject productSubcategory = response.getJSONObject("subcategory_id"); // подкатегория продукта (аттрибут объекта продукт)
+
+                                    JSONArray productSubcategoryAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
+                                    JSONArray productAttributes = response.getJSONArray("attributes"); // список аттрибутов подкатегории
+
+                                    // перебираем список
+                                    List<Attribute> attributesSubcategory = new ArrayList<>();
+                                    List<Attribute> attributesProduct = new ArrayList<>();
+
+                                    for (int j = 0; j < productSubcategoryAttributes.length(); j++) {
+                                        // добавляем аттрибут в массив аттрибутов подкатегории
+                                        Attribute productSubcategoryAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), null);
+                                        attributesSubcategory.add(productSubcategoryAttribute);
+                                        // добавляем аттрибут в массив аттрибутов товара
+                                        Attribute productAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), productAttributes.get(j).toString());
+                                        attributesProduct.add(productAttribute);
+                                    }
+
+                                    boolean inWishlist = false;
+
+                                    for (com.diplom.smartstore.model.Product wishlistProduct : wishlistProductList) {
+                                        if (response.getInt("id") == wishlistProduct.getId()) {
+                                            inWishlist = true;
+                                            Log.d("test", wishlistProduct.getId() + " is true");
+                                        }
+                                    }
+
+                                    product = new com.diplom.smartstore.model.Product(response.getInt("id"),
+                                            response.getString("name"),
+                                            response.getString("slug"),
+                                            response.getString("image_url"),
+                                            response.getString("description"),
+                                            new Brand(productBrand.getInt("id"), productBrand.getString("name"),
+                                                    productBrand.getString("slug"), productBrand.getString("description")),
+                                            new Category(productCategory.getInt("id"), productCategory.getString("name"),
+                                                    productCategory.getString("slug"), productCategory.getString("description"), null),
+                                            new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
+                                                    productSubcategory.getString("slug"), productSubcategory.getString("description"),
+                                                    null, attributesSubcategory), // image
+                                            0,
+                                            response.getInt("amount_left"),
+                                            response.getInt("price"),
+                                            attributesProduct,
+                                            inWishlist);
 
 //                                        Log.d("test", product.getName());
-                                        // добавление данных в поля
+                                    // добавление данных в поля
 //                                        new LoadImage(productImage).execute(product.getImgUrl());
-                                        ImageLoader.getInstance().displayImage(product.getImgUrl(), productImage);
-                                        tvProductName.setText(product.getName());
-                                        tvProductNumber.setText(attributesProduct.get(0).getValue());
-                                        tvProductPrice.setText(Integer.toString(product.getPrice()));
-                                        tvProductDescription.setText(product.getDescription());
+                                    ImageLoader.getInstance().displayImage(product.getImgUrl(), productImage);
+                                    tvProductName.setText(product.getName());
+                                    tvProductNumber.setText(attributesProduct.get(0).getValue());
+                                    tvProductPrice.setText(Integer.toString(product.getPrice()));
+                                    tvProductDescription.setText(product.getDescription());
 
-                                        // Add the following lines to create RecyclerView
-                                        attributesRecycler = view.findViewById(R.id.productAttributes);
-                                        attributesRecycler.setHasFixedSize(true);
-                                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
-                                                RecyclerView.VERTICAL, false);
-                                        attributesRecycler.setLayoutManager(layoutManager);
-                                        attributesRecycler.setAdapter(new ProductAttributesListAdapter(context, attributesProduct));
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                    if (product.getLiked()) {
+                                        buttonLike.setColorFilter(requireActivity().getResources().getColor(R.color.colorAccent));
+                                    } else {
+                                        buttonLike.setColorFilter(requireActivity().getResources().getColor(R.color.colorSecondary));
                                     }
-                                } else {
-                                    alertFail("Ошибка " + code);
+
+                                    buttonLike.setOnClickListener(v -> {
+                                        if (product.getLiked()){
+                                            buttonLike.setColorFilter(requireActivity().getResources().getColor(R.color.colorSecondary));
+                                            deleteFromFavourite(product.getId());
+                                            product.setLiked(false);
+                                        } else {
+                                            buttonLike.setColorFilter(requireActivity().getResources().getColor(R.color.colorAccent));
+                                            addToFavourite(product.getId());
+                                            product.setLiked(true);
+                                        }
+                                    });
+
+                                    // Add the following lines to create RecyclerView
+                                    attributesRecycler = view.findViewById(R.id.productAttributes);
+                                    attributesRecycler.setHasFixedSize(true);
+                                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
+                                            RecyclerView.VERTICAL, false);
+                                    attributesRecycler.setLayoutManager(layoutManager);
+                                    attributesRecycler.setAdapter(new ProductAttributesListAdapter(context, attributesProduct));
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
+                            } else {
+                                alertFail("Ошибка " + code);
                             }
                         });
                     }
                 }
             }
+        };
+        request.start();
+    }
+
+    private void deleteFromFavourite(Integer id) {
+        String url = getString(R.string.api_server) + getString(R.string.deleteFromWishlist);
+
+        JSONObject params = new JSONObject();
+        try {
+            params.put("item_id", id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String data = params.toString();
+
+        Thread request = new Thread() {
+            @Override
+            public void run() {
+                Http http = new Http(getActivity(), url);
+                http.setMethod("POST");
+                http.setToken(true);
+                http.setData(data);
+                http.send();
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Integer code = http.getStatusCode();
+                        if (code == 201 || code == 200) {
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String msg = response.getString("message");
+                                alertSuccess(msg);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (code == 422) {
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String msg = response.getString("message");
+                                alertFail(msg);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            alertFail("Ошибка " + code);
+                        }
+                    }
+                });
+            }
+
+        };
+        request.start();
+    }
+
+    private void addToFavourite(Integer id) {
+        String url = getString(R.string.api_server) + getString(R.string.addToWishlist);
+
+        JSONObject params = new JSONObject();
+        try {
+            params.put("item_id", id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String data = params.toString();
+
+        Thread request = new Thread() {
+            @Override
+            public void run() {
+                Http http = new Http(getActivity(), url);
+                http.setMethod("POST");
+                http.setToken(true);
+                http.setData(data);
+                http.send();
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Integer code = http.getStatusCode();
+                        if (code == 201 || code == 200) {
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String msg = response.getString("message");
+                                alertSuccess(msg);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (code == 422) {
+                            try {
+                                JSONObject response = new JSONObject(http.getResponse());
+                                String msg = response.getString("message");
+                                alertFail(msg);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            alertFail("Ошибка " + code);
+                        }
+                    }
+                });
+            }
+
         };
         request.start();
     }
