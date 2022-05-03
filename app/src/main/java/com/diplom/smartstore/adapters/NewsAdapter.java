@@ -1,6 +1,7 @@
 package com.diplom.smartstore.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.model.News;
 import com.diplom.smartstore.utils.LoadImage;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 
 import java.util.List;
 
@@ -39,7 +44,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
         // нужно добавить асихронную загрузку фото:
-        new LoadImage(holder.newsImage).execute(newsList.get(position).getImageUrl());
+//        new LoadImage(holder.newsImage).execute(newsList.get(position).getImageUrl());
+        ImageLoader.getInstance().displayImage(newsList.get(position).getImageUrl(), holder.newsImage);
     }
 
     @Override

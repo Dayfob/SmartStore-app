@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,12 @@ import com.diplom.smartstore.model.Category;
 import com.diplom.smartstore.utils.Constants;
 import com.diplom.smartstore.utils.LocalStorage;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.io.Serializable;
 import java.util.List;
@@ -41,6 +48,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Create global configuration and initialize ImageLoader with this config
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+//                .cacheInMemory(true)
+//                .cacheOnDisk(true)
+//                .build();
+                .showImageForEmptyUri(R.drawable.ic_empty_image)
+                .showImageOnFail(R.drawable.ic_empty_image)
+                .resetViewBeforeLoading(true).cacheOnDisk(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565).considerExifParams(true)
+                .cacheInMemory(true)
+//                .displayer(new RoundedBitmapDisplayer(50))
+                .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .defaultDisplayImageOptions(defaultOptions)
+                .build();
+        ImageLoader.getInstance().init(config);
+
         setContentView(R.layout.activity_main);
         localStorage = new LocalStorage(this);
 
@@ -115,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.nav_account: // User Account
-                    if (!localStorage.getToken().equals("")){
+                    if (!localStorage.getToken().equals("")) {
                         titleToolbar.setText(R.string.account);
                         ft.replace(R.id.content, new Account());
                     } else {

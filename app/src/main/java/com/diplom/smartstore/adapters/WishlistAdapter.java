@@ -17,6 +17,7 @@ import com.diplom.smartstore.R;
 import com.diplom.smartstore.model.Product;
 import com.diplom.smartstore.utils.Http;
 import com.diplom.smartstore.utils.LoadImage;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,7 +78,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     @Override
     public void onBindViewHolder(@NonNull WishlistAdapter.WishlistViewHolder holder, int position) {
         // нужно добавить асихронную загрузку фото:
-        new LoadImage(holder.productImage).execute(products.get(position).getImgUrl());
+//        new LoadImage(holder.productImage).execute(products.get(position).getImgUrl());
+        ImageLoader.getInstance().displayImage(products.get(position).getImgUrl(), holder.productImage);
         holder.productName.setText(products.get(position).getName());
         holder.productPrice.setText(products.get(position).getPrice() + "$");
         holder.productAmount.setText("");

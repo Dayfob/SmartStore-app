@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.model.Subcategory;
 import com.diplom.smartstore.utils.LoadImage;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,7 +48,8 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
     @Override
     public void onBindViewHolder(@NonNull SubcategoryViewHolder holder, int position) {
         // нужно добавить асихронную загрузку фото:
-        new LoadImage(holder.subcategoryImage).execute(subcategories.get(position).getImageUrl());
+//        new LoadImage(holder.subcategoryImage).execute(subcategories.get(position).getImageUrl());
+        ImageLoader.getInstance().displayImage(subcategories.get(position).getImageUrl(), holder.subcategoryImage);
         holder.subcategoryName.setText(subcategories.get(position).getName());
 
     }

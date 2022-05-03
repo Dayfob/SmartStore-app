@@ -21,7 +21,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.utils.Http;
-import com.diplom.smartstore.utils.JSONParser;
 import com.diplom.smartstore.utils.LocalStorage;
 
 import org.json.JSONException;

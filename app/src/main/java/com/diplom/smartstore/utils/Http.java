@@ -3,6 +3,10 @@ package com.diplom.smartstore.utils;
 import android.content.Context;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,45 +49,65 @@ public class Http {
     }
 
     public void send() {
-        try {
-            URL sUrl = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection) sUrl.openConnection();
-            connection.setRequestMethod(method);
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
-            if (token) {
-                connection.setRequestProperty("Authorization", "Bearer " + localStorage.getToken());
-            }
-            if (!method.equals("GET")) {
-                connection.setDoOutput(true);
-            }
-            if (data != null) {
-                OutputStream os = connection.getOutputStream();
-                os.write(data.getBytes());
-                os.flush();
-                os.close();
-            }
-            statusCode = connection.getResponseCode();
+        while (true) {
+            try {
+                URL sUrl = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) sUrl.openConnection();
+                connection.setRequestMethod(method);
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+                if (token) {
+                    connection.setRequestProperty("Authorization", "Bearer " + localStorage.getToken());
+                }
+                if (!method.equals("GET")) {
+                    connection.setDoOutput(true);
+                }
+                if (data != null) {
+                    OutputStream os = connection.getOutputStream();
+                    os.write(data.getBytes());
+                    os.flush();
+                    os.close();
+                }
+                statusCode = connection.getResponseCode();
 
-            InputStreamReader isr;
-            if (statusCode >= 200 && statusCode <= 299) {
-                // if success response
-                isr = new InputStreamReader(connection.getInputStream());
-            } else {
-                // if error response
-                isr = new InputStreamReader(connection.getErrorStream());
-            }
+                InputStreamReader isr;
+                if (statusCode >= 200 && statusCode <= 299) {
+                    // if success response
+                    isr = new InputStreamReader(connection.getInputStream());
+                } else {
+                    // if error response
+                    isr = new InputStreamReader(connection.getErrorStream());
+                }
 
-            BufferedReader br = new BufferedReader(isr);
-            StringBuffer sb = new StringBuffer();
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
+                BufferedReader br = new BufferedReader(isr);
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                br.close();
+                response = sb.toString();
+                if (isJSONValid(response)) {
+                    break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            br.close();
-            response = sb.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+
     }
+
+    public boolean isJSONValid(String test) {
+        try {
+            new JSONObject(test);
+        } catch (JSONException ex) {
+            try {
+                new JSONArray(test);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

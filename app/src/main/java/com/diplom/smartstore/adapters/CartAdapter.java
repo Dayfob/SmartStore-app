@@ -20,6 +20,7 @@ import com.diplom.smartstore.R;
 import com.diplom.smartstore.model.Cart;
 import com.diplom.smartstore.utils.Http;
 import com.diplom.smartstore.utils.LoadImage;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -92,7 +93,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public void onBindViewHolder(@NonNull CartAdapter.CartViewHolder holder, int position) {
         // нужно добавить асихронную загрузку фото:
-        new LoadImage(holder.productImage).execute(cart.getProducts().get(position).getImgUrl());
+//        new LoadImage(holder.productImage).execute(cart.getProducts().get(position).getImgUrl());
+        ImageLoader.getInstance().displayImage(cart.getProducts().get(position).getImgUrl(), holder.productImage);
         holder.productName.setText(cart.getProducts().get(position).getName());
         holder.productPrice.setText(cart.getProducts().get(position).getPrice() + " tg.");
         holder.productAmount.setText(String.valueOf(cart.getProducts().get(position).getAmountCart()));

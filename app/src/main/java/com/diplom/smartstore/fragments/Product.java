@@ -26,6 +26,7 @@ import com.diplom.smartstore.model.Category;
 import com.diplom.smartstore.model.Subcategory;
 import com.diplom.smartstore.utils.Http;
 import com.diplom.smartstore.utils.LoadImage;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -214,7 +215,8 @@ public class Product extends Fragment {
 
 //                                        Log.d("test", product.getName());
                                         // добавление данных в поля
-                                        new LoadImage(productImage).execute(product.getImgUrl());
+//                                        new LoadImage(productImage).execute(product.getImgUrl());
+                                        ImageLoader.getInstance().displayImage(product.getImgUrl(), productImage);
                                         tvProductName.setText(product.getName());
                                         tvProductNumber.setText(attributesProduct.get(0).getValue());
                                         tvProductPrice.setText(Integer.toString(product.getPrice()));
