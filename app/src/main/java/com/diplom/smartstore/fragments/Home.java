@@ -314,7 +314,7 @@ public class Home extends Fragment {
                                                     new Brand(productBrand.getInt("id"), productBrand.getString("name"),
                                                             productBrand.getString("slug"), productBrand.getString("description")),
                                                     new Category(productCategory.getInt("id"), productCategory.getString("name"),
-                                                            productCategory.getString("slug"), productCategory.getString("description"), null),
+                                                            productCategory.getString("slug"), null, null),
                                                     new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
                                                             productSubcategory.getString("slug"), productSubcategory.getString("description"),
                                                             null, attributesSubcategory), //image

@@ -192,7 +192,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/White"
-            android:paddingHorizontal="5dp"
+            android:padding="5dp"
             tools:itemCount="6"
             tools:listitem="@layout/grid_item_product_attribute" />
 

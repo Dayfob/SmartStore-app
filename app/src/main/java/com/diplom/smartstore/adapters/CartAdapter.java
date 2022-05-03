@@ -132,7 +132,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     buttonBuy.setTextColor(R.color.colorSecondary);
                 }
                 if(mOnDataChangeListener != null){
-                    mOnDataChangeListener.onDataChanged(cart.getProducts().size());
+                    try {
+                        mOnDataChangeListener.onDataChanged(cart.getProducts().size());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -143,7 +147,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             holder.productAmount.setText(String.valueOf(cart.getProducts().get(position).getAmountCart()));
             updateInCart(cart.getProducts().get(position).getId(), cart.getProducts().get(position).getAmountCart());
             if(mOnDataChangeListener != null){
-                mOnDataChangeListener.onDataChanged(cart.getProducts().size());
+                try {
+                    mOnDataChangeListener.onDataChanged(cart.getProducts().size());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -162,7 +170,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 }
             }
             if(mOnDataChangeListener != null){
-                mOnDataChangeListener.onDataChanged(cart.getProducts().size());
+                try {
+                    mOnDataChangeListener.onDataChanged(cart.getProducts().size());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -203,24 +215,25 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     public void run() {
                         Integer code = http.getStatusCode();
                         if (code == 201 || code == 200) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertSuccess(msg);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                JSONObject response = new JSONObject(http.getResponse());
+//                                String msg = response.getString("message");
+//                                alertSuccess(msg);
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                            alertSuccess("ok");
                         } else if (code == 422) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertFail(msg);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                JSONObject response = new JSONObject(http.getResponse());
+//                                String msg = response.getString("message");
+//                                alertFail(msg);
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+                            alertFail("error 422");
                         } else {
-                            alertFail("Ошибка " + code);
+                            alertFail("Ошибка 000000" + code);
                         }
                     }
                 });
@@ -254,24 +267,26 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     public void run() {
                         Integer code = http.getStatusCode();
                         if (code == 201 || code == 200) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertSuccess(msg);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                JSONObject response = new JSONObject(http.getResponse());
+//                                String msg = response.getString("message");
+//                                alertSuccess(msg);
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                            alertSuccess("ok");
                         } else if (code == 422) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertFail(msg);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                JSONObject response = new JSONObject(http.getResponse());
+//                                String msg = response.getString("message");
+//                                alertFail(msg);
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+                            alertFail("error 422");
                         } else {
-                            alertFail("Ошибка " + code);
+                            alertFail("Ошибка 1111111111" + code);
                         }
                     }
                 });
@@ -305,24 +320,26 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     public void run() {
                         Integer code = http.getStatusCode();
                         if (code == 201 || code == 200) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertSuccess(msg);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                JSONObject response = new JSONObject(http.getResponse());
+//                                String msg = response.getString("message");
+//                                alertSuccess(msg);
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                            alertSuccess("ok");
                         } else if (code == 422) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertFail(msg);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                JSONObject response = new JSONObject(http.getResponse());
+//                                String msg = response.getString("message");
+//                                alertFail(msg);
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+                            alertFail("error 422");
                         } else {
-                            alertFail("Ошибка " + code);
+                            alertFail("Ошибка 222222" + code);
                         }
                     }
                 });
@@ -357,24 +374,26 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     public void run() {
                         Integer code = http.getStatusCode();
                         if (code == 201 || code == 200) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertSuccess(msg);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                JSONObject response = new JSONObject(http.getResponse());
+//                                String msg = response.getString("message");
+//                                alertSuccess(msg);
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                            alertSuccess("ok");
                         } else if (code == 422) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertFail(msg);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                JSONObject response = new JSONObject(http.getResponse());
+//                                String msg = response.getString("message");
+//                                alertFail(msg);
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+                            alertFail("error 422");
                         } else {
-                            alertFail("Ошибка " + code);
+                            alertFail("Ошибка 3333333333" + code);
                         }
                     }
                 });
@@ -407,7 +426,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     public interface OnDataChangeListener{
-        public void onDataChanged(int size);
+        public void onDataChanged(int size) throws InterruptedException;
     }
 
     public void setOnDataChangeListener(OnDataChangeListener onDataChangeListener){

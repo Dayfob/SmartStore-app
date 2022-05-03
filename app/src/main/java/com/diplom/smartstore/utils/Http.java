@@ -49,6 +49,7 @@ public class Http {
     }
 
     public void send() {
+        int sleep = 0;
         while (true) {
             try {
                 URL sUrl = new URL(url);
@@ -87,10 +88,12 @@ public class Http {
                 }
                 br.close();
                 response = sb.toString();
-                if (isJSONValid(response)) {
+                if (isJSONValid(response) || response.contains("\"Successful response\"")) {
                     break;
                 }
-            } catch (IOException e) {
+                sleep += 100;
+                Thread.sleep(sleep);
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         }

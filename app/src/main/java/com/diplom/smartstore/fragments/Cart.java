@@ -51,6 +51,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
     List<Product> productList = new ArrayList<>();
     private List<Product> wishlistProductList = new ArrayList<>();
     Cart Cart = this;
+    com.diplom.smartstore.model.Cart cart;
 
     @Nullable
     @Override
@@ -253,7 +254,7 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
 //                                            buttonBuy.setTextColor(R.color.White);
 //                                        }
 
-                                        com.diplom.smartstore.model.Cart cart = new com.diplom.smartstore.model.Cart(productList);
+                                        cart = new com.diplom.smartstore.model.Cart(productList);
                                         int productsAmountSum = 0;
                                         int productsPriceSum = 0;
                                         for (Product product : cart.getProducts()) {
@@ -269,11 +270,9 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
                                                 RecyclerView.VERTICAL, false);
                                         cartRecycler.setLayoutManager(layoutManager);
                                         CartAdapter cartAdapter = new CartAdapter(context, cart, Cart, getActivity(), buttonBuy);
-                                        cartAdapter.setOnDataChangeListener(new CartAdapter.OnDataChangeListener(){
-                                            public void onDataChanged(int size){
-                                                //do whatever here
-                                                getUpdatedCart();
-                                            }
+                                        cartAdapter.setOnDataChangeListener(size -> {
+                                            //do whatever here
+                                            getUpdatedCart();
                                         });
 
                                         cartRecycler.setAdapter(cartAdapter);
@@ -317,128 +316,14 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
     }
 
     private void getUpdatedCart() {
-        String url = getString(R.string.api_server) + getString(R.string.getCart);
-
-        Thread request = new Thread() {
-            @Override
-            public void run() {
-                if (isAdded()) {
-                    Http http = new Http(getActivity(), url);//getActivity изза фрагмента вместо активити
-                    http.setToken(true);
-                    http.send();
-                    if (isAdded()) {
-                        requireActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
-                            @SuppressLint({"ResourceAsColor", "SetTextI18n"})
-                            @Override
-                            public void run() {
-                                Integer code = http.getStatusCode();
-                                if (code == 200) {
-                                    try {
-                                        // получаем JSON ответ
-                                        JSONObject response = new JSONObject(http.getResponse());
-
-                                        // выбираем из ответа JSON объект корзины
-                                        JSONObject jsonobject = response.getJSONObject("cart");
-                                        Integer totalPrice = jsonobject.getInt("total_price");
-
-                                        // выбираем из ответа JSON массив продуктов
-                                        JSONArray jsonarray = response.getJSONArray("cartProducts");
-
-                                        productList.clear();
-
-                                        // перебираем массив
-                                        for (int i = 0; i < jsonarray.length(); i++) {
-                                            JSONObject cartProduct = jsonarray.getJSONObject(i); // продукт корзины
-                                            JSONObject product = cartProduct.getJSONObject("item_id"); // продукт
-                                            int productAmount = cartProduct.getInt("item_amount"); // продукт
-
-
-                                            JSONObject productBrand = product.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
-                                            JSONObject productCategory = product.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
-                                            JSONObject productSubcategory = product.getJSONObject("subcategory_id"); // подкатегория продукта (аттрибут объекта продукт)
-
-
-                                            JSONArray productSubcategoryAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
-                                            JSONArray productAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
-
-                                            // перебираем список
-                                            List<Attribute> attributesSubcategory = new ArrayList<>();
-                                            List<Attribute> attributesProduct = new ArrayList<>();
-
-                                            for (int j = 0; j < productSubcategoryAttributes.length(); j++) {
-                                                // добавляем аттрибут в массив аттрибутов подкатегории
-                                                Attribute productSubcategoryAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), null);
-                                                attributesSubcategory.add(productSubcategoryAttribute);
-                                                // добавляем аттрибут в массив аттрибутов товара
-                                                Attribute productAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), productAttributes.get(j).toString());
-                                                attributesProduct.add(productAttribute);
-                                            }
-
-                                            boolean inCart = false;
-
-                                            for (Product wishlistProduct: wishlistProductList) {
-                                                if (product.getInt("id") == wishlistProduct.getId()){
-                                                    inCart = true;
-                                                    Log.d("test", wishlistProduct.getId() + " is true");
-                                                }
-                                            }
-
-                                            // добавляем товар в массив товаров корзины
-                                            productList.add(new Product(product.getInt("id"),
-                                                    product.getString("name"),
-                                                    product.getString("slug"),
-                                                    product.getString("image_url"),
-                                                    product.getString("description"),
-                                                    new Brand(productBrand.getInt("id"), productBrand.getString("name"),
-                                                            productBrand.getString("slug"), productBrand.getString("description")),
-                                                    new Category(productCategory.getInt("id"), productCategory.getString("name"),
-                                                            productCategory.getString("slug"), productCategory.getString("description"), null),
-                                                    new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
-                                                            productSubcategory.getString("slug"), productSubcategory.getString("description"),
-                                                            null, attributesSubcategory),
-                                                    productAmount,
-                                                    product.getInt("amount_left"),
-                                                    product.getInt("price"),
-                                                    attributesProduct,
-                                                    inCart));
-                                        }
-
-                                        if (productList.size() == 0) {
-                                            buttonBuy.setClickable(false);
-                                            buttonBuy.setBackgroundResource(R.drawable.bg_for_buy_btn_rounded_gray);
-                                            buttonBuy.setTextColor(R.color.colorSecondary);
-                                        }
-
-                                        com.diplom.smartstore.model.Cart cart = new com.diplom.smartstore.model.Cart(productList);
-                                        int productsAmountSum = 0;
-                                        int productsPriceSum = 0;
-                                        for (Product product : cart.getProducts()) {
-                                            productsAmountSum += product.getAmountCart();
-                                            productsPriceSum += product.getAmountCart() * product.getPrice();
-                                        }
-
-                                        productsAmount = view.findViewById(R.id.cartProductAmountTextView);
-                                        productsPrice = view.findViewById(R.id.cartProductPriceAmountTextView);
-                                        productsTotalPrice = view.findViewById(R.id.cartProductTotalPriceAmountTextView);
-
-                                        productsAmount.setText(productsAmountSum + " PCS.");
-                                        productsPrice.setText(productsPriceSum + " tg.");
-                                        productsTotalPrice.setText(totalPrice + " tg.");
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                } else if (code == 401) {
-                                    alertFail("Пожалуйста авторизуйтесь");
-                                } else {
-                                    alertFail("Ошибка " + code);
-                                }
-                            }
-                        });
-                    }
-                }
-            }
-        };
-        request.start();
+        int productsAmountSum = 0;
+        int productsPriceSum = 0;
+        for (Product product : cart.getProducts()) {
+            productsAmountSum += product.getAmountCart();
+            productsPriceSum += product.getAmountCart() * product.getPrice();
+        }
+        productsAmount.setText(productsAmountSum + " PCS.");
+        productsPrice.setText(productsPriceSum + " tg.");
+        productsTotalPrice.setText(productsPriceSum + " tg.");
     }
 }
