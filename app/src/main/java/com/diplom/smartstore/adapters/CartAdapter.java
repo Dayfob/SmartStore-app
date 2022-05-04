@@ -231,9 +231,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 //                            } catch (JSONException e) {
 //                                e.printStackTrace();
 //                            }
-                            alertFail("error 422");
+                            alertFail("Error 422");
                         } else {
-                            alertFail("Ошибка 000000" + code);
+                            alertFail("Error " + code);
                         }
                     }
                 });
@@ -284,9 +284,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 //                            } catch (JSONException e) {
 //                                e.printStackTrace();
 //                            }
-                            alertFail("error 422");
+                            alertFail("Error 422");
                         } else {
-                            alertFail("Ошибка 1111111111" + code);
+                            alertFail("Error " + code);
                         }
                     }
                 });
@@ -337,9 +337,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 //                            } catch (JSONException e) {
 //                                e.printStackTrace();
 //                            }
-                            alertFail("error 422");
+                            alertFail("Error 422");
                         } else {
-                            alertFail("Ошибка 222222" + code);
+                            alertFail("Error " + code);
                         }
                     }
                 });
@@ -391,9 +391,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 //                            } catch (JSONException e) {
 //                                e.printStackTrace();
 //                            }
-                            alertFail("error 422");
+                            alertFail("Error 422");
                         } else {
-                            alertFail("Ошибка 3333333333" + code);
+                            alertFail("Error " + code);
                         }
                     }
                 });

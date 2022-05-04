@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Order implements Serializable {
     @SerializedName("id")
@@ -39,10 +40,14 @@ public class Order implements Serializable {
     @SerializedName("deliveryPrice")
     @Expose
     private int deliveryPrice;
+    @SerializedName("createdAtDate")
+    @Expose
+    private String createdAtDate;
+    @SerializedName("products")
+    @Expose
+    private List<Product> products;
 
-    public Order(Integer id, String status, User user, Integer totalPrice, boolean isSent,
-                 boolean isPaid, String paymentMethod, String deliveryMethod, String address,
-                 String addInformation, int deliveryPrice) {
+    public Order(Integer id, String status, User user, Integer totalPrice, boolean isSent, boolean isPaid, String paymentMethod, String deliveryMethod, String address, String addInformation, int deliveryPrice, String createdAtDate, List<Product> products) {
         this.id = id;
         this.status = status;
         this.user = user;
@@ -54,6 +59,8 @@ public class Order implements Serializable {
         this.address = address;
         this.addInformation = addInformation;
         this.deliveryPrice = deliveryPrice;
+        this.createdAtDate = createdAtDate;
+        this.products = products;
     }
 
     public Integer getId() {
@@ -142,5 +149,21 @@ public class Order implements Serializable {
 
     public void setDeliveryPrice(int deliveryPrice) {
         this.deliveryPrice = deliveryPrice;
+    }
+
+    public String getCreatedAtDate() {
+        return createdAtDate;
+    }
+
+    public void setCreatedAtDate(String createdAtDate) {
+        this.createdAtDate = createdAtDate;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

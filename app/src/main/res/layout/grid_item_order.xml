@@ -21,14 +21,14 @@
         android:fontFamily="@font/lexend"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="Заказ №"
+        android:text="Order №"
         android:textColor="@color/colorSecondary"
         android:textSize="@dimen/ProductTitle"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/orderId"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/defaultMargin"
         android:layout_marginRight="@dimen/defaultMargin"
@@ -51,14 +51,14 @@
         android:fontFamily="@font/lexend"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="Статус:"
+        android:text="Status:"
         android:textColor="@color/colorSecondary"
         android:textSize="@dimen/ProductTitle"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/orderStatus"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/orderId"
         android:layout_marginLeft="4dp"
@@ -67,7 +67,7 @@
         android:fontFamily="@font/lexend"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="Готов к отправки"
+        android:text="Ready to delivery"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/ProductTitle" />
 
@@ -83,7 +83,7 @@
         android:fontFamily="@font/lexend"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="Способ получения:"
+        android:text="Delivery method:"
         android:textColor="@color/Black"
         android:textSize="@dimen/ProductPrice"
         android:textStyle="bold" />
@@ -101,7 +101,7 @@
         android:fontFamily="@font/lexend"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="курьером на дом"
+        android:text="Delivery to address"
         android:textColor="@color/Black"
         android:textSize="@dimen/ProductPrice" />
 
@@ -133,7 +133,7 @@
         android:fontFamily="@font/lexend"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="10000 тенге"
+        android:text="10000 kzt"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/ProductPrice" />
 

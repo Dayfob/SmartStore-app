@@ -53,4 +53,9 @@
     <string name="getBrandProducts">catalog/brand?brand_id=</string>
     <string name="getOneProduct">catalog/product?product_id=</string>
 
+    <string name="getOrders">user/order/all</string>
+    <string name="getOrder">user/order/my_order</string>
+    <string name="createOrder">user/order/create_order</string>
+<!--    <string name="updateOrder">user/order/update_order</string>-->
+    <string name="deleteOrder">user/order/delete_order</string>
 </resources>

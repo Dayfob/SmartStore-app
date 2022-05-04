@@ -11,7 +11,7 @@ public class User implements Serializable {
     private Integer id;
     @SerializedName("iin")
     @Expose
-    private Integer iin;
+    private String iin;
     @SerializedName("name")
     @Expose
     private String name;
@@ -21,9 +21,6 @@ public class User implements Serializable {
     @SerializedName("email")
     @Expose
     private String email;
-    @SerializedName("password")
-    @Expose
-    private String password;
     @SerializedName("wishlist")
     @Expose
     private Wishlist wishlist;
@@ -31,14 +28,13 @@ public class User implements Serializable {
     @Expose
     private Cart cart;
 
-    public User(Integer id, Integer iin, String name, String phone, String email, String password,
+    public User(Integer id, String iin, String name, String phone, String email,
                 Wishlist wishlist, Cart cart) {
         this.id = id;
         this.iin = iin;
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.password = password;
         this.wishlist = wishlist;
         this.cart = cart;
     }
@@ -51,11 +47,11 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public Integer getIin() {
+    public String getIin() {
         return iin;
     }
 
-    public void setIin(Integer iin) {
+    public void setIin(String iin) {
         this.iin = iin;
     }
 
@@ -81,14 +77,6 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Wishlist getWishlist() {
