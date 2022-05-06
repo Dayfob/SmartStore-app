@@ -35,6 +35,8 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.io.Serializable;
 import java.util.List;
+import com.stripe.android.paymentsheet.PaymentSheet;
+import com.stripe.android.PaymentConfiguration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     String subCategoryTitle = null;
     List<Category> subcategories;
     LocalStorage localStorage;
+    PaymentSheet paymentSheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

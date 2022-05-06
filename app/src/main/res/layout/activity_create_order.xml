@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CreateOrderActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="?attr/actionBarSize"
+        android:paddingBottom="@dimen/BottomNavigationViewHeight"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true">
+
+        <TextView
+            android:id="@+id/TvDeliveryMethod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/lexend"
+            android:text="Delivery Method:"
+            android:textColor="@color/colorSecondary"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/RgDeliveryMethod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="28dp"
+            android:background="@drawable/bg_for_img_rounded_white"
+            app:layout_constraintTop_toBottomOf="@+id/TvDeliveryMethod">
+
+            <RadioButton
+                android:id="@+id/RbDeliveryToAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexend"
+                android:text="Delivery to address" />
+
+            <RadioButton
+                android:id="@+id/RbPickup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexend"
+                android:text="Pickup" />
+        </RadioGroup>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/deliveryData"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/RgDeliveryMethod">
+
+            <TextView
+                android:id="@+id/TvDeliveryAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:fontFamily="@font/lexend"
+                android:text="Delivery Address:"
+                android:textColor="@color/colorSecondary"
+                android:textSize="18sp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/TvCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="28dp"
+                android:fontFamily="@font/lexend"
+                android:text="City:"
+                app:layout_constraintTop_toBottomOf="@+id/TvDeliveryAddress" />
+
+            <EditText
+                android:id="@+id/EtCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginEnd="28dp"
+                android:background="@drawable/bg_for_img_rounded_white"
+                android:fontFamily="@font/lexend"
+                android:gravity="start|top"
+                android:hint="City"
+                android:inputType="textEmailAddress"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/TvCity" />
+
+            <TextView
+                android:id="@+id/TvStreetHouse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="28dp"
+                android:fontFamily="@font/lexend"
+                android:text="Street and house number:"
+                app:layout_constraintTop_toBottomOf="@+id/EtCity" />
+
+            <EditText
+                android:id="@+id/EtStreetHouse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginEnd="28dp"
+                android:background="@drawable/bg_for_img_rounded_white"
+                android:fontFamily="@font/lexend"
+                android:gravity="start|top"
+                android:hint="Street and house number"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/TvStreetHouse" />
+
+            <TextView
+                android:id="@+id/TvAdditionalInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="28dp"
+                android:fontFamily="@font/lexend"
+                android:text="Additional Information:"
+                app:layout_constraintTop_toBottomOf="@+id/EtStreetHouse" />
+
+            <EditText
+                android:id="@+id/EtAdditionalInfo"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginEnd="28dp"
+                android:background="@drawable/bg_for_img_rounded_white"
+                android:ems="10"
+                android:fontFamily="@font/lexend"
+                android:gravity="start|top"
+                android:hint="Additional Information.\nFor Example: house/entrance number, \nfloor and additional contact person."
+                android:imeOptions="actionDone"
+                android:inputType="textMultiLine"
+                android:scrollbars="vertical"
+                android:selectAllOnFocus="true"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/TvAdditionalInfo" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/TvPaymentMethod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/lexend"
+            android:text="Payment Method:"
+            android:textColor="@color/colorSecondary"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/deliveryData" />
+
+        <RadioGroup
+            android:id="@+id/RgPaymentMethod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="28dp"
+            android:background="@drawable/bg_for_img_rounded_white"
+            app:layout_constraintTop_toBottomOf="@+id/TvPaymentMethod">
+
+            <RadioButton
+                android:id="@+id/RbCardPayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexend"
+                android:text="Card payment" />
+
+            <RadioButton
+                android:id="@+id/RbCashPayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexend"
+                android:text="Cash Payment upon receipt" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/BtnContinue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="48dp"
+            android:background="@drawable/bg_for_buy_btn_rounded"
+            android:fontFamily="@font/lexend"
+            android:text="Continue"
+            android:textColor="@color/White"
+            app:layout_constraintTop_toBottomOf="@+id/RgPaymentMethod" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

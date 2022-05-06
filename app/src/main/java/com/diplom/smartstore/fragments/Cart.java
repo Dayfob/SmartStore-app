@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
+import com.diplom.smartstore.activities.CreateOrderActivity;
 import com.diplom.smartstore.adapters.CartAdapter;
 import com.diplom.smartstore.adapters.WishlistAdapter;
 import com.diplom.smartstore.model.Attribute;
@@ -63,11 +65,14 @@ public class Cart extends Fragment implements CartAdapter.OnProductListener {
         buttonBuy = view.findViewById(R.id.cartBuyButton);
         buttonBuy.setOnClickListener(v -> {
             // действие при нажатии кнопки "оформить заказ"
-            FragmentManager fm = requireActivity().getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.content, new CreateOrder());
-            ft.addToBackStack("createOrder");
-            ft.commit();
+//            FragmentManager fm = requireActivity().getSupportFragmentManager();
+//            FragmentTransaction ft = fm.beginTransaction();
+//            ft.replace(R.id.content, new CreateOrder());
+//            ft.addToBackStack("createOrder");
+//            ft.commit();
+            Intent intent = new Intent(getActivity(), CreateOrderActivity.class);
+            startActivity(intent);
+
         });
 
         getCartProducts();
