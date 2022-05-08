@@ -1,14 +1,12 @@
 package com.diplom.smartstore.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,9 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import java.util.List;
-import java.util.Objects;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.utils.Http;
@@ -38,6 +33,7 @@ public class Account extends Fragment {
     LocalStorage localStorage;
 
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -56,40 +52,29 @@ public class Account extends Fragment {
 
         localStorage = new LocalStorage(requireActivity());
 
-        rlUserData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fm = getParentFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
+        rlUserData.setOnClickListener(v -> {
+            FragmentManager fm = getParentFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
 
-                titleToolbar.setText("Личные данные");
+            titleToolbar.setText("Personal data");
 
-                ft.replace(R.id.content, new UserData());
-                ft.addToBackStack("userData");
-                ft.commit();
-            }
+            ft.replace(R.id.content, new UserData());
+            ft.addToBackStack("userData");
+            ft.commit();
         });
 
-        rlUserOrders.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fm = getParentFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
+        rlUserOrders.setOnClickListener(v -> {
+            FragmentManager fm = getParentFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
 
-                titleToolbar.setText("История заказов");
+            titleToolbar.setText("Order history");
 
-                ft.replace(R.id.content, new Orders());
-                ft.addToBackStack("orders");
-                ft.commit();
-            }
+            ft.replace(R.id.content, new Orders());
+            ft.addToBackStack("orders");
+            ft.commit();
         });
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
+        btnLogout.setOnClickListener(v -> logout());
 
         getUser();
         return view;
@@ -99,6 +84,7 @@ public class Account extends Fragment {
         String url = getString(R.string.api_server) + getString(R.string.logout);
 
         Thread request = new Thread() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void run() {
                 if (isAdded()) {
@@ -107,22 +93,20 @@ public class Account extends Fragment {
                     http.setMethod("POST");
                     http.send();
                     if (isAdded()) {
-                        requireActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
-                            @Override
-                            public void run() {
-                                Integer code = http.getStatusCode();
-                                if (code == 200) {
-                                    localStorage.setToken("");
-                                    FragmentManager fm = getParentFragmentManager();
-                                    FragmentTransaction ft = fm.beginTransaction();
+                        //getActivity изза фрагмента вместо активити
+                        requireActivity().runOnUiThread(() -> {
+                            Integer code = http.getStatusCode();
+                            if (code == 200) {
+                                localStorage.setToken("");
+                                FragmentManager fm = getParentFragmentManager();
+                                FragmentTransaction ft = fm.beginTransaction();
 
-                                    titleToolbar.setText("Логин");
+                                titleToolbar.setText("Login");
 
-                                    ft.replace(R.id.content, new Login());
-                                    ft.commit();
-                                } else {
-                                    alertFail("Ошибка " + code);
-                                }
+                                ft.replace(R.id.content, new Login());
+                                ft.commit();
+                            } else {
+                                alertFail("Error " + code);
                             }
                         });
                     }
@@ -141,38 +125,34 @@ public class Account extends Fragment {
                 if (isAdded()) {// вроде проверят добвален ли фрагмент
                     Http http = new Http(getActivity(), url);//getActivity изза фрагмента вместо активити
                     http.setToken(true);
-                    Log.d("http", "===:> "+http);
                     http.send();
                     if (isAdded()) {
-                        requireActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
-                            @Override
-                            public void run() {
-                                Integer code = http.getStatusCode();
-                                if (code == 200) {
-                                    try {
-                                        JSONArray response = new JSONArray(http.getResponse());
-                                        Log.d("user", "run: " + response);
-                                        String name = null;
-                                        String email = null;
-                                        String phoneNumber = null;
+                        //getActivity изза фрагмента вместо активити
+                        requireActivity().runOnUiThread(() -> {
+                            Integer code = http.getStatusCode();
+                            if (code == 200) {
+                                try {
+                                    JSONArray response = new JSONArray(http.getResponse());
+                                    String name = null;
+                                    String email = null;
+                                    String phoneNumber = null;
 
-                                        for (int i = 0; i < response.length(); i++) {
-                                            JSONObject jsonobject = response.getJSONObject(i);
-                                            name = jsonobject.getString("name");
-                                            email = jsonobject.getString("email");
-                                            phoneNumber = jsonobject.getString("phone_number");
-                                        }
-
-                                        tvName.setText(name);
-                                        tvEmail.setText(email);
-                                        tvPhone.setText(phoneNumber);
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                    for (int i = 0; i < response.length(); i++) {
+                                        JSONObject jsonobject = response.getJSONObject(i);
+                                        name = jsonobject.getString("name");
+                                        email = jsonobject.getString("email");
+                                        phoneNumber = jsonobject.getString("phone_number");
                                     }
-                                } else {
-                                    alertFail("Ошибка " + code);
+
+                                    tvName.setText(name);
+                                    tvEmail.setText(email);
+                                    tvPhone.setText(phoneNumber);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
+                            } else {
+                                alertFail("Error " + code);
                             }
                         });
                     }
@@ -185,23 +165,13 @@ public class Account extends Fragment {
     private void alertFail(String s) {
         new AlertDialog.Builder(getActivity())
                 .setMessage(s)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
                 .show();
     }
 
     private void alertSuccess(String s) {
         new AlertDialog.Builder(getActivity())
                 .setMessage(s)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss()).show();
     }
 }

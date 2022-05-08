@@ -39,7 +39,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.WOrd
     }
 
     @Override
-    public int getItemCount() {return orders.size();}
+    public int getItemCount() {
+        return orders.size();
+    }
 
     public static final class WOrderListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -76,7 +78,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.WOrd
     }
 
     // интерфейс для прослушивания нажатия на продукт
-    public interface OnOrderListener{
+    public interface OnOrderListener {
         void onOrderClick(int position);
     }
 

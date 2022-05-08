@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,7 +19,7 @@
         <ImageView
             android:id="@+id/productImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:background="@drawable/bg_for_img_rounded_white"
             android:contentDescription="@string/product_image"
             android:scaleType="center"
@@ -34,8 +35,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:background="@color/White"
+            android:gravity="center_vertical"
             android:paddingVertical="5dp">
 
             <TextView
@@ -45,7 +46,6 @@
                 android:layout_marginLeft="@dimen/defaultMargin"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="@dimen/defaultMargin"
-                android:text="Product Name Product NameProduct Name Product NameProduct NameProduct Name"
                 android:textColor="@color/colorSecondary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -61,7 +61,7 @@
                 android:focusableInTouchMode="false"
                 android:scaleType="center"
                 android:src="@drawable/ic_nav_like"
-                android:tint="@color/colorSecondary" />
+                app:tint="@color/colorSecondary" />
 
             <TextView
                 android:id="@+id/productNumberTitle"
@@ -85,7 +85,6 @@
                 android:layout_toEndOf="@+id/productNumberTitle"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="12210"
                 android:textColor="#969696"
                 android:textSize="12sp" />
         </RelativeLayout>
@@ -100,11 +99,11 @@
             android:id="@+id/productPriceLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/defaultMargin"
-            android:paddingRight="@dimen/defaultMargin"
-            android:gravity="center_vertical"
             android:background="@color/White"
-            android:paddingVertical="10dp">
+            android:gravity="center_vertical"
+            android:paddingVertical="10dp"
+            android:paddingLeft="@dimen/defaultMargin"
+            android:paddingRight="@dimen/defaultMargin">
 
             <TextView
                 android:id="@+id/productPrice"
@@ -114,7 +113,6 @@
                 android:fontFamily="@font/lexend"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="10000 tng."
                 android:textColor="@color/Black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -123,6 +121,7 @@
                 android:id="@+id/buttonCartMinus"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginVertical="4dp"
                 android:layout_toStartOf="@+id/TVCartAmount"
                 android:background="@drawable/bg_for_buy_btn_rounded_gray"
                 android:text="-" />
@@ -131,6 +130,7 @@
                 android:id="@+id/TVCartAmount"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginVertical="4dp"
                 android:layout_toStartOf="@+id/buttonCartPlus"
                 android:fontFamily="@font/lexend"
                 android:gravity="center"
@@ -144,6 +144,7 @@
                 android:id="@+id/buttonCartPlus"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginVertical="4dp"
                 android:layout_toStartOf="@+id/buttonCartAdd"
                 android:background="@drawable/bg_for_buy_btn_rounded"
                 android:text="+" />
@@ -153,6 +154,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
+                android:layout_marginVertical="4dp"
                 android:layout_marginStart="5dp"
                 android:background="@drawable/bg_for_buy_btn_rounded"
                 android:fontFamily="@font/lexend"
@@ -213,7 +215,6 @@
             android:id="@+id/TVproductDescriptionTitle"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@+id/productPriceLine2"
             android:background="@color/White"
             android:fontFamily="@font/lexend"
             android:gravity="center"
@@ -234,7 +235,6 @@
             android:paddingHorizontal="5dp"
             android:paddingVertical="2dp"
             android:scrollbars="vertical"
-            android:text="See what's happening live in HD video anytime - day or night. 1080P HD indoor, plug-in security camera with motion detection and two-way audio that allows you to monitor the inside of your home day and night. Get alerts on your smartphone when motion is detected, or set motion detection zones so you can see what matters most See, hear, and talk to people and pets in your home on your smartphone with Live View and two-way audio Blink Mini (live view is not Set up in minutes - just plug in your camera, connect it to Wi-Fi, and add it to the Blink app. Blink Mini includes a free trial of a Blink cloud storage subscription until December 31, 2020. For added ease of use, pair Blink Mini with a supported Alexa-enabled device for live viewing, viewing recorded videos, and arming and disarming armed using only your voice."
             android:textColor="#272727"
             android:textSize="16sp"
             android:visibility="visible" />

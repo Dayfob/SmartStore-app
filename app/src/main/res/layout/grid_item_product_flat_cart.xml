@@ -32,7 +32,7 @@
         android:focusableInTouchMode="false"
         android:scaleType="center"
         android:src="@drawable/ic_nav_like"
-        android:tint="@color/colorSecondary" />
+        app:tint="@color/colorSecondary" />
 
     <ImageView
         android:id="@+id/productCartRemove"
@@ -45,7 +45,7 @@
         android:focusableInTouchMode="false"
         android:scaleType="center"
         android:src="@drawable/cart_remove"
-        android:tint="@color/colorSecondary" />
+        app:tint="@color/colorSecondary" />
 
     <TextView
         android:id="@+id/productNameFlat"
@@ -55,37 +55,21 @@
         android:layout_marginLeft="@dimen/defaultMargin"
         android:layout_marginRight="@dimen/defaultMargin"
         android:layout_toEndOf="@+id/productImageFlat"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:text="Product Name"
+        android:maxLines="2"
         android:textColor="@color/colorSecondary"
         android:textSize="@dimen/ProductTitle"
         android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/productSlugFlat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/productNameFlat"
-        android:layout_marginLeft="@dimen/defaultMargin"
-        android:layout_marginRight="@dimen/defaultMargin"
-        android:layout_toEndOf="@+id/productImageFlat"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:text="Product Slug"
-        android:textColor="@color/colorSecondary"
-        android:textSize="@dimen/ProductTitle" />
 
     <RelativeLayout
         android:id="@+id/productPriceLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/defaultMargin"
-        android:paddingRight="@dimen/defaultMargin"
         android:layout_below="@+id/productImageFlat"
-        android:gravity="center_vertical"
         android:background="@color/White"
-        android:paddingVertical="10dp">
+        android:gravity="center_vertical"
+        android:paddingVertical="10dp"
+        android:paddingLeft="@dimen/defaultMargin"
+        android:paddingRight="@dimen/defaultMargin">
 
         <TextView
             android:id="@+id/productPriceFlat"
@@ -95,7 +79,6 @@
             android:fontFamily="@font/lexend"
             android:maxLines="1"
             android:singleLine="true"
-            android:text="10000 tng."
             android:textColor="@color/Black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -104,6 +87,7 @@
             android:id="@+id/buttonCartMinus"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginVertical="4dp"
             android:layout_toStartOf="@+id/productAmountFlat"
             android:background="@drawable/bg_for_buy_btn_rounded_gray"
             android:text="-" />
@@ -112,6 +96,7 @@
             android:id="@+id/productAmountFlat"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginVertical="4dp"
             android:layout_toStartOf="@+id/buttonCartPlus"
             android:fontFamily="@font/lexend"
             android:gravity="center"
@@ -126,6 +111,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
+            android:layout_marginVertical="4dp"
             android:background="@drawable/bg_for_buy_btn_rounded"
             android:text="+" />
 

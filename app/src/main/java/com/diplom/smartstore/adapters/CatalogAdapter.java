@@ -2,7 +2,6 @@ package com.diplom.smartstore.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import java.util.List;
 public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogViewHolder>
         implements SubcategoryAdapter.OnSubcategoryListener {
 
-    private static final String TAG = "onClick";
     Context context; // страница на которой все будет выведено
     List<Category> categories; // список всех категорий
     FragmentActivity fragmentActivity;
@@ -60,7 +58,6 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
 
     @Override
     public void onSubcategoryClick(int position) {
-        Log.d(TAG, "onSubcategoryClick: clicked " + position);
         //действия при нажатии на подкаталог
         // Prevent Reload Same Fragment
         FragmentManager fm = fragmentActivity.getSupportFragmentManager();
@@ -88,9 +85,9 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
     }
 
     // лист подкатегорий
-    private void setSubcategoryRecycler(RecyclerView recyclerView, List<Subcategory> subcategoryList){
+    private void setSubcategoryRecycler(RecyclerView recyclerView, List<Subcategory> subcategoryList) {
         SubcategoryAdapter subcategoryAdapter = new SubcategoryAdapter(context, subcategoryList, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false ));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
         recyclerView.setAdapter(subcategoryAdapter);
     }
 }

@@ -2,9 +2,7 @@ package com.diplom.smartstore.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,7 +24,6 @@ import com.diplom.smartstore.model.Category;
 import com.diplom.smartstore.model.Product;
 import com.diplom.smartstore.model.Subcategory;
 import com.diplom.smartstore.utils.Http;
-import com.diplom.smartstore.utils.LocalStorage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,16 +31,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class SubcategoryProductList extends Fragment implements SubcategoryProductListAdapter.OnProductListener {
 
-    private static final String TAG = "onClick";
     Context context;
     TextView titleToolbar;
-    LocalStorage localStorage;
     List<Product> productList = new ArrayList<>();
-    private List<Product> wishlistProductList = new ArrayList<>();
+    private final List<Product> wishlistProductList = new ArrayList<>();
     View view;
     SubcategoryProductList subcategoryProductList = this; // решило проблему с null
     int SubcategoryId = 1;
@@ -71,8 +64,6 @@ public class SubcategoryProductList extends Fragment implements SubcategoryProdu
 
     @Override
     public void onProductClick(int position) {
-        Log.d(TAG, "onProductClick: clicked " + position);
-
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         com.diplom.smartstore.fragments.Product productFragment = new com.diplom.smartstore.fragments.Product();
@@ -88,7 +79,6 @@ public class SubcategoryProductList extends Fragment implements SubcategoryProdu
         String url = getString(R.string.api_server) + getString(R.string.getSubcategoryProducts) + SubcategoryId;
         String urlWishlist = getString(R.string.api_server) + getString(R.string.getWishlist);
 
-        Log.d("test", "hereeeee " + url);
         Thread request = new Thread() {
             @Override
             public void run() {
@@ -100,149 +90,146 @@ public class SubcategoryProductList extends Fragment implements SubcategoryProdu
                     httpWishlist.setToken(true);
                     httpWishlist.send();
                     if (isAdded()) {
-                        requireActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
-                            @Override
-                            public void run() {
-                                Integer codeHttpWishlist = httpWishlist.getStatusCode();
-                                if (codeHttpWishlist == 200) {
-                                    try {
-                                        // получаем JSON ответ
-                                        JSONObject response = new JSONObject(httpWishlist.getResponse());
+                        //getActivity изза фрагмента вместо активити
+                        requireActivity().runOnUiThread(() -> {
+                            Integer codeHttpWishlist = httpWishlist.getStatusCode();
+                            if (codeHttpWishlist == 200) {
+                                try {
+                                    // получаем JSON ответ
+                                    JSONObject response = new JSONObject(httpWishlist.getResponse());
 
-                                        // выбираем из ответа JSON массив продуктов
-                                        JSONArray jsonarray = response.getJSONArray("wishlistProducts");
+                                    // выбираем из ответа JSON массив продуктов
+                                    JSONArray jsonarray = response.getJSONArray("wishlistProducts");
 
-                                        // перебираем массив
-                                        for (int i = 0; i < jsonarray.length(); i++) {
-                                            JSONObject wishlistProduct = jsonarray.getJSONObject(i); // продукт листа желаний
-                                            JSONObject product = wishlistProduct.getJSONObject("item_id"); // продукт
+                                    // перебираем массив
+                                    for (int i = 0; i < jsonarray.length(); i++) {
+                                        JSONObject wishlistProduct = jsonarray.getJSONObject(i); // продукт листа желаний
+                                        JSONObject product = wishlistProduct.getJSONObject("item_id"); // продукт
 
-                                            JSONObject productBrand = product.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
-                                            JSONObject productCategory = product.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
-                                            JSONObject productSubcategory = product.getJSONObject("subcategory_id"); // подкатегория продукта (аттрибут объекта продукт)
+                                        JSONObject productBrand = product.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
+                                        JSONObject productCategory = product.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
+                                        JSONObject productSubcategory = product.getJSONObject("subcategory_id"); // подкатегория продукта (аттрибут объекта продукт)
 
 
-                                            JSONArray productSubcategoryAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
-                                            JSONArray productAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
+                                        JSONArray productSubcategoryAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
+                                        JSONArray productAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
 
-                                            // перебираем список
-                                            List<Attribute> attributesSubcategory = new ArrayList<>();
-                                            List<Attribute> attributesProduct = new ArrayList<>();
+                                        // перебираем список
+                                        List<Attribute> attributesSubcategory = new ArrayList<>();
+                                        List<Attribute> attributesProduct = new ArrayList<>();
 
-                                            for (int j = 0; j < productSubcategoryAttributes.length(); j++) {
-                                                // добавляем аттрибут в массив аттрибутов подкатегории
-                                                Attribute productSubcategoryAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), null);
-                                                attributesSubcategory.add(productSubcategoryAttribute);
-                                                // добавляем аттрибут в массив аттрибутов товара
-                                                Attribute productAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), productAttributes.get(j).toString());
-                                                attributesProduct.add(productAttribute);
-                                            }
-
-                                            // добавляем товар в массив товаров списка желаний
-                                            wishlistProductList.add(new Product(product.getInt("id"),
-                                                    product.getString("name"),
-                                                    product.getString("slug"),
-                                                    product.getString("image_url"),
-                                                    product.getString("description"),
-                                                    new Brand(productBrand.getInt("id"), productBrand.getString("name"),
-                                                            productBrand.getString("slug"), productBrand.getString("description")),
-                                                    new Category(productCategory.getInt("id"), productCategory.getString("name"),
-                                                            productCategory.getString("slug"), productCategory.getString("description"), null),
-                                                    new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
-                                                            productSubcategory.getString("slug"), productSubcategory.getString("description"),
-                                                            null, attributesSubcategory), // image
-                                                    0,
-                                                    product.getInt("amount_left"),
-                                                    product.getInt("price"),
-                                                    attributesProduct,
-                                                    product.getBoolean("liked")));
+                                        for (int j = 0; j < productSubcategoryAttributes.length(); j++) {
+                                            // добавляем аттрибут в массив аттрибутов подкатегории
+                                            Attribute productSubcategoryAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), null);
+                                            attributesSubcategory.add(productSubcategoryAttribute);
+                                            // добавляем аттрибут в массив аттрибутов товара
+                                            Attribute productAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), productAttributes.get(j).toString());
+                                            attributesProduct.add(productAttribute);
                                         }
 
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                        // добавляем товар в массив товаров списка желаний
+                                        wishlistProductList.add(new Product(product.getInt("id"),
+                                                product.getString("name"),
+                                                product.getString("slug"),
+                                                product.getString("image_url"),
+                                                product.getString("description"),
+                                                new Brand(productBrand.getInt("id"), productBrand.getString("name"),
+                                                        productBrand.getString("slug"), productBrand.getString("description")),
+                                                new Category(productCategory.getInt("id"), productCategory.getString("name"),
+                                                        productCategory.getString("slug"), productCategory.getString("description"), null),
+                                                new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
+                                                        productSubcategory.getString("slug"), productSubcategory.getString("description"),
+                                                        null, attributesSubcategory), // image
+                                                0,
+                                                product.getInt("amount_left"),
+                                                product.getInt("price"),
+                                                attributesProduct,
+                                                product.getBoolean("liked")));
                                     }
-                                } else if (codeHttpWishlist == 401) {
-                                    alertFail("Пожалуйста авторизуйтесь");
-                                } else {
-                                    alertFail("Ошибка " + codeHttpWishlist);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
+                            } else if (codeHttpWishlist == 401) {
+                                alertFail("Please login");
+                            } else {
+                                alertFail("Error " + codeHttpWishlist);
+                            }
 
 
-                                Integer code = http.getStatusCode();
-                                if (code == 200) {
-                                    try {
-                                        // получаем JSON ответ
-                                        JSONArray response = new JSONArray(http.getResponse());
+                            Integer code = http.getStatusCode();
+                            if (code == 200) {
+                                try {
+                                    // получаем JSON ответ
+                                    JSONArray response = new JSONArray(http.getResponse());
 
-                                        // перебираем массив
-                                        for (int i = 0; i < response.length(); i++) {
-                                            JSONObject product = response.getJSONObject(i); // продукт
+                                    // перебираем массив
+                                    for (int i = 0; i < response.length(); i++) {
+                                        JSONObject product = response.getJSONObject(i); // продукт
 
-                                            JSONObject productBrand = product.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
-                                            JSONObject productCategory = product.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
-                                            JSONObject productSubcategory = product.getJSONObject("subcategory_id"); // подкатегория продукта (аттрибут объекта продукт)
+                                        JSONObject productBrand = product.getJSONObject("brand_id"); // бренд продукта (аттрибут объекта продукт)
+                                        JSONObject productCategory = product.getJSONObject("category_id"); // категория продукта (аттрибут объекта продукт)
+                                        JSONObject productSubcategory = product.getJSONObject("subcategory_id"); // подкатегория продукта (аттрибут объекта продукт)
 
-                                            JSONArray productSubcategoryAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
-                                            JSONArray productAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
+                                        JSONArray productSubcategoryAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
+                                        JSONArray productAttributes = productSubcategory.getJSONArray("attributes"); // список аттрибутов подкатегории
 
-                                            // перебираем список
-                                            List<Attribute> attributesSubcategory = new ArrayList<>();
-                                            List<Attribute> attributesProduct = new ArrayList<>();
+                                        // перебираем список
+                                        List<Attribute> attributesSubcategory = new ArrayList<>();
+                                        List<Attribute> attributesProduct = new ArrayList<>();
 
-                                            for (int j = 0; j < productSubcategoryAttributes.length(); j++) {
-                                                // добавляем аттрибут в массив аттрибутов подкатегории
-                                                Attribute productSubcategoryAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), null);
-                                                attributesSubcategory.add(productSubcategoryAttribute);
-                                                // добавляем аттрибут в массив аттрибутов товара
-                                                Attribute productAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), productAttributes.get(j).toString());
-                                                attributesProduct.add(productAttribute);
-                                            }
-
-                                            boolean inCart = false;
-
-                                            for (Product wishlistProduct : wishlistProductList) {
-                                                if (product.getInt("id") == wishlistProduct.getId()) {
-                                                    inCart = true;
-                                                    Log.d("test", wishlistProduct.getId() + " is true");
-                                                }
-                                            }
-
-                                            // добавляем товар в массив товаров списка желаний
-                                            productList.add(new Product(product.getInt("id"),
-                                                    product.getString("name"),
-                                                    product.getString("slug"),
-                                                    product.getString("image_url"),
-                                                    product.getString("description"),
-                                                    new Brand(productBrand.getInt("id"), productBrand.getString("name"),
-                                                            productBrand.getString("slug"), productBrand.getString("description")),
-                                                    new Category(productCategory.getInt("id"), productCategory.getString("name"),
-                                                            productCategory.getString("slug"), productCategory.getString("description"), null),
-                                                    new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
-                                                            productSubcategory.getString("slug"), productSubcategory.getString("description"),
-                                                            null, attributesSubcategory), // image
-                                                    0,
-                                                    product.getInt("amount_left"),
-                                                    product.getInt("price"),
-                                                    attributesProduct,
-                                                    inCart));
+                                        for (int j = 0; j < productSubcategoryAttributes.length(); j++) {
+                                            // добавляем аттрибут в массив аттрибутов подкатегории
+                                            Attribute productSubcategoryAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), null);
+                                            attributesSubcategory.add(productSubcategoryAttribute);
+                                            // добавляем аттрибут в массив аттрибутов товара
+                                            Attribute productAttribute = new Attribute(j, productSubcategoryAttributes.get(j).toString(), productAttributes.get(j).toString());
+                                            attributesProduct.add(productAttribute);
                                         }
 
-                                        // Add the following lines to create RecyclerView
-                                        RecyclerView recyclerView = view.findViewById(R.id.wishlistRecyclerView);
-                                        recyclerView.setAdapter(new SubcategoryProductListAdapter(context, productList, subcategoryProductList, getActivity()));
-                                        recyclerView.setHasFixedSize(true);
-                                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
-                                                RecyclerView.VERTICAL, false);
-                                        recyclerView.setLayoutManager(layoutManager);
+                                        boolean inCart = false;
 
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                        for (Product wishlistProduct : wishlistProductList) {
+                                            if (product.getInt("id") == wishlistProduct.getId()) {
+                                                inCart = true;
+                                            }
+                                        }
+
+                                        // добавляем товар в массив товаров списка желаний
+                                        productList.add(new Product(product.getInt("id"),
+                                                product.getString("name"),
+                                                product.getString("slug"),
+                                                product.getString("image_url"),
+                                                product.getString("description"),
+                                                new Brand(productBrand.getInt("id"), productBrand.getString("name"),
+                                                        productBrand.getString("slug"), productBrand.getString("description")),
+                                                new Category(productCategory.getInt("id"), productCategory.getString("name"),
+                                                        productCategory.getString("slug"), productCategory.getString("description"), null),
+                                                new Subcategory(productSubcategory.getInt("id"), productSubcategory.getString("name"),
+                                                        productSubcategory.getString("slug"), productSubcategory.getString("description"),
+                                                        null, attributesSubcategory), // image
+                                                0,
+                                                product.getInt("amount_left"),
+                                                product.getInt("price"),
+                                                attributesProduct,
+                                                inCart));
                                     }
-                                } else if (code == 401) {
-                                    alertFail("Пожалуйста авторизуйтесь");
-                                } else {
-                                    alertFail("Ошибка " + code);
+
+                                    // Add the following lines to create RecyclerView
+                                    RecyclerView recyclerView = view.findViewById(R.id.wishlistRecyclerView);
+                                    recyclerView.setAdapter(new SubcategoryProductListAdapter(context, productList, subcategoryProductList, getActivity()));
+                                    recyclerView.setHasFixedSize(true);
+                                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
+                                            RecyclerView.VERTICAL, false);
+                                    recyclerView.setLayoutManager(layoutManager);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
+                            } else if (code == 401) {
+                                alertFail("Please login");
+                            } else {
+                                alertFail("Error " + code);
                             }
                         });
                     }
@@ -255,23 +242,13 @@ public class SubcategoryProductList extends Fragment implements SubcategoryProdu
     private void alertFail(String s) {
         new AlertDialog.Builder(getActivity())
                 .setMessage(s)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
                 .show();
     }
 
     private void alertSuccess(String s) {
         new AlertDialog.Builder(getActivity())
                 .setMessage(s)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss()).show();
     }
 }

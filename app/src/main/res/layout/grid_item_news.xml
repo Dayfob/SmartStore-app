@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:paddingRight="2dp"
-    android:paddingLeft="2dp"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:focusableInTouchMode="false">
+    android:focusableInTouchMode="false"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp">
 
     <ImageView
         android:id="@+id/newsImageView"

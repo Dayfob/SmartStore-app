@@ -1,19 +1,18 @@
 package com.diplom.smartstore.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-//import android.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.fragments.Account;
@@ -22,7 +21,6 @@ import com.diplom.smartstore.fragments.Catalog;
 import com.diplom.smartstore.fragments.Home;
 import com.diplom.smartstore.fragments.Login;
 import com.diplom.smartstore.fragments.WishList;
-import com.diplom.smartstore.model.Category;
 import com.diplom.smartstore.utils.Constants;
 import com.diplom.smartstore.utils.LocalStorage;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -30,13 +28,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
-import java.io.Serializable;
-import java.util.List;
-import com.stripe.android.paymentsheet.PaymentSheet;
-import com.stripe.android.PaymentConfiguration;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,10 +37,7 @@ public class MainActivity extends AppCompatActivity {
     TextView titleToolbar;
     BottomNavigationView navigation;
     ImageView backButton;
-    String subCategoryTitle = null;
-    List<Category> subcategories;
     LocalStorage localStorage;
-    PaymentSheet paymentSheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,12 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Back Button
         backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                backButtonClick();
-            }
-        });
+        backButton.setOnClickListener(view -> backButtonClick());
 
         // initialize bottom navigation view
         navigation = findViewById(R.id.BottomNavigationView);
@@ -99,9 +84,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // обработка нажатий ктагорий меню
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+    private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+        @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -116,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_home: // Home
                     // Prevent Reload
                     try {
-                        if (!fm.findFragmentByTag("HOME").isVisible()) {
+                        if (!Objects.requireNonNull(fm.findFragmentByTag("HOME")).isVisible()) {
                             callHomeFragment();
                             titleToolbar.setText(R.string.TitleHome);
                         }
@@ -149,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                         titleToolbar.setText(R.string.account);
                         ft.replace(R.id.content, new Account());
                     } else {
-                        titleToolbar.setText("Войти");
+                        titleToolbar.setText("Log in");
                         ft.replace(R.id.content, new Login());
                     }
                     ft.commit();

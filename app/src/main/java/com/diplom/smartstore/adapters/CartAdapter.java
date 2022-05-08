@@ -3,8 +3,6 @@ package com.diplom.smartstore.adapters;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.model.Cart;
 import com.diplom.smartstore.utils.Http;
-import com.diplom.smartstore.utils.LoadImage;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONException;
@@ -27,10 +24,8 @@ import org.json.JSONObject;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
-    private static final String TAG = "OnClick";
     Context context; // страница на которой все будет выведено
     Cart cart;
-    //    List<Product> products; // список всех категорий
     OnProductListener onProductListener;
     FragmentActivity fragmentActivity;
     Button buttonBuy;
@@ -89,14 +84,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         }
     }
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     @Override
-    public void onBindViewHolder(@NonNull CartAdapter.CartViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CartAdapter.CartViewHolder holder, @SuppressLint("RecyclerView") int position) {
         // нужно добавить асихронную загрузку фото:
 //        new LoadImage(holder.productImage).execute(cart.getProducts().get(position).getImgUrl());
         ImageLoader.getInstance().displayImage(cart.getProducts().get(position).getImgUrl(), holder.productImage);
         holder.productName.setText(cart.getProducts().get(position).getName());
-        holder.productPrice.setText(cart.getProducts().get(position).getPrice() + " tg.");
+        holder.productPrice.setText(cart.getProducts().get(position).getPrice() + " KZT");
         holder.productAmount.setText(String.valueOf(cart.getProducts().get(position).getAmountCart()));
 
         if (cart.getProducts().get(position).getLiked()) {
@@ -105,38 +100,31 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             holder.buttonLike.setColorFilter(fragmentActivity.getResources().getColor(R.color.colorSecondary));
         }
 
-        holder.buttonLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (cart.getProducts().get(position).getLiked()) {
-                    holder.buttonLike.setColorFilter(fragmentActivity.getResources().getColor(R.color.colorSecondary));
-                    deleteFromFavourite(cart.getProducts().get(position).getId());
-                    cart.getProducts().get(position).setLiked(false);
-                } else {
-                    holder.buttonLike.setColorFilter(fragmentActivity.getResources().getColor(R.color.colorAccent));
-                    addToFavourite(cart.getProducts().get(position).getId());
-                    cart.getProducts().get(position).setLiked(true);
-                }
+        holder.buttonLike.setOnClickListener(v -> {
+            if (cart.getProducts().get(position).getLiked()) {
+                holder.buttonLike.setColorFilter(fragmentActivity.getResources().getColor(R.color.colorSecondary));
+                deleteFromFavourite(cart.getProducts().get(position).getId());
+                cart.getProducts().get(position).setLiked(false);
+            } else {
+                holder.buttonLike.setColorFilter(fragmentActivity.getResources().getColor(R.color.colorAccent));
+                addToFavourite(cart.getProducts().get(position).getId());
+                cart.getProducts().get(position).setLiked(true);
             }
         });
 
-        holder.buttonCartRemove.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onClick(View v) {
-                deleteFromCart(cart.getProducts().get(position).getId());
-                removeAt(position);
-                if (cart.getProducts().size() == 0) {
-                    buttonBuy.setClickable(false);
-                    buttonBuy.setBackgroundResource(R.drawable.bg_for_buy_btn_rounded_gray);
-                    buttonBuy.setTextColor(R.color.colorSecondary);
-                }
-                if(mOnDataChangeListener != null){
-                    try {
-                        mOnDataChangeListener.onDataChanged(cart.getProducts().size());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        holder.buttonCartRemove.setOnClickListener(v -> {
+            deleteFromCart(cart.getProducts().get(position).getId());
+            removeAt(position);
+            if (cart.getProducts().size() == 0) {
+                buttonBuy.setClickable(false);
+                buttonBuy.setBackgroundResource(R.drawable.bg_for_buy_btn_rounded_gray);
+                buttonBuy.setTextColor(R.color.colorSecondary);
+            }
+            if (mOnDataChangeListener != null) {
+                try {
+                    mOnDataChangeListener.onDataChanged(cart.getProducts().size());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -146,7 +134,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             cart.getProducts().get(position).setAmountCart(cart.getProducts().get(position).getAmountCart() + 1);
             holder.productAmount.setText(String.valueOf(cart.getProducts().get(position).getAmountCart()));
             updateInCart(cart.getProducts().get(position).getId(), cart.getProducts().get(position).getAmountCart());
-            if(mOnDataChangeListener != null){
+            if (mOnDataChangeListener != null) {
                 try {
                     mOnDataChangeListener.onDataChanged(cart.getProducts().size());
                 } catch (InterruptedException e) {
@@ -169,7 +157,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     buttonBuy.setTextColor(R.color.colorSecondary);
                 }
             }
-            if(mOnDataChangeListener != null){
+            if (mOnDataChangeListener != null) {
                 try {
                     mOnDataChangeListener.onDataChanged(cart.getProducts().size());
                 } catch (InterruptedException e) {
@@ -178,7 +166,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             }
         });
     }
-
 
     // интерфейс для прослушивания нажатия на продукт
     public interface OnProductListener {
@@ -210,31 +197,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 http.setToken(true);
                 http.setData(data);
                 http.send();
-                fragmentActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Integer code = http.getStatusCode();
-                        if (code == 201 || code == 200) {
-//                            try {
-//                                JSONObject response = new JSONObject(http.getResponse());
-//                                String msg = response.getString("message");
-//                                alertSuccess(msg);
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                            alertSuccess("ok");
-                        } else if (code == 422) {
-//                            try {
-//                                JSONObject response = new JSONObject(http.getResponse());
-//                                String msg = response.getString("message");
-//                                alertFail(msg);
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-                            alertFail("Error 422");
-                        } else {
-                            alertFail("Error " + code);
-                        }
+                fragmentActivity.runOnUiThread(() -> {
+                    Integer code = http.getStatusCode();
+                    if (code == 201 || code == 200) {
+
+                    } else if (code == 422) {
+                        alertFail("Error 422");
+                    } else {
+                        alertFail("Error " + code);
                     }
                 });
             }
@@ -262,32 +232,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 http.setToken(true);
                 http.setData(data);
                 http.send();
-                fragmentActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Integer code = http.getStatusCode();
-                        if (code == 201 || code == 200) {
-//                            try {
-//                                JSONObject response = new JSONObject(http.getResponse());
-//                                String msg = response.getString("message");
-//                                alertSuccess(msg);
-//
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                            alertSuccess("ok");
-                        } else if (code == 422) {
-//                            try {
-//                                JSONObject response = new JSONObject(http.getResponse());
-//                                String msg = response.getString("message");
-//                                alertFail(msg);
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-                            alertFail("Error 422");
-                        } else {
-                            alertFail("Error " + code);
-                        }
+                fragmentActivity.runOnUiThread(() -> {
+                    Integer code = http.getStatusCode();
+                    if (code == 201 || code == 200) {
+
+                    } else if (code == 422) {
+                        alertFail("Error 422");
+                    } else {
+                        alertFail("Error " + code);
                     }
                 });
             }
@@ -315,32 +267,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 http.setToken(true);
                 http.setData(data);
                 http.send();
-                fragmentActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Integer code = http.getStatusCode();
-                        if (code == 201 || code == 200) {
-//                            try {
-//                                JSONObject response = new JSONObject(http.getResponse());
-//                                String msg = response.getString("message");
-//                                alertSuccess(msg);
-//
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                            alertSuccess("ok");
-                        } else if (code == 422) {
-//                            try {
-//                                JSONObject response = new JSONObject(http.getResponse());
-//                                String msg = response.getString("message");
-//                                alertFail(msg);
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-                            alertFail("Error 422");
-                        } else {
-                            alertFail("Error " + code);
-                        }
+                fragmentActivity.runOnUiThread(() -> {
+                    Integer code = http.getStatusCode();
+                    if (code == 201 || code == 200) {
+
+                    } else if (code == 422) {
+                        alertFail("Error 422");
+                    } else {
+                        alertFail("Error " + code);
                     }
                 });
             }
@@ -369,32 +303,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 http.setToken(true);
                 http.setData(data);
                 http.send();
-                fragmentActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Integer code = http.getStatusCode();
-                        if (code == 201 || code == 200) {
-//                            try {
-//                                JSONObject response = new JSONObject(http.getResponse());
-//                                String msg = response.getString("message");
-//                                alertSuccess(msg);
-//
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                            alertSuccess("ok");
-                        } else if (code == 422) {
-//                            try {
-//                                JSONObject response = new JSONObject(http.getResponse());
-//                                String msg = response.getString("message");
-//                                alertFail(msg);
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-                            alertFail("Error 422");
-                        } else {
-                            alertFail("Error " + code);
-                        }
+                fragmentActivity.runOnUiThread(() -> {
+                    Integer code = http.getStatusCode();
+                    if (code == 201 || code == 200) {
+
+                    } else if (code == 422) {
+                        alertFail("Error 422");
+                    } else {
+                        alertFail("Error " + code);
                     }
                 });
             }
@@ -406,30 +322,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private void alertFail(String s) {
         new AlertDialog.Builder(fragmentActivity)
                 .setMessage(s)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss()).show();
     }
 
     private void alertSuccess(String s) {
         new AlertDialog.Builder(fragmentActivity)
                 .setMessage(s)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss()).show();
     }
 
-    public interface OnDataChangeListener{
-        public void onDataChanged(int size) throws InterruptedException;
+    public interface OnDataChangeListener {
+        void onDataChanged(int size) throws InterruptedException;
     }
 
-    public void setOnDataChangeListener(OnDataChangeListener onDataChangeListener){
+    public void setOnDataChangeListener(OnDataChangeListener onDataChangeListener) {
         mOnDataChangeListener = onDataChangeListener;
     }
 }

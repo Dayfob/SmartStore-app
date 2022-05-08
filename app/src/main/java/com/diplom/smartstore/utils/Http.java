@@ -1,7 +1,6 @@
 package com.diplom.smartstore.utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,7 +8,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -17,10 +15,13 @@ import java.net.URL;
 
 public class Http {
     Context context;
-    private String url, method = "GET", data = null, response = null;
+    private final String url;
+    private String method = "GET";
+    private String data = null;
+    private String response = null;
     private Integer statusCode = 0;
     private Boolean token = false;
-    private LocalStorage localStorage;
+    private final LocalStorage localStorage;
 
     public Http(Context context, String url) {
         this.context = context;

@@ -3,9 +3,7 @@ package com.diplom.smartstore.fragments;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +18,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
-import com.diplom.smartstore.activities.MainActivity;
 import com.diplom.smartstore.adapters.ProductAttributesListAdapter;
-import com.diplom.smartstore.adapters.SubcategoryProductListAdapter;
 import com.diplom.smartstore.model.Attribute;
 import com.diplom.smartstore.model.Brand;
 import com.diplom.smartstore.model.Category;
 import com.diplom.smartstore.model.Subcategory;
 import com.diplom.smartstore.utils.Http;
-import com.diplom.smartstore.utils.LoadImage;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONArray;
@@ -37,7 +32,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Product extends Fragment {
 
@@ -47,11 +41,9 @@ public class Product extends Fragment {
     Button btnCartMinus, btnCartPlus, btnCartAdd;
     RecyclerView attributesRecycler;
     View view;
-    TextView titleToolbar;
-    ImageView backToolbar;
     int productId;
     int cartAmount = 1;
-    private List<com.diplom.smartstore.model.Product> wishlistProductList = new ArrayList<>();
+    private final List<com.diplom.smartstore.model.Product> wishlistProductList = new ArrayList<>();
     com.diplom.smartstore.model.Product product;
     Context context;
 
@@ -99,12 +91,9 @@ public class Product extends Fragment {
             cartAmount++;
             tvProductCartAmount.setText(String.valueOf(cartAmount));
         });
-        btnCartAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // прослшуивание нажатия добавить в корзину
-                addToCart(productId, cartAmount);
-            }
+        btnCartAdd.setOnClickListener(v -> {
+            // прослшуивание нажатия добавить в корзину
+            addToCart(productId, cartAmount);
         });
 
         // load data
@@ -136,31 +125,28 @@ public class Product extends Fragment {
                     http.send();
 
                     if (isAdded()) {
-                        requireActivity().runOnUiThread(new Runnable() {//getActivity изза фрагмента вместо активити
-                            @SuppressLint("SetTextI18n")
-                            @Override
-                            public void run() {
-                                Integer code = http.getStatusCode();
-                                if (code == 201 || code == 200) {
-                                    try {
-                                        JSONObject response = new JSONObject(http.getResponse());
-                                        String msg = response.getString("message");
-                                        alertSuccess(msg);
+                        //getActivity изза фрагмента вместо активити
+                        requireActivity().runOnUiThread(() -> {
+                            Integer code = http.getStatusCode();
+                            if (code == 201 || code == 200) {
+                                try {
+                                    JSONObject response = new JSONObject(http.getResponse());
+                                    String msg = response.getString("message");
+                                    alertSuccess(msg);
 
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                } else if (code == 422) {
-                                    try {
-                                        JSONObject response = new JSONObject(http.getResponse());
-                                        String msg = response.getString("message");
-                                        alertFail(msg);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    alertFail("Ошибка " + code);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
+                            } else if (code == 422) {
+                                try {
+                                    JSONObject response = new JSONObject(http.getResponse());
+                                    String msg = response.getString("message");
+                                    alertFail(msg);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                alertFail("Error " + code);
                             }
                         });
                     }
@@ -175,6 +161,7 @@ public class Product extends Fragment {
         String urlWishlist = getString(R.string.api_server) + getString(R.string.getWishlist);
 
         Thread request = new Thread() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void run() {
                 if (isAdded()) {// вроде проверят добвален ли фрагмент
@@ -248,9 +235,9 @@ public class Product extends Fragment {
                                     e.printStackTrace();
                                 }
                             } else if (codeHttpWishlist == 401) {
-                                alertFail("Пожалуйста авторизуйтесь");
+                                alertFail("Please login");
                             } else {
-                                alertFail("Ошибка " + codeHttpWishlist);
+                                alertFail("Error " + codeHttpWishlist);
                             }
 
                             Integer code = http.getStatusCode();
@@ -283,7 +270,6 @@ public class Product extends Fragment {
                                     for (com.diplom.smartstore.model.Product wishlistProduct : wishlistProductList) {
                                         if (response.getInt("id") == wishlistProduct.getId()) {
                                             inWishlist = true;
-                                            Log.d("test", wishlistProduct.getId() + " is true");
                                         }
                                     }
 
@@ -311,7 +297,7 @@ public class Product extends Fragment {
                                     ImageLoader.getInstance().displayImage(product.getImgUrl(), productImage);
                                     tvProductName.setText(product.getName());
                                     tvProductNumber.setText(attributesProduct.get(0).getValue());
-                                    tvProductPrice.setText(Integer.toString(product.getPrice()));
+                                    tvProductPrice.setText(product.getPrice() + " KZT");
                                     tvProductDescription.setText(product.getDescription());
 
                                     if (product.getLiked()) {
@@ -321,7 +307,7 @@ public class Product extends Fragment {
                                     }
 
                                     buttonLike.setOnClickListener(v -> {
-                                        if (product.getLiked()){
+                                        if (product.getLiked()) {
                                             buttonLike.setColorFilter(requireActivity().getResources().getColor(R.color.colorSecondary));
                                             deleteFromFavourite(product.getId());
                                             product.setLiked(false);
@@ -344,7 +330,7 @@ public class Product extends Fragment {
                                     e.printStackTrace();
                                 }
                             } else {
-                                alertFail("Ошибка " + code);
+                                alertFail("Error " + code);
                             }
                         });
                     }
@@ -373,30 +359,27 @@ public class Product extends Fragment {
                 http.setToken(true);
                 http.setData(data);
                 http.send();
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Integer code = http.getStatusCode();
-                        if (code == 201 || code == 200) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertSuccess(msg);
+                requireActivity().runOnUiThread(() -> {
+                    Integer code = http.getStatusCode();
+                    if (code == 201 || code == 200) {
+                        try {
+                            JSONObject response = new JSONObject(http.getResponse());
+                            String msg = response.getString("message");
+                            alertSuccess(msg);
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else if (code == 422) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertFail(msg);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            alertFail("Ошибка " + code);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+                    } else if (code == 422) {
+                        try {
+                            JSONObject response = new JSONObject(http.getResponse());
+                            String msg = response.getString("message");
+                            alertFail(msg);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        alertFail("Error " + code);
                     }
                 });
             }
@@ -424,30 +407,27 @@ public class Product extends Fragment {
                 http.setToken(true);
                 http.setData(data);
                 http.send();
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Integer code = http.getStatusCode();
-                        if (code == 201 || code == 200) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertSuccess(msg);
+                requireActivity().runOnUiThread(() -> {
+                    Integer code = http.getStatusCode();
+                    if (code == 201 || code == 200) {
+                        try {
+                            JSONObject response = new JSONObject(http.getResponse());
+                            String msg = response.getString("message");
+                            alertSuccess(msg);
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else if (code == 422) {
-                            try {
-                                JSONObject response = new JSONObject(http.getResponse());
-                                String msg = response.getString("message");
-                                alertFail(msg);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            alertFail("Ошибка " + code);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+                    } else if (code == 422) {
+                        try {
+                            JSONObject response = new JSONObject(http.getResponse());
+                            String msg = response.getString("message");
+                            alertFail(msg);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        alertFail("Error " + code);
                     }
                 });
             }
@@ -459,23 +439,13 @@ public class Product extends Fragment {
     private void alertFail(String s) {
         new AlertDialog.Builder(getActivity())
                 .setMessage(s)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
                 .show();
     }
 
     private void alertSuccess(String s) {
         new AlertDialog.Builder(getActivity())
                 .setMessage(s)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss()).show();
     }
 }

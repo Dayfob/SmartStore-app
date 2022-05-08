@@ -3,9 +3,35 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/drawable/bg_for_buy_btn_rounded.xml" value="0.1835" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/drawable/bg_for_buy_btn_rounded_gray.xml" value="0.1835" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout-v23/grid_item_product.xml" value="0.33" />
         <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/activity_create_order.xml" value="0.176" />
         <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/activity_main.xml" value="0.14594594594594595" />
-        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_order_create.xml" value="0.14594594594594595" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_cart.xml" value="0.33" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_catalog.xml" value="0.1453386103781882" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_home.xml" value="0.1453386103781882" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_home_recycler_item.xml" value="0.1453386103781882" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_login.xml" value="0.1453386103781882" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_order_create.xml" value="0.22" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_orders_list.xml" value="0.1453386103781882" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_product.xml" value="0.33" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_products.xml" value="0.29774774774774776" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_profile.xml" value="0.1983695652173913" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_register.xml" value="0.22" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_user_data.xml" value="0.33" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/fragment_wishlist.xml" value="0.33" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/grid_item_catalog.xml" value="0.25" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/grid_item_categories.xml" value="0.33" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/grid_item_news.xml" value="0.1453386103781882" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/grid_item_news_list.xml" value="0.1453386103781882" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/grid_item_order.xml" value="0.33" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/grid_item_product_attribute.xml" value="0.1453386103781882" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/grid_item_product_flat.xml" value="0.21920289855072464" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/grid_item_product_flat_cart.xml" value="0.33" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/grid_item_product_list.xml" value="0.1983695652173913" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/listview.xml" value="0.29774774774774776" />
+        <entry key="..\:/Users/semem/Desktop/Diplom/SmartStore/app/src/main/res/layout/toolbar.xml" value="0.1453386103781882" />
       </map>
     </option>
   </component>

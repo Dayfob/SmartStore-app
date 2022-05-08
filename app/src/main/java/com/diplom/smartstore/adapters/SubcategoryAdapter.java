@@ -1,10 +1,6 @@
 package com.diplom.smartstore.adapters;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.model.Subcategory;
-import com.diplom.smartstore.utils.LoadImage;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 
 public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.SubcategoryViewHolder> {
@@ -55,7 +47,9 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
     }
 
     @Override
-    public int getItemCount() {return subcategories.size();}
+    public int getItemCount() {
+        return subcategories.size();
+    }
 
     public static final class SubcategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -78,7 +72,7 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
     }
 
     // интерфейс для прослушивания нажатия на подкатегорю
-    public interface OnSubcategoryListener{
+    public interface OnSubcategoryListener {
         void onSubcategoryClick(int position);
     }
 }

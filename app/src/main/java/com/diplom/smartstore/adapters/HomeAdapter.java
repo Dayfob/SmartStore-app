@@ -1,8 +1,8 @@
 package com.diplom.smartstore.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
-import com.diplom.smartstore.fragments.Catalog;
 import com.diplom.smartstore.fragments.SubcategoryProductList;
 import com.diplom.smartstore.model.App;
 import com.diplom.smartstore.model.News;
@@ -28,10 +27,9 @@ import java.util.List;
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements NewsAdapter.OnNewsListener, SubcategoryAdapter.OnSubcategoryListener, ProductAdapter.OnProductListener {
 
-    private static final String TAG = "onClick";
-    private static int TYPE_NEWS = 1;
-    private static int TYPE_CATEGORIES = 2;
-    private static int TYPE_PRODUCTS = 3;
+    private static final int TYPE_NEWS = 1;
+    private static final int TYPE_CATEGORIES = 2;
+    private static final int TYPE_PRODUCTS = 3;
 
     Context context; // страница на которой все будет выведено
     App app;
@@ -51,6 +49,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     // какие данные будут вставлены, установка данных
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
@@ -105,8 +104,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onNewsClick(int position) {
-        Log.d(TAG, "onNewsClick: clicked " + position);
-
 //        FragmentManager fm = fragmentActivity.getSupportFragmentManager();
 //        FragmentTransaction ft = fm.beginTransaction();
 //        SubcategoryProductList subcategoryList = new SubcategoryProductList();
@@ -120,8 +117,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onSubcategoryClick(int position) {
-        Log.d(TAG, "onSubcategoryClick: clicked " + position);
-
         FragmentManager fm = fragmentActivity.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         SubcategoryProductList subcategoryFragment = new SubcategoryProductList();
@@ -135,8 +130,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onProductClick(int position) {
-        Log.d(TAG, "onProductClick: clicked " + position);
-
         FragmentManager fm = fragmentActivity.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         com.diplom.smartstore.fragments.Product productFragment = new com.diplom.smartstore.fragments.Product();

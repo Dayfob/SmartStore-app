@@ -1,7 +1,6 @@
 package com.diplom.smartstore.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.diplom.smartstore.R;
 import com.diplom.smartstore.model.News;
-import com.diplom.smartstore.utils.LoadImage;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 
 import java.util.List;
 
@@ -49,7 +44,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     @Override
-    public int getItemCount() {return newsList.size();}
+    public int getItemCount() {
+        return newsList.size();
+    }
 
     public static final class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -71,53 +68,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     // интерфейс для прослушивания нажатия на новость
-    public interface OnNewsListener{
+    public interface OnNewsListener {
         void onNewsClick(int position);
     }
-
-//    public class FetchImage extends Thread {
-//
-//        Context Context;
-//        String url;
-//        Bitmap bitmap;
-//        ProgressDialog progressDialog;
-//        Handler mainHandler = new Handler();
-//
-//        public FetchImage(String url){
-//            this.url = url;
-//        }
-//
-//        @Override
-//        public void run() {
-//            mainHandler.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    progressDialog = new ProgressDialog(Context);
-//                    progressDialog.setMessage("Loading");
-//                    progressDialog.setCancelable(false);
-//                    progressDialog.show();
-//                }
-//            });
-//
-//            InputStream inputStream = null;
-//            try {
-//                inputStream = new URL(url).openStream();
-//                bitmap = BitmapFactory.decodeStream(inputStream);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            mainHandler.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (progressDialog.isShowing()){
-//                        progressDialog.dismiss();
-//                        // тут нужно присваивать картинку к ImageView, но так нельзя
-//                    }
-//                }
-//            });
-//        }
-//    }
-
 
 }

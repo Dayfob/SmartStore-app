@@ -3,7 +3,6 @@ package com.diplom.smartstore.activities;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,13 +38,9 @@ public class CreateOrderActivity extends AppCompatActivity {
     EditText City, Address, AdditionalInfo;
     String deliveryMethod = null, paymentMethod = null;
     Button buttonContinue;
-    View view;
     String PUBLISH_KEY = "pk_test_51KvcFqIwdOpAH80orn1UPBSKFJVPcMgeGyMwnFLHaHuLyKxj9eN7g9O4Uyvd98GxJ8EYvmS3E3GyHeIG6bvgwPhH00Pp4nzyHQ";
-    String SECRET_KEY = "sk_test_51KvcFqIwdOpAH80orZnTKwfhrww10bFcNdvW5QXe50PzHpBf7odkLcgJ41qBOvzHnSzOM612bkhWcCRKSBoRynFt00RK7x0ssO";
     PaymentSheet paymentSheet;
-    String paymentIntentClientSecret;
     String clientSecret;
-    String clientEphemeral;
     String orderId;
 
     @SuppressLint("SetTextI18n")
@@ -181,7 +176,7 @@ public class CreateOrderActivity extends AppCompatActivity {
                     Integer code = http.getStatusCode();
                     if (code == 201 || code == 200) {
                         try {
-                            if (paymentMethod.equals("Card payment")){
+                            if (paymentMethod.equals("Card payment")) {
                                 JSONObject response = new JSONObject(http.getResponse());
                                 JSONObject order = response.getJSONObject("order");
                                 orderId = order.getString("id");
@@ -214,7 +209,7 @@ public class CreateOrderActivity extends AppCompatActivity {
         request.start();
     }
 
-    private void sendInvoice(){
+    private void sendInvoice() {
         String url = this.getString(R.string.api_server) + this.getString(R.string.invoices);
 
         JSONObject params = new JSONObject();
@@ -243,8 +238,6 @@ public class CreateOrderActivity extends AppCompatActivity {
                     } else {
                         alertFail("Error " + code);
                     }
-
-
                 });
             }
 

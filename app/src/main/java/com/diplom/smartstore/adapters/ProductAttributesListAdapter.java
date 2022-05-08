@@ -1,5 +1,6 @@
 package com.diplom.smartstore.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,10 +36,13 @@ public class ProductAttributesListAdapter extends RecyclerView.Adapter<ProductAt
 
 
     @Override
-    public int getItemCount() {return attributes.size();}
+    public int getItemCount() {
+        return attributes.size();
+    }
 
     public static final class ProductAttributesListViewHolder extends RecyclerView.ViewHolder {
         TextView attributeTitle, attributeValue;
+
         public ProductAttributesListViewHolder(@NonNull View itemView) {
             super(itemView);
             attributeTitle = itemView.findViewById(R.id.productAttributeTitle);
@@ -46,9 +50,10 @@ public class ProductAttributesListAdapter extends RecyclerView.Adapter<ProductAt
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductAttributesListAdapter.ProductAttributesListViewHolder holder, int position) {
-        holder.attributeTitle.setText(attributes.get(position).getName()+":");
+        holder.attributeTitle.setText(attributes.get(position).getName() + ":");
         holder.attributeValue.setText(attributes.get(position).getValue());
     }
 }

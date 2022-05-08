@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
@@ -10,22 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:text="@string/test"
-        android:textSize="19dp"
         android:fontFamily="@font/lexend"
-        android:textColor="@color/colorSecondary"
         android:gravity="center"
-        />
+        android:text="@string/test"
+        android:textColor="@color/colorSecondary"
+        android:textSize="19sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subcategoryRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_for_img_rounded_white"
         android:paddingLeft="1dp"
         android:paddingRight="1dp"
-        android:layout_margin="8dp"
-        tools:listitem="@layout/grid_item_categories"
-        android:background="@drawable/bg_for_img_rounded_white"
-        tools:itemCount="3"/>
+        tools:itemCount="3"
+        tools:listitem="@layout/grid_item_categories" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

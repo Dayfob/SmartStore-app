@@ -1,73 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorMainBG"
     android:paddingTop="?attr/actionBarSize"
-    android:paddingBottom="@dimen/BottomNavigationViewHeight"
-    android:background="@color/colorMainBG">
+    android:paddingBottom="@dimen/BottomNavigationViewHeight">
 
     <RelativeLayout
         android:id="@+id/userMainInfoRL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
         android:layout_alignParentTop="true"
-        android:padding="20dp"
+        android:layout_marginHorizontal="8dp"
         android:background="@drawable/bg_for_buy_cart_window_rounded_white"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/userNameTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Имя Фамилия"
-            android:textSize="20dp"
             android:fontFamily="@font/lexend"
-            android:textColor="@color/colorSecondary"/>
+            android:textColor="@color/colorSecondary"
+            android:textSize="20dp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_edit"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/ic_edit" />
 
         <ImageView
             android:id="@+id/userNameLine"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorAccent"
             android:layout_below="@+id/userNameTV"
-            android:layout_marginVertical="10dp"/>
+            android:layout_marginVertical="10dp"
+            android:background="@color/colorAccent" />
 
         <TextView
             android:id="@+id/userEmailTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/userNameLine"
-            android:text="alikhan@gmail.com"
-            android:textSize="16dp"
             android:fontFamily="@font/lexend"
-            android:textColor="@color/colorSecondary"/>
+            android:textColor="@color/colorSecondary"
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/userPhoneTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/userEmailTV"
-            android:text="+77781776231"
-            android:textSize="16dp"
             android:fontFamily="@font/lexend"
-            android:textColor="@color/colorSecondary"/>
+            android:textColor="@color/colorSecondary"
+            android:textSize="16dp" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/userOrderInfoRL"
-        android:layout_below="@+id/userMainInfoRL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/userMainInfoRL"
         android:layout_margin="8dp"
         android:background="@drawable/bg_for_img_rounded_white"
         android:clickable="true"
@@ -77,18 +73,18 @@
             android:id="@+id/profileOrdersTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="История заказов"
-            android:textSize="16dp"
             android:layout_margin="4dp"
             android:fontFamily="@font/lexend"
-            android:textColor="@color/colorSecondary"/>
+            android:text="Order history"
+            android:textColor="@color/colorSecondary"
+            android:textSize="16dp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_more"
+            android:layout_alignParentEnd="true"
             android:layout_margin="4dp"
-            android:layout_alignParentEnd="true"/>
+            android:background="@drawable/ic_more" />
 
     </RelativeLayout>
 
@@ -97,10 +93,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userOrderInfoRL"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/bg_for_img_rounded_white"
-        android:layout_margin="8dp"
-        android:text="выход их профиля"
-        android:textColor="@color/Red"
-        android:fontFamily="@font/lexend"/>
+        android:fontFamily="@font/lexend"
+        android:text="Sign out"
+        android:textColor="@color/Red" />
 
 </RelativeLayout>
