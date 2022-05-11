@@ -44,16 +44,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Create global configuration and initialize ImageLoader with this config
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-//                .cacheInMemory(true)
-//                .cacheOnDisk(true)
-//                .build();
                 .showImageForEmptyUri(R.drawable.ic_empty_image)
                 .showImageOnFail(R.drawable.ic_empty_image)
                 .resetViewBeforeLoading(true).cacheOnDisk(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .bitmapConfig(Bitmap.Config.RGB_565).considerExifParams(true)
                 .cacheInMemory(true)
-//                .displayer(new RoundedBitmapDisplayer(50))
                 .build();
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
@@ -161,65 +157,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void backButtonClick() {
-//        Fragment productFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("product");
-//        Fragment userDataFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("userData");
-//        Fragment subcategoryProductsFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("subcategoryProducts");
-//        Fragment ordersFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("orders");
-//        Fragment registrationFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("registration");
-//        Fragment createOrderFragment = (Fragment)getSupportFragmentManager().findFragmentByTag("createOrder");
-//        if (productFragment != null && productFragment.isVisible() ||
-//                userDataFragment != null && userDataFragment.isVisible() ||
-//                subcategoryProductsFragment != null && subcategoryProductsFragment.isVisible() ||
-//                ordersFragment != null && ordersFragment.isVisible() ||
-//                registrationFragment != null && registrationFragment.isVisible() && createOrderFragment.isVisible()) {
-//            // add your code here
-//            backButton.setVisibility(View.VISIBLE);
-//        }
-
-// old code
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        try {
-//            if (fragmentManager.findFragmentByTag(Constants.FRAGMENT_PRODUCTS).isVisible()) {
-//                // add bundle arguments
-//                Bundle bundle = new Bundle();
-//                bundle.putString(Constants.TITLE, subCategoryTitle);
-//                bundle.putSerializable(Constants.CATEGORY_KEY, (Serializable) subcategories);
-//
-////                Subcategories subcategories = new Subcategories();
-////                subcategories.setArguments(bundle);
-////
-////                fragmentTransaction.replace(R.id.content, subcategories, Constants.FRAGMENT_SUBCATEGORY);
-//                fragmentTransaction.commit();
-//                return;
-//            }
-//        } catch (NullPointerException e) {
-//            e.printStackTrace();
-//        }
-//
-//        try {
-//            if (fragmentManager.findFragmentByTag(Constants.FRAGMENT_SUBCATEGORY).isVisible()) {
-//                fragmentTransaction.replace(R.id.content, new Catalog());
-//                fragmentTransaction.commit();
-//                titleToolbar.setText(R.string.TitleCatalog);
-//                backButton.setVisibility(View.INVISIBLE);
-//            }
-//        } catch (NullPointerException e) {
-//            super.onBackPressed();
-//        }
     }
-
-//    @Override
-//    public void onBackPressed() {
-//
-//        int count = getSupportFragmentManager().getBackStackEntryCount();
-//
-//        if (count == 0) {
-//            super.onBackPressed();
-//            //additional code
-//        } else {
-//            getSupportFragmentManager().popBackStack();
-//        }
-//
-//    }
 }
