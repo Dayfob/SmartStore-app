@@ -200,8 +200,6 @@ public class CreateOrderActivity extends AppCompatActivity {
                     } else {
                         alertFail("Error " + code);
                     }
-
-
                 });
             }
 

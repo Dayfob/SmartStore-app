@@ -284,7 +284,8 @@ public class Home extends Fragment {
                                 alertFail("Error " + codeResponseProducts);
                             }
 
-                            app = new App(null, productList, null, subcategoryList, null, newsList);
+                            app = new App(null, productList, null, subcategoryList,
+                                    null, newsList);
 
                             // Add the following lines to create RecyclerView
                             homeRecycler = view.findViewById(R.id.homeModulesRecyclerView);
@@ -292,7 +293,8 @@ public class Home extends Fragment {
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(),
                                     RecyclerView.VERTICAL, false);
                             homeRecycler.setLayoutManager(layoutManager);
-                            homeRecycler.setAdapter(new HomeAdapter(context, app, newsList, subcategoryList, productList, getActivity()));
+                            homeRecycler.setAdapter(new HomeAdapter(context, app, newsList, subcategoryList,
+                                    productList, getActivity()));
 
                         });
                     }
